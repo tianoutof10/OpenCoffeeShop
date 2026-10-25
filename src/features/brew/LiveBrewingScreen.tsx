@@ -17,6 +17,7 @@ import { analyseShot } from '../../domain/shotAnalysis'
 import { shotPace } from '../../domain/shotPace'
 import { recordPace } from '../insights/paceHistory'
 import { activeBean, grindReferenceFor, useCoffeeLibrary } from '../beans/coffeeLibrary'
+import { daysOffRoast } from '../../domain/beans'
 import type { ApplyAction } from '../insights/dialIn'
 import { ShotDialInPanel } from '../insights/ShotDialInPanel'
 import { useBestpressoPreferences, type LiveView } from '../settings/bestpressoPreferences'
@@ -113,6 +114,7 @@ export function LiveBrewingScreen({ model, liveBrew, stopPending, skipPending, a
   const profileDose = Number(profile?.dose)
   const profileTemperature = Number(profile?.temperature)
   const bean = activeBean(library)
+  const beanAge = daysOffRoast(bean)
   const grindSetting = grindReferenceFor(library, bean?.id, profile?.id, profile?.grindSetting)
   const lastPoint = liveBrew.points.at(-1)
   const soaking = liveBrew.active && isSoakStage(lastPoint) && (lastPoint?.pressure ?? 0) > 0.3
@@ -132,7 +134,10 @@ export function LiveBrewingScreen({ model, liveBrew, stopPending, skipPending, a
   return <main className="live-brew-screen" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
     {actionError && <div className="system-messages"><div className="system-message system-message--error" role="alert">{actionError}</div></div>}
     <header className="live-pull-header">
-      <h1>{profileName}</h1>
+      <div className="live-pull-header__identity">
+        <h1>{profileName}</h1>
+        {bean && <p className="live-pull-header__bean"><span>{bean.name}</span>{beanAge !== undefined && <small>{t('brew.liveScreen.calmDaysOffRoast', { days: beanAge })}</small>}</p>}
+      </div>
       <div className="live-pull-header__controls">
         <div className={`live-pull-header__metrics metric-scale--medium${isCleaning ? ' live-pull-header__metrics--single' : ' live-pull-header__metrics--live'}`} aria-live="polite">
           <div><span>{t('brew.liveScreen.timerLabel')}</span><strong>{timedLabel(liveBrew.elapsedMs)}</strong></div>
