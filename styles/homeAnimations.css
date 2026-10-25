@@ -1,0 +1,83 @@
+/* Scoped resource-saving mode. Loading, safety and live-shot indicators are
+   intentionally unaffected. Static cards retain their color and interaction. */
+
+:root[data-animations="off"] .status-pill--ready {background:#3dc078}
+:root[data-animations="off"] .status-pill--heating {background:#de6161}
+:root[data-animations="off"][data-theme="light"] .status-pill--heating {background:#c8846d}
+/* Remove the oversized orbit surfaces, not merely their animation clocks. */
+:root[data-animations="off"] :is(.status-pill--ready,.status-pill--heating)::before,
+:root[data-animations="off"] .profile-card--active::before {
+  content:none;
+  animation:none;
+  will-change:auto;
+  transform:none;
+}
+:root[data-animations="off"] .profile-card--active {
+  animation:none;
+  border-color:rgba(125,185,159,.5);
+  background:linear-gradient(135deg,#304f43,#263e49);
+}
+:root[data-animations="off"][data-theme="light"] .profile-card--active {
+  border-color:#b0c9ba;
+  background:linear-gradient(135deg,#d9eddf,#dbe9ef);
+}
+:root[data-animations="off"] .profile-card,
+:root[data-animations="off"] .profile-card h1,
+:root[data-animations="off"] .profile-card__chart {
+  transition:none;
+  will-change:auto;
+}
+:root[data-animations="off"] :is(.favorite-slot--replace,.profile-detail__favorite--replacing) {animation:none}
+/* Telemetry still updates at its normal rate; no interpolated SVG frames,
+   color/opacity crossfades or steam on/off transitions are scheduled. */
+:root[data-animations="off"] .app-shell .drink-card__gauge,
+:root[data-animations="off"] .app-shell .drink-card__gauge *,
+:root[data-animations="off"] .app-shell .drink-card__toggle,
+:root[data-animations="off"] .app-shell .drink-card__toggle>span {
+  transition:none;
+  animation:none;
+  will-change:auto;
+}
+
+/* Give the OS accessibility preference the same low-work rendering path. */
+@media (prefers-reduced-motion:reduce) {
+
+:root .status-pill--ready {background:#3dc078}
+:root .status-pill--heating {background:#de6161}
+:root[data-theme="light"] .status-pill--heating {background:#c8846d}
+/* Remove the oversized orbit surfaces, not merely their animation clocks. */
+:root :is(.status-pill--ready,.status-pill--heating)::before,
+:root .profile-card--active::before {
+  content:none;
+  animation:none;
+  will-change:auto;
+  transform:none;
+}
+:root .profile-card--active {
+  animation:none;
+  border-color:rgba(125,185,159,.5);
+  background:linear-gradient(135deg,#304f43,#263e49);
+}
+:root[data-theme="light"] .profile-card--active {
+  border-color:#b0c9ba;
+  background:linear-gradient(135deg,#d9eddf,#dbe9ef);
+}
+:root .profile-card,
+:root .profile-card h1,
+:root .profile-card__chart {
+  transition:none;
+  will-change:auto;
+}
+:root :is(.favorite-slot--replace,.profile-detail__favorite--replacing) {animation:none}
+/* Telemetry still updates at its normal rate; no interpolated SVG frames,
+   color/opacity crossfades or steam on/off transitions are scheduled. */
+:root .app-shell .drink-card__gauge,
+:root .app-shell .drink-card__gauge *,
+:root .app-shell .drink-card__toggle,
+:root .app-shell .drink-card__toggle>span {
+  transition:none;
+  animation:none;
+  will-change:auto;
+}
+
+}

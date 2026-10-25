@@ -1,0 +1,37 @@
+import { memo, useMemo } from 'react'
+import { t, useLanguage } from '../../i18n/index.ts'
+import type { ProfileTargetPoint } from '../../domain/brewing'
+
+const WIDTH = 284
+const HEIGHT = 66
+const VERTICAL_PADDING = 6
+const PLOT_HEIGHT = HEIGHT - VERTICAL_PADDING * 2
+
+const targetPath = (points: ProfileTargetPoint[], key: 'pressure' | 'flow' | 'temperature', minimum: number, maximum: number, durationMs: number) => points.reduce((path, point, index) => {
+  const value = point[key] ?? minimum
+  const x = Math.min(1, point.elapsedMs / durationMs) * WIDTH
+  const y = HEIGHT - VERTICAL_PADDING - Math.max(0, Math.min(1, (value - minimum) / (maximum - minimum))) * PLOT_HEIGHT
+  return `${path}${index === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`
+}, '')
+
+function ProfileTargetChartComponent({ profileName, points = [], variant = 'card' }: { profileName: string; points?: ProfileTargetPoint[]; variant?: 'card' | 'detail' | 'library' }) {
+  useLanguage() // re-render this memoised component when the language changes
+  const durationMs = Math.max(1, points.at(-1)?.elapsedMs ?? 1)
+  const pressurePath = useMemo(() => targetPath(points, 'pressure', 0, 12, durationMs), [points, durationMs])
+  const flowPath = useMemo(() => targetPath(points, 'flow', 0, 12, durationMs), [points, durationMs])
+  const temperaturePath = useMemo(() => targetPath(points, 'temperature', 20, 110, durationMs), [points, durationMs])
+  const ariaLabel = variant === 'detail'
+    ? t('brew.chart.target.ariaLabelDetail', { name: profileName })
+    : t('brew.chart.target.ariaLabelSummary', { name: profileName })
+
+  return <div className={variant === 'library' ? 'pl-chart' : variant === 'detail' ? 'profile-detail-chart' : 'profile-card__chart'}>
+    <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none" role="img" aria-label={ariaLabel}>
+      {variant === 'detail' && <path className="profile-target-line profile-target-line--temperature" d={temperaturePath} />}
+      {variant === 'library' && points.length > 0 && <path d={pressurePath + ` L${WIDTH},${HEIGHT} L0,${HEIGHT} Z`} fill="var(--chart-pressure)" opacity=".07"/>}
+      <path className="profile-target-line profile-target-line--pressure" d={pressurePath} />
+      <path className="profile-target-line profile-target-line--flow" d={flowPath} />
+    </svg>
+  </div>
+}
+
+export const ProfileTargetChart = memo(ProfileTargetChartComponent)
