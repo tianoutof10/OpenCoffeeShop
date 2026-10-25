@@ -211,8 +211,12 @@ library only on **Add to library**:
 | Blooming Espresso (Scott Rao) | Dense light roasts | 4 ml/s to 4 bar, 30 s sealed bloom, 2 ml/s percolation, 45 g |
 | Flow-Prioritized (Schmieder et al., 2023) | Everyday | Fill to 4 bar, flat 1.8 ml/s under 9 bar, 36 g |
 
-Not built: the three-slider profile editor from the brief (the compiler exists;
-the screen was left out of this round by choice).
+The three-slider Living Profile editor is available in Coffee → Living Profile.
+It exposes flow target, pressure ceiling and temperature, bounded by
+`CHASSIS_LIMITS`. It starts from the active Living Profile or the bean-and-gear
+starting recipe. Slider changes stay in the screen draft until the barista taps
+**Apply to Living Profile**; only then is the profile saved and selected. It
+does not change a live shot.
 
 ## 6. Beans and gear (`src/features/beans/`)
 

@@ -7376,6 +7376,226 @@
       "english": "The scale isn’t connected, so yield and pace won’t be recorded and the advice falls back to taste alone.",
       "translation": "La báscula no está conectada: no se registrarán peso ni ritmo, y los consejos se basarán solo en el sabor.",
       "kind": "contextual"
+    },
+    "insights.lab.eyebrow": {
+      "english": "SHOT LAB",
+      "translation": "LABORATORIO DE SHOTS",
+      "kind": "contextual"
+    },
+    "insights.lab.title": {
+      "english": "Compare two pulls",
+      "translation": "Compara dos extracciones",
+      "kind": "contextual"
+    },
+    "insights.lab.subtitle": {
+      "english": "Overlay recorded pressure and flow on each shot’s own timeline.",
+      "translation": "Superpone la presión y el caudal registrados según la duración de cada extracción.",
+      "kind": "contextual"
+    },
+    "insights.lab.measuredOnly": {
+      "english": "Recorded telemetry",
+      "translation": "Telemetría registrada",
+      "kind": "contextual"
+    },
+    "insights.lab.pressure": {
+      "english": "Pressure",
+      "translation": "Presión",
+      "kind": "contextual"
+    },
+    "insights.lab.flow": {
+      "english": "Flow",
+      "translation": "Caudal",
+      "kind": "contextual"
+    },
+    "insights.lab.plotAria": {
+      "english": "{metric} comparison chart",
+      "translation": "Gráfico comparativo de {metric}",
+      "kind": "contextual"
+    },
+    "insights.lab.shotA": {
+      "english": "Shot A",
+      "translation": "Shot A",
+      "kind": "contextual"
+    },
+    "insights.lab.shotB": {
+      "english": "Shot B",
+      "translation": "Shot B",
+      "kind": "contextual"
+    },
+    "insights.lab.normalizedTime": {
+      "english": "Elapsed time (%)",
+      "translation": "Tiempo transcurrido (%)",
+      "kind": "contextual"
+    },
+    "insights.lab.dose": {
+      "english": "Dose",
+      "translation": "Dosis",
+      "kind": "contextual"
+    },
+    "insights.lab.secondsUnit": {
+      "english": "s",
+      "translation": "s",
+      "kind": "contextual"
+    },
+    "insights.lab.gramsUnit": {
+      "english": "g",
+      "translation": "g",
+      "kind": "contextual"
+    },
+    "insights.lab.note": {
+      "english": "Curves are aligned by elapsed-time percentage, not by matching events. Similar shapes do not prove similar extraction or taste.",
+      "translation": "Las curvas se alinean por porcentaje del tiempo, no por eventos coincidentes. Una forma similar no demuestra una extracción ni un sabor iguales.",
+      "kind": "contextual"
+    },
+    "insights.lab.emptyTitle": {
+      "english": "Two recorded shots needed",
+      "translation": "Se necesitan dos shots registrados",
+      "kind": "contextual"
+    },
+    "insights.lab.emptyBody": {
+      "english": "Once two saved espresso shots include pressure or flow telemetry, you can compare their curves here.",
+      "translation": "Cuando dos espressos guardados incluyan telemetría de presión o caudal, podrás comparar aquí sus curvas.",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseAligned": {
+      "english": "Matching recorded phases (%)",
+      "translation": "Mismas fases registradas (%)",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseNote": {
+      "english": "Aligned at recorded phase boundaries: {phases}. Phase alignment is used only because both shots recorded the same sequence; values remain observations, not taste predictions.",
+      "translation": "Alineación en los límites de fase registrados: {phases}. Solo se alinean las fases porque ambos shots registraron la misma secuencia; los valores son observaciones, no predicciones de sabor.",
+      "kind": "contextual"
+    },
+    "insights.lab.contextLabel": {
+      "english": "Bean and recipe context for both shots",
+      "translation": "Contexto de café y receta de ambos shots",
+      "kind": "contextual"
+    },
+    "insights.lab.beanUnlinked": {
+      "english": "No bean linked to this shot",
+      "translation": "Este shot no tiene un café vinculado",
+      "kind": "contextual"
+    },
+    "insights.lab.grindUnknown": {
+      "english": "Grind setting not recorded",
+      "translation": "Ajuste de molienda no registrado",
+      "kind": "contextual"
+    },
+    "insights.lab.observationsLabel": {
+      "english": "Recorded observations and next experiment",
+      "translation": "Observaciones registradas y próximo experimento",
+      "kind": "contextual"
+    },
+    "insights.lab.observedLabel": {
+      "english": "Recorded values",
+      "translation": "Valores registrados",
+      "kind": "contextual"
+    },
+    "insights.lab.durationObserved": {
+      "english": "Duration · A {a} s / B {b} s",
+      "translation": "Duración · A {a} s / B {b} s",
+      "kind": "contextual"
+    },
+    "insights.lab.yieldObserved": {
+      "english": "Yield · A {a} g / B {b} g",
+      "translation": "Bebida · A {a} g / B {b} g",
+      "kind": "contextual"
+    },
+    "insights.lab.hypothesisLabel": {
+      "english": "Interpretation limits",
+      "translation": "Límites de interpretación",
+      "kind": "contextual"
+    },
+    "insights.lab.hypothesisCaution": {
+      "english": "These measurements show what changed in the recorded shots. They do not establish why, extraction quality, or taste.",
+      "translation": "Estas medidas muestran qué cambió entre los shots registrados. No demuestran por qué, la calidad de extracción ni el sabor.",
+      "kind": "contextual"
+    },
+    "insights.lab.nextExperiment": {
+      "english": "One controlled next experiment",
+      "translation": "Un próximo experimento controlado",
+      "kind": "contextual"
+    },
+    "insights.lab.experiment": {
+      "english": "Repeat the recipe and change only the grind setting by one small step.",
+      "translation": "Repite la receta y cambia solo la molienda un paso pequeño.",
+      "kind": "contextual"
+    },
+    "insights.lab.experimentDetail": {
+      "english": "Keep the same bean, dose, target yield, profile, and water temperature. Record the result; no machine setting is changed here.",
+      "translation": "Mantén iguales el café, la dosis, el rendimiento objetivo, el perfil y la temperatura del agua. Registra el resultado; aquí no se cambia ningún ajuste de la máquina.",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseSummary": {
+      "english": "Measured values by matching phase",
+      "translation": "Valores medidos por fase coincidente",
+      "kind": "contextual"
+    },
+    "insights.lab.phase": {
+      "english": "Phase",
+      "translation": "Fase",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseDuration": {
+      "english": "Duration · s",
+      "translation": "Duración · s",
+      "kind": "contextual"
+    },
+    "insights.lab.phasePressure": {
+      "english": "Mean pressure · bar",
+      "translation": "Presión media · bar",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseFlow": {
+      "english": "Mean flow · ml/s",
+      "translation": "Caudal medio · ml/s",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseSamples": {
+      "english": "Samples · pressure / flow",
+      "translation": "Muestras · presión / caudal",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseMeanNote": {
+      "english": "Means use recorded samples only; the sample counts show pressure and flow coverage in A/B order. These are descriptive measurements, not calibrated phase scores.",
+      "translation": "Las medias usan solo muestras registradas; los recuentos muestran la cobertura de presión y caudal en orden A/B. Son medidas descriptivas, no puntuaciones de fase calibradas.",
+      "kind": "contextual"
+    },
+    "library.coffee.tab.livingProfile": {
+      "english": "Living Profile",
+      "translation": "Perfil vivo",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.title": {
+      "english": "Tune the Living Profile",
+      "translation": "Ajustar el Perfil vivo",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.active": {
+      "english": "Editing your active Living Profile. Changes remain a draft until you apply them.",
+      "translation": "Estás editando el Perfil vivo activo. Los cambios son un borrador hasta que los apliques.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.fromBean": {
+      "english": "Starting from a recipe for {bean}. Changes remain a draft until you apply them.",
+      "translation": "Receta inicial para {bean}. Los cambios son un borrador hasta que los apliques.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.hint": {
+      "english": "Adjust one variable at a time. Flow target, pressure ceiling, and temperature stay within supported ranges. This editor never changes a live shot.",
+      "translation": "Ajusta una variable cada vez. El caudal, el límite de presión y la temperatura respetan los rangos admitidos. Este editor nunca modifica una extracción en curso.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.applyHint": {
+      "english": "Saves this profile and selects it; it will not change settings during a live shot.",
+      "translation": "Guarda este perfil y lo selecciona; no modifica ajustes durante una extracción.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.saved": {
+      "english": "Profile saved and selected.",
+      "translation": "Perfil guardado y seleccionado.",
+      "kind": "contextual"
     }
   }
 }

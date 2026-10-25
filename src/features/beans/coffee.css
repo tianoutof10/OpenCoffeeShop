@@ -1,0 +1,107 @@
+/* Coffee: beans, gear & style, research presets, palate calibration. Flat neutral surfaces, sentence-case headings. */
+.coffee-screen { --coffee-accent:#42c599; --coffee-label:#8a8a8a; --coffee-value:#f5f5f5; --coffee-surface:rgba(255,255,255,.045); --coffee-outline:rgba(255,255,255,.09);
+  box-sizing:border-box; min-height:100dvh; height:100dvh; display:grid; grid-template-rows:auto minmax(0,1fr); color:var(--coffee-value);
+  background:radial-gradient(circle at 16% 16%,#060707 0,#141414 22%,transparent 50%),linear-gradient(124deg,#181818 36%,#4d4038 100%); font-variant-numeric:tabular-nums; }
+.coffee-screen * { box-sizing:border-box; }
+.coffee-header { display:flex; align-items:center; gap:clamp(12px,2vw,28px); padding:20px clamp(16px,3vw,36px); }
+.coffee-header h1 { margin:0; font-size:30px; font-weight:500; letter-spacing:-.025em; color:var(--coffee-value); }
+.coffee-tabs { flex:1; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+.coffee-tabs button { min-height:48px; padding:0 20px; border-radius:999px; border:1px solid var(--coffee-outline); background:rgba(255,255,255,.04); color:#cfcfcf; font-size:16px; font-weight:600; cursor:pointer; }
+.coffee-tabs .coffee-tab--selected { border-color:var(--coffee-accent); background:rgba(66,197,153,.15); color:var(--coffee-value); }
+.coffee-body { overflow-y:auto; overscroll-behavior:contain; padding:4px clamp(16px,3vw,36px) 40px; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr)); align-content:start; gap:16px; }
+.coffee-card { padding:22px 24px; border-radius:16px; background:var(--coffee-surface); border:1px solid var(--coffee-outline); display:flex; flex-direction:column; gap:14px; min-width:0; }
+.coffee-card h2 { margin:0; font-size:15px; font-weight:500; color:var(--coffee-label); }
+.coffee-card__head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.coffee-editor { grid-column:1 / -1; }
+.coffee-living-editor { grid-column:1 / -1; }
+.coffee-living-editor__sliders { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(14px,2vw,24px); padding:8px 0; }
+.coffee-living-slider { display:flex; flex-direction:column; gap:10px; min-width:0; }
+.coffee-living-slider>span { display:flex; align-items:baseline; justify-content:space-between; gap:8px; color:var(--coffee-label); font-size:14px; }
+.coffee-living-slider strong { color:var(--coffee-value); font-size:20px; font-weight:450; white-space:nowrap; }
+.coffee-living-slider input { width:100%; accent-color:var(--coffee-accent); }
+.coffee-living-slider small { color:var(--coffee-label); font-size:11px; }
+.coffee-living-editor__context { padding-top:10px; border-top:1px solid var(--coffee-outline); }
+.coffee-muted { margin:0; font-size:14px; line-height:1.45; color:var(--coffee-label); }
+.coffee-message { margin:0; font-size:14px; color:#f2b880; }
+.coffee-bean-summary { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.coffee-bean-summary strong { font-size:28px; font-weight:500; letter-spacing:-.025em; line-height:1.1; color:var(--coffee-value); overflow-wrap:anywhere; }
+.coffee-bean-summary span { font-size:14px; color:#c4c4c4; overflow-wrap:anywhere; }
+.coffee-actions { display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; align-items:center; }
+.coffee-actions--start { justify-content:flex-start; }
+.coffee-primary, .coffee-secondary, .coffee-inline button, .coffee-entry-option button { min-height:48px; padding:0 20px; border-radius:999px; font-size:16px; font-weight:650; cursor:pointer; }
+.coffee-primary { border:2px solid var(--coffee-accent); color:#7fe0bd; background:radial-gradient(circle at 84% 112%,rgba(66,197,153,.4),transparent 56%),rgba(70,70,70,.78); }
+.coffee-secondary, .coffee-inline button, .coffee-entry-option button { border:1.5px solid #6b6b6b; color:#d6d6d6; background:rgba(70,70,70,.55); }
+.coffee-primary:disabled, .coffee-secondary:disabled, .coffee-inline button:disabled, .coffee-entry-option button:disabled { opacity:.5; cursor:default; }
+.coffee-link { padding:0; border:0; background:none; color:var(--coffee-accent); font-size:14px; font-weight:600; cursor:pointer; }
+.coffee-recipe { margin:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:12px 16px; }
+.coffee-recipe div { display:flex; flex-direction:column; gap:3px; }
+.coffee-recipe dt { font-size:12px; color:var(--coffee-label); }
+.coffee-recipe dd { margin:0; font-size:22px; font-weight:300; color:var(--coffee-value); }
+.coffee-reasons { margin:0; padding-left:18px; display:flex; flex-direction:column; gap:4px; font-size:14px; line-height:1.45; color:#cfcfcf; }
+.coffee-bean-list { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+.coffee-bean-list li { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-radius:16px; border:1px solid var(--coffee-outline); }
+.coffee-bean-list li.coffee-bean--loaded { border-color:rgba(66,197,153,.5); background:rgba(66,197,153,.07); }
+.coffee-bean-list .coffee-bean-summary strong { font-size:17px; }
+.coffee-bean-actions { display:flex; gap:8px; flex:none; }
+.coffee-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+.coffee-field { display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--coffee-label); }
+.coffee-field input, .coffee-inline input, .coffee-entry-option textarea { min-height:48px; padding:10px 14px; border-radius:12px; border:1px solid var(--coffee-outline); background:rgba(0,0,0,.25); color:var(--coffee-value); font:inherit; font-size:16px; }
+.coffee-entry-option textarea { min-height:84px; resize:vertical; }
+.coffee-choice { margin:0; padding:0; border:0; display:flex; flex-direction:column; gap:8px; }
+.coffee-choice legend { font-size:13px; color:var(--coffee-label); margin-bottom:8px; }
+.coffee-choice div { display:flex; flex-wrap:wrap; gap:8px; }
+.coffee-choice button { min-height:44px; padding:0 16px; border-radius:999px; border:1px solid var(--coffee-outline); background:rgba(255,255,255,.04); color:#cfcfcf; font-size:15px; cursor:pointer; }
+.coffee-choice .coffee-choice--selected { border-color:var(--coffee-accent); background:rgba(66,197,153,.16); color:var(--coffee-value); font-weight:600; }
+.coffee-toggle { display:flex; align-items:center; gap:12px; min-height:44px; font-size:15px; color:#d6d6d6; }
+.coffee-toggle input { width:22px; height:22px; accent-color:var(--coffee-accent); }
+.coffee-entry-options { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+.coffee-entry-option { position:relative; display:flex; flex-direction:column; gap:8px; padding:16px; border-radius:16px; border:1px solid var(--coffee-outline); background:rgba(255,255,255,.03); color:var(--coffee-value); text-align:left; font:inherit; }
+.coffee-entry-option strong { font-size:17px; }
+.coffee-entry-option span { font-size:14px; color:var(--coffee-label); }
+label.coffee-entry-option { cursor:pointer; border-color:rgba(66,197,153,.45); }
+label.coffee-entry-option input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.coffee-entry-option--manual { cursor:pointer; justify-content:center; }
+.coffee-inline { display:flex; gap:8px; }
+.coffee-inline input { flex:1; min-width:0; }
+.coffee-raw summary { cursor:pointer; color:var(--coffee-label); font-size:14px; }
+.coffee-raw pre { white-space:pre-wrap; font-size:13px; color:#bdbdbd; max-height:200px; overflow:auto; }
+.coffee-preset p { margin:0; font-size:15px; line-height:1.5; color:#d0d0d0; }
+.coffee-preset h2 { font-size:22px; font-weight:500; letter-spacing:-.02em; color:var(--coffee-value); }
+.coffee-preset__style { align-self:flex-start; padding:4px 12px; border-radius:999px; font-size:13px; font-weight:500; color:#7fe0bd; border:1px solid rgba(66,197,153,.35); }
+/* Dial-in path, pinned recipe, calibration flight. */
+.coffee-lead { margin:0; font-size:20px; line-height:1.4; font-weight:400; letter-spacing:-.015em; color:var(--coffee-value); max-width:44ch; }
+.coffee-eyebrow { margin:0; font-size:13px; font-weight:500; color:var(--coffee-label); }
+.coffee-badge { padding:4px 12px; border-radius:999px; font-size:13px; font-weight:500; color:var(--coffee-value); border:1px solid var(--coffee-outline); display:inline-flex; align-items:center; gap:8px; }
+.coffee-badge::before { content:''; width:7px; height:7px; border-radius:50%; background:#9eb9a4; }
+.coffee-dial__body { display:grid; grid-template-columns:minmax(150px,200px) minmax(0,1fr); gap:24px; align-items:start; }
+.coffee-dial__log ol { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; }
+.coffee-dial__log li { display:grid; grid-template-columns:28px minmax(0,1fr); column-gap:10px; padding:9px 0; border-bottom:1px solid var(--coffee-outline); }
+.coffee-dial__log li:last-child { border-bottom:0; }
+.coffee-dial__log b { grid-row:span 2; font-size:13px; font-weight:500; color:var(--coffee-label); padding-top:2px; }
+.coffee-dial__log span { font-size:15px; font-weight:500; color:var(--coffee-value); }
+.coffee-dial__log small { font-size:13px; color:var(--coffee-label); }
+.coffee-pinned { display:flex; flex-direction:column; gap:6px; align-items:flex-start; padding-top:14px; border-top:1px solid var(--coffee-outline); }
+.coffee-pinned__recipe { margin:0; font-size:24px; font-weight:300; letter-spacing:-.02em; color:var(--coffee-value); }
+.coffee-flight-intro { grid-column:1 / -1; }
+.coffee-flight-step { gap:10px; }
+.coffee-flight-step__number { margin:0; width:32px; height:32px; display:grid; place-items:center; border-radius:50%; border:1px solid var(--coffee-outline); font-size:14px; font-weight:500; color:var(--coffee-value); }
+.coffee-flight-step h3 { margin:0; font-size:22px; font-weight:500; letter-spacing:-.02em; color:var(--coffee-value); }
+.coffee-flight-step__recipe { margin:0; font-size:15px; color:var(--coffee-label); font-variant-numeric:tabular-nums; }
+.coffee-flight-step p:not([class]) { margin:0; font-size:15px; line-height:1.55; color:#c8c7c3; }
+@media (max-width:600px) { .coffee-dial__body { grid-template-columns:1fr; } .coffee-dial__square { max-width:220px; } }
+[data-theme="light"] .coffee-flight-step p:not([class]) { color:#3d3c3a; }
+/* Home entry beside "See all profiles". */
+.brew-panel__footer { display:flex; align-items:center; justify-content:center; gap:20px; flex-wrap:wrap; margin:18px auto 0; }
+.brew-panel__footer .manage-profiles { margin:0; }
+.coffee-entry { display:inline-flex; align-items:center; gap:8px; max-width:280px; min-height:36px; padding:0 14px; border-radius:999px; border:1px solid rgba(66,197,153,.35); background:rgba(66,197,153,.07); color:#d6d6d6; font-size:14px; font-weight:600; cursor:pointer; }
+.coffee-entry span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.coffee-entry small { color:#8a8a8a; font-weight:500; }
+.coffee-entry i { width:9px; height:9px; flex:none; border-radius:50%; background:#42c599; }
+@media (max-width:700px) { .coffee-header { flex-wrap:wrap; } .coffee-tabs { order:3; flex-basis:100%; justify-content:flex-start; } .coffee-bean-list li { flex-direction:column; align-items:flex-start; } .coffee-living-editor__sliders { grid-template-columns:minmax(0,1fr); } }
+[data-theme="light"] .coffee-screen { --coffee-accent:#246e47; --coffee-label:#6a746c; --coffee-value:#23382d; --coffee-surface:#ffffff; --coffee-outline:rgba(37,65,49,.14); background:radial-gradient(ellipse at 0 0,#fdfefa,transparent 65%),linear-gradient(125deg,#f4f6ef,#f0ede6); }
+[data-theme="light"] :is(.coffee-bean-summary span,.coffee-reasons,.coffee-preset p,.coffee-toggle,.coffee-tabs button,.coffee-choice button) { color:#3d4d43; }
+[data-theme="light"] :is(.coffee-field input,.coffee-inline input,.coffee-entry-option textarea) { background:#f7f8f4; }
+[data-theme="light"] .coffee-primary { color:#246e47; background:#e4efe7; }
+[data-theme="light"] :is(.coffee-secondary,.coffee-inline button,.coffee-entry-option button) { color:#23382d; background:#edf0eb; border-color:#c4cdc3; }
+[data-theme="light"] :is(.coffee-tabs .coffee-tab--selected,.coffee-choice .coffee-choice--selected) { background:#cbe3d1; }
+[data-theme="light"] .coffee-entry { color:#23382d; background:#e4efe7; }
