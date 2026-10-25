@@ -12205,6 +12205,146 @@
         "zh-Hans"
       ],
       "note": "Shot Lab comparison UI; translated and reviewed for this feature."
+    },
+    "insights.lab.phaseAligned": {
+      "english": "Matching recorded phases (%)",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.phaseNote": {
+      "english": "Aligned at recorded phase boundaries: {phases}. Phase alignment is used only because both shots recorded the same sequence; values remain observations, not taste predictions.",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.contextLabel": {
+      "english": "Bean and recipe context for both shots",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.beanUnlinked": {
+      "english": "No bean linked to this shot",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.grindUnknown": {
+      "english": "Grind setting not recorded",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.observationsLabel": {
+      "english": "Recorded observations and next experiment",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.observedLabel": {
+      "english": "Recorded values",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.durationObserved": {
+      "english": "Duration · A {a} s / B {b} s",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.yieldObserved": {
+      "english": "Yield · A {a} g / B {b} g",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.hypothesisLabel": {
+      "english": "Interpretation limits",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.hypothesisCaution": {
+      "english": "These measurements show what changed in the recorded shots. They do not establish why, extraction quality, or taste.",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.nextExperiment": {
+      "english": "One controlled next experiment",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.experiment": {
+      "english": "Repeat the recipe and change only the grind setting by one small step.",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
+    },
+    "insights.lab.experimentDetail": {
+      "english": "Keep the same bean, dose, target yield, profile, and water temperature. Record the result; no machine setting is changed here.",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Shot Lab comparison UI; translated for this feature."
     }
   }
 }
