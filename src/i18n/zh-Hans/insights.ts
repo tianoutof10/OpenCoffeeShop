@@ -278,7 +278,7 @@ export const insights = {
   "insights.dialIn.reason.puckDropFresh": "阻力突然下降。这支咖啡烘焙后才 {days} 天，残留的二氧化碳容易造成不均匀流动，请仔细布粉并延长浸润。",
   "insights.dialIn.metric.paceForYou": "流速（你的常态：{usual} g/s）",
   "insights.dialIn.reason.weakFixedDose": "平衡但偏淡，而你的粉量固定：缩短比例让杯子更浓。",
-  "insights.dialIn.whichCoffee": "这是哪一支咖啡？"
+  "insights.dialIn.whichCoffee": "这是哪一支咖啡？",
   'insights.lab.eyebrow': "萃取实验室",
   'insights.lab.title': "对比两杯萃取",
   'insights.lab.subtitle': "按各自的萃取时间叠加比较已记录的压力与流量。",

@@ -284,7 +284,7 @@ export const insights = {
   "insights.dialIn.reason.puckDropFresh": "La résistance a chuté brusquement. Ce café n’a que {days} jours de torréfaction ; le CO₂ emprisonné favorise un écoulement irrégulier : préparez avec soin et allongez la pré-infusion.",
   "insights.dialIn.metric.paceForYou": "Rythme (le vôtre : {usual} g/s)",
   "insights.dialIn.reason.weakFixedDose": "Équilibré mais léger, et votre dose ne change pas : un ratio plus court concentre la tasse.",
-  "insights.dialIn.whichCoffee": "Quel café est-ce ?"
+  "insights.dialIn.whichCoffee": "Quel café est-ce ?",
   'insights.lab.eyebrow': "LABORATOIRE D’EXTRACTION",
   'insights.lab.title': "Comparer deux extractions",
   'insights.lab.subtitle': "Superposez la pression et le débit enregistrés sur la durée propre à chaque extraction.",
