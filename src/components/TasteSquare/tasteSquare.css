@@ -1,0 +1,34 @@
+/* The taste square. Hairlines only; the tasting is the one solid mark. */
+.taste-square { --ts-ink:#f2f1ee; --ts-ink-2:#a8a7a3; --ts-ink-3:#6f6e6b; --ts-line:rgba(255,255,255,.08); --ts-line-2:rgba(255,255,255,.16); --ts-water:#8fb2d4;
+  position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-rows:auto minmax(0,1fr) auto; align-items:center; justify-items:center; gap:10px; width:100%; }
+.taste-square__plot { grid-column:2; grid-row:2; width:100%; aspect-ratio:1; display:block; overflow:visible; touch-action:none; -webkit-tap-highlight-color:transparent; }
+.taste-square--interactive .taste-square__plot { cursor:crosshair; }
+.taste-square__frame { fill:rgba(255,255,255,.015); stroke:var(--ts-line-2); stroke-width:.008; }
+.taste-square__cross { stroke:var(--ts-line); stroke-width:.006; }
+.taste-square__target { fill:none; stroke:var(--ts-ink-2); stroke-width:.008; stroke-dasharray:.03 .03; }
+.taste-square__path { fill:none; stroke:var(--ts-ink-3); stroke-width:.012; stroke-linejoin:round; stroke-linecap:round; }
+.taste-square__dot { fill:var(--ts-ink-3); }
+.taste-square__dot--latest { fill:var(--ts-ink); }
+.taste-square__step { stroke:var(--ts-ink-3); stroke-width:.01; stroke-dasharray:.025 .03; }
+.taste-square__value { fill:var(--ts-ink); transition:cx .08s linear,cy .08s linear; }
+.taste-square__value-halo { fill:none; stroke:var(--ts-ink); stroke-opacity:.28; stroke-width:.008; transition:cx .08s linear,cy .08s linear; }
+.taste-square__measured { fill:none; stroke:var(--ts-water); stroke-width:.014; }
+.taste-square__axis { font-size:13px; font-weight:500; color:var(--ts-ink-3); white-space:nowrap; user-select:none; }
+.taste-square__axis--top { grid-column:2; grid-row:1; }
+.taste-square__axis--bottom { grid-column:2; grid-row:3; }
+.taste-square__axis--left { grid-column:1; grid-row:2; writing-mode:vertical-rl; transform:rotate(180deg); }
+.taste-square__axis--right { grid-column:3; grid-row:2; writing-mode:vertical-rl; }
+.taste-square--small { gap:6px; }
+.taste-square--small .taste-square__axis { font-size:11px; }
+.taste-square--small .taste-square__frame { stroke:var(--ts-line-2); stroke-width:.014; }
+.taste-square--small .taste-square__cross { stroke-width:.01; }
+.taste-square--small .taste-square__target { stroke-width:.016; stroke-dasharray:.05 .05; }
+.taste-square--small .taste-square__path { stroke-width:.03; stroke:var(--ts-ink-2); }
+.taste-square--small .taste-square__dot { fill:var(--ts-ink-2); transform-box:fill-box; transform-origin:center; transform:scale(1.8); }
+.taste-square--small .taste-square__dot--latest { fill:var(--ts-ink); transform:scale(1.6); }
+.taste-square--bare { display:block; }
+.taste-square__keys { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.taste-square__keys input:focus-visible ~ * { outline:none; }
+.taste-square:has(.taste-square__keys input:focus-visible) .taste-square__frame { stroke:var(--ts-ink); stroke-width:.012; }
+@media (prefers-reduced-motion: reduce) { .taste-square__value, .taste-square__value-halo { transition:none; } }
+[data-theme="light"] .taste-square { --ts-ink:#1b1b1b; --ts-ink-2:#5c5b58; --ts-ink-3:#9a9893; --ts-line:rgba(0,0,0,.08); --ts-line-2:rgba(0,0,0,.16); --ts-water:#4a7eb0; }

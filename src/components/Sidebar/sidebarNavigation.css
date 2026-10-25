@@ -1,0 +1,29 @@
+:root {
+  --sidebar-item-label:#a2a49d;
+  --sidebar-item-accent:#72d9a5;
+  --sidebar-item-selected:#324c3e;
+  --sidebar-item-outline:rgba(211,223,205,.13);
+}
+:root[data-theme="light"] {
+  --sidebar-item-label:#68736b;
+  --sidebar-item-accent:#26794e;
+  --sidebar-item-selected:#d9e9d8;
+  --sidebar-item-outline:#d5dbd1;
+}
+.settings-brand .sidebar-close {font-size:26px;font-weight:300;line-height:1}
+:is(.settings-sidebar,.ins-rail) nav button.sidebar-nav-item {
+  width:100%;height:46px;min-height:46px;display:flex;align-items:center;gap:12px;
+  padding:0 13px;margin:2px 0;border:1px solid transparent;border-radius:14px;
+  color:var(--sidebar-item-label);background:transparent;font-size:14px;font-weight:400;text-align:left;
+}
+:is(.settings-sidebar,.ins-rail) nav button.sidebar-nav-item:hover {
+  color:var(--sidebar-item-accent);background:color-mix(in srgb,var(--sidebar-item-selected) 45%,transparent);
+}
+:is(.settings-sidebar,.ins-rail) nav button.sidebar-nav-item[aria-current="page"] {
+  color:var(--sidebar-item-accent);background:var(--sidebar-item-selected);border-color:var(--sidebar-item-outline);
+}
+:is(.settings-sidebar,.ins-rail) nav button.sidebar-nav-item[aria-current="page"] i {
+  border-color:currentColor;background:currentColor;box-shadow:none;opacity:1;
+}
+:is(.settings-sidebar,.ins-rail) nav button.sidebar-nav-item:focus-visible,
+.settings-brand button:focus-visible {outline:2px solid var(--sidebar-item-accent);outline-offset:3px}

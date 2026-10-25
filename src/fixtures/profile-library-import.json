@@ -1,0 +1,14 @@
+{
+  "title": "Imported library test",
+  "category": "Classic",
+  "version": "2.1",
+  "author": "Test fixture",
+  "notes": "A local-only import fixture for the profile library acceptance test.",
+  "beverage_type": "espresso",
+  "target_weight": 36,
+  "target_volume_count_start": 0,
+  "tank_temperature": 0,
+  "steps": [
+    { "name": "Extraction", "pump": "pressure", "pressure": 9, "temperature": 92, "seconds": 30, "volume": 0, "sensor": "coffee", "transition": "fast" }
+  ]
+}
