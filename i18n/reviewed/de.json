@@ -1,0 +1,4066 @@
+{
+  "common.error.historyUnavailable": {
+    "source": "Decaid history is unavailable.",
+    "translation": "Der Decaid-Verlauf ist nicht verfügbar."
+  },
+  "common.error.shotOutsideCache": {
+    "source": "This shot is not in the latest {count} saved records. Refresh history to check again.",
+    "translation": "Dieser Bezug gehört nicht zu den letzten {count} gespeicherten Einträgen. Bitte den Verlauf aktualisieren."
+  },
+  "common.error.cleaningProfile": {
+    "source": "Decaid did not retain the selected cleaning profile",
+    "translation": "Decaid hat das ausgewählte Reinigungsprofil nicht übernommen"
+  },
+  "common.error.shotMeasurements": {
+    "source": "Decaid did not return the measurements for this shot.",
+    "translation": "Decaid hat keine Messwerte für diesen Bezug zurückgegeben."
+  },
+  "common.error.shotChanged": {
+    "source": "Saved shot changed during duration reconciliation.",
+    "translation": "Der gespeicherte Bezug wurde während des Zeitabgleichs geändert."
+  },
+  "common.error.shotIdentity": {
+    "source": "This saved shot is missing its date or identity.",
+    "translation": "Bei diesem gespeicherten Bezug fehlen Datum oder Kennung."
+  },
+  "common.error.incompleteHistorySaved": {
+    "source": "Decaid returned an incomplete history page. Your saved history is unchanged.",
+    "translation": "Decaid hat eine unvollständige Verlaufsseite zurückgegeben. Der gespeicherte Verlauf bleibt unverändert."
+  },
+  "common.error.historyChanged": {
+    "source": "History changed while syncing. Please refresh again. Your saved history is unchanged.",
+    "translation": "Der Verlauf wurde während der Synchronisierung geändert. Bitte erneut aktualisieren. Der gespeicherte Verlauf bleibt unverändert."
+  },
+  "common.error.incompleteHistory": {
+    "source": "Decaid returned an incomplete history page.",
+    "translation": "Decaid hat eine unvollständige Verlaufsseite zurückgegeben."
+  },
+  "common.error.duplicateShots": {
+    "source": "Decaid returned duplicate shot IDs. Please refresh.",
+    "translation": "Decaid hat doppelte Bezugskennungen zurückgegeben. Bitte aktualisieren."
+  },
+  "common.error.storageBusy": {
+    "source": "History storage is busy in another tab.",
+    "translation": "Der Verlaufsspeicher wird in einem anderen Tab verwendet."
+  },
+  "common.error.waterTarget": {
+    "source": "Invalid hot water target.",
+    "translation": "Ungültiger Heißwasser-Zielwert."
+  },
+  "common.accessibility.cup": {
+    "source": "Cup",
+    "translation": "Tasse"
+  },
+  "common.accessibility.carousel": {
+    "source": "carousel",
+    "translation": "Karussell"
+  },
+  "common.error.profileCreation": {
+    "source": "Decaid profile creation returned {status}",
+    "translation": "Decaid: Profilerstellung fehlgeschlagen (Status {status})"
+  },
+  "common.error.profileUpdate": {
+    "source": "Decaid profile update returned {status}",
+    "translation": "Decaid: Profilaktualisierung fehlgeschlagen (Status {status})"
+  },
+  "common.error.profileDeletion": {
+    "source": "Decaid profile deletion returned {status}",
+    "translation": "Decaid: Profillöschung fehlgeschlagen (Status {status})"
+  },
+  "common.error.deviceConnection": {
+    "source": "Decaid device connection returned {status}",
+    "translation": "Decaid: Geräteverbindung fehlgeschlagen (Status {status})"
+  },
+  "common.error.scaleTare": {
+    "source": "Decaid scale tare returned {status}",
+    "translation": "Decaid: Tarierung fehlgeschlagen (Status {status})"
+  },
+  "common.error.brightness": {
+    "source": "Decaid display brightness returned {status}",
+    "translation": "Decaid: Displayhelligkeit fehlgeschlagen (Status {status})"
+  },
+  "common.error.scalePower": {
+    "source": "Decaid scale power mode returned {status}",
+    "translation": "Decaid: Waagen-Energiemodus fehlgeschlagen (Status {status})"
+  },
+  "common.error.wakeLock": {
+    "source": "Decaid wake lock returned {status}",
+    "translation": "Decaid: Bildschirmsperre fehlgeschlagen (Status {status})"
+  },
+  "common.error.pluginUpdate": {
+    "source": "Decaid plugin update returned {status}",
+    "translation": "Decaid: Erweiterungsaktualisierung fehlgeschlagen (Status {status})"
+  },
+  "common.error.scheduleDelete": {
+    "source": "Decaid wake schedule delete returned {status}",
+    "translation": "Decaid: Löschen der Aufwachzeit fehlgeschlagen (Status {status})"
+  },
+  "common.error.backupImport": {
+    "source": "Decaid backup import returned {status}",
+    "translation": "Decaid: Import der Sicherung fehlgeschlagen (Status {status})"
+  },
+  "common.error.workflowUpdate": {
+    "source": "Decaid workflow update returned {status}",
+    "translation": "Decaid: Workflow-Aktualisierung fehlgeschlagen (Status {status})"
+  },
+  "common.error.sharedSetting": {
+    "source": "Decaid shared setting returned {status}",
+    "translation": "Decaid: gemeinsame Einstellung fehlgeschlagen (Status {status})"
+  },
+  "common.error.machineState": {
+    "source": "Decaid machine state returned {status}",
+    "translation": "Decaid: Maschinenstatus fehlgeschlagen (Status {status})"
+  },
+  "common.error.machineProfile": {
+    "source": "Decaid machine profile upload returned {status}",
+    "translation": "Decaid: Übertragung des Maschinenprofils fehlgeschlagen (Status {status})"
+  },
+  "common.error.endpoint": {
+    "source": "Decaid {path} returned {status}",
+    "translation": "Decaid: {path} fehlgeschlagen (Status {status})"
+  },
+  "common.error.pluginEndpoint": {
+    "source": "{plugin} {endpoint} returned {status}",
+    "translation": "{plugin}: {endpoint} fehlgeschlagen (Status {status})"
+  },
+  "common.error.deleteUnconfirmed": {
+    "source": "Decaid did not confirm deletion of this profile.",
+    "translation": "Decaid hat die Löschung dieses Profils nicht bestätigt."
+  },
+  "common.metric.volume": {
+    "source": "Volume",
+    "translation": "Volumen"
+  },
+  "common.metric.temperature": {
+    "source": "Temperature",
+    "translation": "Temperatur"
+  },
+  "common.metric.maxDuration": {
+    "source": "Max duration",
+    "translation": "Max. Dauer"
+  },
+  "common.metric.current": {
+    "source": "Current",
+    "translation": "Aktuell"
+  },
+  "common.metric.target": {
+    "source": "Target",
+    "translation": "Ziel"
+  },
+  "common.metric.duration": {
+    "source": "Duration",
+    "translation": "Dauer"
+  },
+  "common.metric.flow": {
+    "source": "Flow",
+    "translation": "Durchfluss"
+  },
+  "common.metric.weight": {
+    "source": "Weight",
+    "translation": "Gewicht"
+  },
+  "common.utility.water": {
+    "source": "Hot water",
+    "translation": "Heißwasser"
+  },
+  "common.utility.steam": {
+    "source": "Steam",
+    "translation": "Dampf"
+  },
+  "common.utility.scale": {
+    "source": "Scale",
+    "translation": "Waage"
+  },
+  "common.utility.tank": {
+    "source": "Reservoir",
+    "translation": "Wassertank"
+  },
+  "common.language.label": {
+    "source": "Language",
+    "translation": "Sprache"
+  },
+  "common.language.hint": {
+    "source": "Bestpresso only; Decaid and profile names stay as they are",
+    "translation": "Nur Bestpresso; Decaid und Profilnamen bleiben unverändert"
+  },
+  "common.language.auto": {
+    "source": "Follow device ({language})",
+    "translation": "Wie Gerät ({language})"
+  },
+  "shell.app.visualizerPluginDisabled": {
+    "source": "Enable the Visualizer plugin in Decaid settings first.",
+    "translation": "Aktiviere zuerst das Visualizer-Plugin in den Decaid-Einstellungen."
+  },
+  "shell.app.visualizerSignInRequired": {
+    "source": "Sign in to Visualizer in Decaid settings before importing a share code.",
+    "translation": "Melde dich in den Decaid-Einstellungen bei Visualizer an, bevor du einen Freigabecode importierst."
+  },
+  "shell.app.visualizerUnavailable": {
+    "source": "Visualizer import is not available in this Decaid setup.",
+    "translation": "Der Visualizer-Import ist in dieser Decaid-Einrichtung nicht verfügbar."
+  },
+  "shell.app.visualizerImportFailed": {
+    "source": "Visualizer could not import that share code.",
+    "translation": "Visualizer konnte diesen Freigabecode nicht importieren."
+  },
+  "shell.app.visualizerImportMissing": {
+    "source": "The profile was imported, but Decaid did not return it to Bestpresso.",
+    "translation": "Das Profil wurde importiert, aber Decaid hat es nicht an Bestpresso zurückgegeben."
+  },
+  "shell.appShell.expandUtilityPanels": {
+    "source": "Expand utility panels",
+    "translation": "Bedienfelder erweitern"
+  },
+  "shell.appShell.minimizeUtilityPanels": {
+    "source": "Minimize utility panels",
+    "translation": "Bedienfelder verkleinern"
+  },
+  "shell.appShell.machineControls": {
+    "source": "Machine controls",
+    "translation": "Maschinensteuerung"
+  },
+  "shell.appShell.sleep": {
+    "source": "Sleep",
+    "translation": "Schlafmodus"
+  },
+  "shell.appShell.wake": {
+    "source": "Wake",
+    "translation": "Aufwecken"
+  },
+  "shell.appShell.requestInProgress": {
+    "source": "{label} request in progress",
+    "translation": "{label}-Anfrage läuft"
+  },
+  "shell.appShell.cleaningSequences": {
+    "source": "Cleaning sequences",
+    "translation": "Reinigungssequenzen"
+  },
+  "shell.appShell.cleaning": {
+    "source": "Cleaning",
+    "translation": "Reinigung"
+  },
+  "shell.appShell.settings": {
+    "source": "Settings",
+    "translation": "Einstellungen"
+  },
+  "shell.status.ready": {
+    "source": "ready",
+    "translation": "bereit"
+  },
+  "shell.status.heating": {
+    "source": "Heating",
+    "translation": "Aufheizen"
+  },
+  "shell.status.notHeating": {
+    "source": "Not heating",
+    "translation": "Heizt nicht"
+  },
+  "shell.status.thirsty": {
+    "source": "Thirsty",
+    "translation": "Durstig"
+  },
+  "shell.status.sleeping": {
+    "source": "sleeping",
+    "translation": "schlafmodus"
+  },
+  "shell.status.disconnected": {
+    "source": "disconnected",
+    "translation": "getrennt"
+  },
+  "shell.status.connecting": {
+    "source": "connecting",
+    "translation": "verbindet"
+  },
+  "shell.status.demo": {
+    "source": "Demo",
+    "translation": "Demo"
+  },
+  "shell.status.sourceMachine": {
+    "source": "Machine",
+    "translation": "Maschine"
+  },
+  "shell.status.sourceData": {
+    "source": "Data source",
+    "translation": "Datenquelle"
+  },
+  "shell.status.tooltip": {
+    "source": "{source}: {status}",
+    "translation": "{source}: {status}"
+  },
+  "shell.status.notHeatingTooltip": {
+    "source": "The group is not warming. Check the physical power button.",
+    "translation": "Die Brühgruppe heizt nicht auf. Prüfe den physischen Netzschalter."
+  },
+  "shell.status.checkPowerButton": {
+    "source": "Check power button",
+    "translation": "Netzschalter prüfen"
+  },
+  "shell.status.heatingTooltip": {
+    "source": "Machine is heating",
+    "translation": "Maschine heizt auf"
+  },
+  "shell.status.thirstyTooltip": {
+    "source": "Water reservoir needs water",
+    "translation": "Wassertank braucht Wasser"
+  },
+  "shell.fullscreen.addToHomeScreenTitle": {
+    "source": "Add to Home Screen",
+    "translation": "Zum Home-Bildschirm hinzufügen"
+  },
+  "shell.fullscreen.addToHomeScreenBody": {
+    "source": "Tap Share, then Add to Home Screen for the best fullscreen experience.",
+    "translation": "Tippe auf Teilen und dann auf „Zum Home-Bildschirm“, für die beste Vollbildansicht."
+  },
+  "shell.fullscreen.gotIt": {
+    "source": "Got it",
+    "translation": "Verstanden"
+  },
+  "shell.fullscreen.recommendedTitle": {
+    "source": "Fullscreen recommended",
+    "translation": "Vollbild empfohlen"
+  },
+  "shell.fullscreen.recommendedBody": {
+    "source": "Use fullscreen to give your controls more room.",
+    "translation": "Nutze den Vollbildmodus, damit deine Bedienelemente mehr Platz haben."
+  },
+  "shell.fullscreen.error": {
+    "source": "Fullscreen could not be opened. You can continue normally.",
+    "translation": "Vollbild konnte nicht geöffnet werden. Du kannst normal weitermachen."
+  },
+  "shell.fullscreen.opening": {
+    "source": "Opening…",
+    "translation": "Öffnet …"
+  },
+  "shell.fullscreen.enter": {
+    "source": "Enter fullscreen",
+    "translation": "Vollbild aktivieren"
+  },
+  "shell.fullscreen.exit": {
+    "source": "Exit fullscreen",
+    "translation": "Vollbild beenden"
+  },
+  "shell.fullscreen.later": {
+    "source": "Later",
+    "translation": "Später"
+  },
+  "shell.adjust.hotWaterVolume.title": {
+    "source": "Hot water volume",
+    "translation": "Heißwasser-Volumen"
+  },
+  "shell.adjust.hotWaterTemperature.title": {
+    "source": "Hot water temperature",
+    "translation": "Heißwasser-Temperatur"
+  },
+  "shell.adjust.steamTemperature.title": {
+    "source": "Steam target temperature",
+    "translation": "Dampf-Zieltemperatur"
+  },
+  "shell.adjust.hotWaterDuration.title": {
+    "source": "Hot water max duration",
+    "translation": "Heißwasser Max. Dauer"
+  },
+  "shell.adjust.steamDuration.title": {
+    "source": "Steam duration",
+    "translation": "Dampfdauer"
+  },
+  "shell.adjust.steamFlow.title": {
+    "source": "Steam flow",
+    "translation": "Dampf-Durchfluss"
+  },
+  "shell.adjust.temperature.title": {
+    "source": "Brew temperature",
+    "translation": "Brühtemperatur"
+  },
+  "shell.adjust.grindSetting.title": {
+    "source": "Grind size",
+    "translation": "Mahlgrad"
+  },
+  "shell.adjust.dose.title": {
+    "source": "Dose",
+    "translation": "Dosis"
+  },
+  "shell.adjust.targetYield.title": {
+    "source": "Yield",
+    "translation": "Menge"
+  },
+  "shell.adjust.builderPressure.title": {
+    "source": "Pressure",
+    "translation": "Druck"
+  },
+  "shell.adjust.builderFlow.title": {
+    "source": "Flow",
+    "translation": "Durchfluss"
+  },
+  "shell.adjust.builderTemperature.title": {
+    "source": "Temperature",
+    "translation": "Temperatur"
+  },
+  "shell.adjust.builderDuration.title": {
+    "source": "Max time",
+    "translation": "Max. Zeit"
+  },
+  "shell.adjust.builderVolume.title": {
+    "source": "Move on volume",
+    "translation": "Weiter bei Volumen"
+  },
+  "shell.adjust.builderYield.title": {
+    "source": "Move on yield",
+    "translation": "Weiter bei Menge"
+  },
+  "shell.adjust.cancel": {
+    "source": "Cancel",
+    "translation": "Abbrechen"
+  },
+  "shell.adjust.save": {
+    "source": "Save",
+    "translation": "Speichern"
+  },
+  "shell.adjust.adjustAria": {
+    "source": "Adjust {label}",
+    "translation": "{label} anpassen"
+  },
+  "shell.adjust.optionsAria": {
+    "source": "{label} options",
+    "translation": "{label}-Optionen"
+  },
+  "shell.adjust.enterWithKeypadAria": {
+    "source": "Enter {label} with keypad",
+    "translation": "{label} über Tastenfeld eingeben"
+  },
+  "shell.adjust.valueAnnouncement": {
+    "source": "{label}, {value}",
+    "translation": "{label}, {value}"
+  },
+  "shell.adjust.emptyValue": {
+    "source": "empty",
+    "translation": "leer"
+  },
+  "shell.adjust.maxError": {
+    "source": "Maximum is {max}.",
+    "translation": "Maximum ist {max}."
+  },
+  "shell.adjust.minError": {
+    "source": "Minimum is {min}.",
+    "translation": "Minimum ist {min}."
+  },
+  "shell.adjust.requiredError": {
+    "source": "Enter a number.",
+    "translation": "Gib eine Zahl ein."
+  },
+  "shell.adjust.gestureTip": {
+    "source": "Swipe with two fingers for steps of 10, or three fingers for steps of 100.",
+    "translation": "Mit zwei Fingern wischen für Schritte von 10, mit drei Fingern für Schritte von 100."
+  },
+  "shell.adjust.suggestionsAria": {
+    "source": "{label} suggestions",
+    "translation": "{label}-Vorschläge"
+  },
+  "shell.adjust.typicalRatiosAria": {
+    "source": "{label} typical ratios",
+    "translation": "{label}, typische Verhältnisse"
+  },
+  "shell.adjust.keypadAria": {
+    "source": "Enter {label}",
+    "translation": "{label} eingeben"
+  },
+  "shell.adjust.deleteLastDigit": {
+    "source": "Delete last digit",
+    "translation": "Letzte Ziffer löschen"
+  },
+  "shell.adjust.decimalPoint": {
+    "source": "Decimal point",
+    "translation": "Dezimalzeichen"
+  },
+  "shell.adjust.dismissKeypad": {
+    "source": "Dismiss number keypad",
+    "translation": "Zifferntastatur schließen"
+  },
+  "shell.adjust.editMetricAria": {
+    "source": "Edit {label}, current value {value}{unit}",
+    "translation": "{label} bearbeiten, aktueller Wert {value}{unit}"
+  },
+  "shell.machine.expandToView": {
+    "source": "Expand utility panels to view {label}",
+    "translation": "Bedienfelder erweitern, um {label} zu sehen"
+  },
+  "shell.machine.disableSteamHeating": {
+    "source": "Disable steam heating",
+    "translation": "Dampfheizung ausschalten"
+  },
+  "shell.machine.enableSteamHeating": {
+    "source": "Enable steam heating",
+    "translation": "Dampfheizung einschalten"
+  },
+  "shell.machine.steamTemperatureAria": {
+    "source": "Steam temperature",
+    "translation": "Dampftemperatur"
+  },
+  "shell.machine.steamGaugeValueText": {
+    "source": "{current} current, {target} target",
+    "translation": "{current} aktuell, {target} Ziel"
+  },
+  "shell.machine.steamHeatingOff": {
+    "source": "Steam heating off",
+    "translation": "Dampfheizung aus"
+  },
+  "shell.machine.off": {
+    "source": "Off",
+    "translation": "Aus"
+  },
+  "shell.machine.offLower": {
+    "source": "off",
+    "translation": "aus"
+  },
+  "shell.machine.editSteamTemperatureAria": {
+    "source": "Edit steam temperature, current {current}, target {target}",
+    "translation": "Dampftemperatur bearbeiten, aktuell {current}, Ziel {target}"
+  },
+  "shell.tank.needsWater": {
+    "source": "Water reservoir needs water, {value}",
+    "translation": "Wassertank braucht Wasser, {value}"
+  },
+  "shell.tank.low": {
+    "source": "Water reservoir is getting low, {value}",
+    "translation": "Wassertank wird knapp, {value}"
+  },
+  "shell.tank.status": {
+    "source": "Water reservoir, {value}",
+    "translation": "Wassertank, {value}"
+  },
+  "shell.tank.unknownLevel": {
+    "source": "unknown level",
+    "translation": "unbekannter Füllstand"
+  },
+  "shell.scale.searching": {
+    "source": "Searching…",
+    "translation": "Sucht …"
+  },
+  "shell.scale.search": {
+    "source": "Search",
+    "translation": "Suchen"
+  },
+  "shell.scale.tareTitle": {
+    "source": "Tare scale",
+    "translation": "Waage tarieren"
+  },
+  "shell.scale.tareAria": {
+    "source": "Tare scale, current weight {value}{unit}",
+    "translation": "Waage tarieren, aktuelles Gewicht {value}{unit}"
+  },
+  "shell.scale.selectTitle": {
+    "source": "Select scale to connect",
+    "translation": "Waage zum Verbinden auswählen"
+  },
+  "shell.scale.devicesFound": {
+    "source": {
+      "one": "{count} device found",
+      "other": "{count} devices found"
+    },
+    "translation": {
+      "one": "{count} Gerät gefunden",
+      "other": "{count} Geräte gefunden"
+    }
+  },
+  "shell.scale.connectAria": {
+    "source": "Connect {name}",
+    "translation": "{name} verbinden"
+  },
+  "shell.scale.connecting": {
+    "source": "Connecting…",
+    "translation": "Verbindet …"
+  },
+  "shell.liveOperation.hotWater": {
+    "source": "Dispensing hot water",
+    "translation": "Heißwasser läuft"
+  },
+  "shell.liveOperation.steaming": {
+    "source": "Steaming",
+    "translation": "Dampfen"
+  },
+  "shell.liveOperation.flushing": {
+    "source": "Flushing",
+    "translation": "Spült"
+  },
+  "shell.sleep.wakeAria": {
+    "source": "Hold with one finger for 1 second to wake machine",
+    "translation": "Mit einem Finger 1 Sekunde halten, um die Maschine aufzuwecken"
+  },
+  "shell.sleep.touchAndHold": {
+    "source": "Touch and hold to wake",
+    "translation": "Berühren und halten zum Aufwecken"
+  },
+  "shell.updates.title": {
+    "source": "Decaid update available",
+    "translation": "Decaid-Update verfügbar"
+  },
+  "shell.updates.description": {
+    "source": "Version {version} is ready with the latest improvements and fixes.",
+    "translation": "Version {version} steht mit den neuesten Verbesserungen und Fehlerbehebungen bereit."
+  },
+  "shell.updates.newerVersionFallback": {
+    "source": "a newer version",
+    "translation": "eine neuere Version"
+  },
+  "shell.updates.installedVersion": {
+    "source": "Installed version {version}",
+    "translation": "Installierte Version {version}"
+  },
+  "shell.updates.downloadingAria": {
+    "source": "Downloading update, {progress}% complete",
+    "translation": "Update wird heruntergeladen, {progress}% abgeschlossen"
+  },
+  "shell.updates.downloading": {
+    "source": "Downloading… {progress}%",
+    "translation": "Lädt herunter … {progress}%"
+  },
+  "shell.updates.installing": {
+    "source": "Opening the installer…",
+    "translation": "Installationsprogramm wird geöffnet …"
+  },
+  "shell.updates.close": {
+    "source": "Close",
+    "translation": "Schließen"
+  },
+  "shell.updates.later": {
+    "source": "Later",
+    "translation": "Später"
+  },
+  "shell.updates.updating": {
+    "source": "Updating…",
+    "translation": "Aktualisiert …"
+  },
+  "shell.updates.updateDecaid": {
+    "source": "Update Decaid",
+    "translation": "Decaid aktualisieren"
+  },
+  "shell.updates.viewDownload": {
+    "source": "View download",
+    "translation": "Download ansehen"
+  },
+  "shell.updates.installFailed": {
+    "source": "The update could not be started.",
+    "translation": "Das Update konnte nicht gestartet werden."
+  },
+  "shell.updates.connectionLost": {
+    "source": "Bestpresso lost its connection to Decaid. Try again in a moment.",
+    "translation": "Bestpresso hat die Verbindung zu Decaid verloren. Versuch es gleich noch einmal."
+  },
+  "shell.cleaning.title": {
+    "source": "Cleaning",
+    "translation": "Reinigung"
+  },
+  "shell.cleaning.tapHint": {
+    "source": "Tap %ICON% on your machine to start.",
+    "translation": "Tippe an deiner Maschine auf %ICON%, um zu starten."
+  },
+  "shell.cleaning.selectProfile": {
+    "source": "Select a cleaning profile.",
+    "translation": "Wähle ein Reinigungsprofil aus."
+  },
+  "shell.cleaning.loading": {
+    "source": "Loading cleaning profile…",
+    "translation": "Reinigungsprofil wird geladen …"
+  },
+  "shell.cleaning.loadError": {
+    "source": "Could not load. Select a profile to retry.",
+    "translation": "Konnte nicht geladen werden. Wähle ein Profil, um es erneut zu versuchen."
+  },
+  "shell.cleaning.close": {
+    "source": "Close",
+    "translation": "Schließen"
+  },
+  "shell.cleaning.empty": {
+    "source": "No cleaning sequences are available yet.",
+    "translation": "Es sind noch keine Reinigungssequenzen verfügbar."
+  },
+  "shell.brewStage.preinfusion": {
+    "source": "Pre-infusion",
+    "translation": "Präinfusion"
+  },
+  "shell.brewStage.cooling": {
+    "source": "Cooling",
+    "translation": "Abkühlen"
+  },
+  "shell.brewStage.extraction": {
+    "source": "Extraction",
+    "translation": "Extraktion"
+  },
+  "shell.brewStage.stageNumber": {
+    "source": "Stage {n}",
+    "translation": "Phase {n}"
+  },
+  "shell.profile.untitled": {
+    "source": "Untitled profile",
+    "translation": "Unbenanntes Profil"
+  },
+  "shell.profile.previousPull": {
+    "source": "Previous pull",
+    "translation": "Letzter Bezug"
+  },
+  "brew.stage.reason.alternativesReached": {
+    "source": "{conditions} reached",
+    "translation": "{conditions} erreicht"
+  },
+  "brew.stage.condition.timeLimit": {
+    "source": "Time limit",
+    "translation": "Zeitlimit"
+  },
+  "brew.stage.condition.stageYield": {
+    "source": "Stage yield",
+    "translation": "Phasenmenge"
+  },
+  "brew.stage.condition.stageVolume": {
+    "source": "Stage volume",
+    "translation": "Phasenvolumen"
+  },
+  "brew.stage.condition.targetYield": {
+    "source": "Target yield",
+    "translation": "Zielmenge"
+  },
+  "brew.stage.condition.targetVolume": {
+    "source": "Target volume",
+    "translation": "Zielvolumen"
+  },
+  "brew.stage.condition.sensor": {
+    "source": "{type} {symbol}{value} {unit}",
+    "translation": "{type} {symbol}{value} {unit}"
+  },
+  "brew.metric.pressure": {
+    "source": "Pressure",
+    "translation": "Druck"
+  },
+  "brew.metric.yield": {
+    "source": "Yield",
+    "translation": "Menge"
+  },
+  "brew.metric.flowRate": {
+    "source": "Flow rate",
+    "translation": "Durchflussrate"
+  },
+  "brew.metric.temperatureRange": {
+    "source": "Temperature range",
+    "translation": "Temperaturbereich"
+  },
+  "brew.metric.grindSize": {
+    "source": "Grind size",
+    "translation": "Mahlgrad"
+  },
+  "brew.metric.dose": {
+    "source": "Dose",
+    "translation": "Dosis"
+  },
+  "brew.stage.extractionFallback": {
+    "source": "Extraction",
+    "translation": "Extraktion"
+  },
+  "brew.stage.cleaningFallbackName": {
+    "source": "Cleaning",
+    "translation": "Reinigung"
+  },
+  "brew.liveScreen.espressoFallbackName": {
+    "source": "Espresso",
+    "translation": "Espresso"
+  },
+  "brew.panel.doseSuggestion.ristretto": {
+    "source": "Ristretto",
+    "translation": "Ristretto"
+  },
+  "brew.panel.doseSuggestion.espresso": {
+    "source": "Espresso",
+    "translation": "Espresso"
+  },
+  "brew.panel.doseSuggestion.lungo": {
+    "source": "Lungo",
+    "translation": "Lungo"
+  },
+  "brew.panel.doseSuggestion.lungoPlus": {
+    "source": "Lungo+",
+    "translation": "Lungo+"
+  },
+  "brew.panel.carouselAriaLabel": {
+    "source": "Profiles",
+    "translation": "Profile"
+  },
+  "brew.panel.seeAllProfiles": {
+    "source": "See all profiles →",
+    "translation": "Alle Profile ansehen →"
+  },
+  "brew.panel.metricTemp": {
+    "source": "Temp.",
+    "translation": "Temp."
+  },
+  "brew.panel.profileAriaLabel": {
+    "source": "{name}",
+    "translation": "{name}"
+  },
+  "brew.panel.profileAriaLabelSelected": {
+    "source": "{name}, selected",
+    "translation": "{name}, ausgewählt"
+  },
+  "brew.panel.profileAriaLabelSelectedDemo": {
+    "source": "{name}, selected, hold to run a demo pull",
+    "translation": "{name}, ausgewählt, halten für einen Demo-Bezug"
+  },
+  "brew.chart.legend.ariaLabel": {
+    "source": "Chart legend",
+    "translation": "Diagrammlegende"
+  },
+  "brew.chart.legend.flowGroup": {
+    "source": "Flow and target flow",
+    "translation": "Durchfluss und Soll-Durchfluss"
+  },
+  "brew.chart.legend.pressureGroup": {
+    "source": "Pressure and target pressure",
+    "translation": "Druck und Soll-Druck"
+  },
+  "brew.chart.legend.targetFlow": {
+    "source": "Target flow",
+    "translation": "Soll-Durchfluss"
+  },
+  "brew.chart.legend.targetPressure": {
+    "source": "Target pressure",
+    "translation": "Soll-Druck"
+  },
+  "brew.chart.legend.toggleShow": {
+    "source": "Show {label}",
+    "translation": "{label} anzeigen"
+  },
+  "brew.chart.legend.toggleDim": {
+    "source": "Dim {label}",
+    "translation": "{label} ausblenden"
+  },
+  "brew.chart.stageMarkers.ariaLabel": {
+    "source": "Shot stages",
+    "translation": "Bezugsphasen"
+  },
+  "brew.liveStages.pullStagesAriaLabel": {
+    "source": "Pull stages",
+    "translation": "Bezugsphasen"
+  },
+  "brew.liveStages.waitingForFirstStage": {
+    "source": "Waiting for the first stage…",
+    "translation": "Warte auf die erste Phase …"
+  },
+  "brew.liveStages.noPressureReading": {
+    "source": "No pressure reading",
+    "translation": "Keine Druckmessung"
+  },
+  "brew.liveStages.skippedPhaseAriaLabel": {
+    "source": "Skipped phase",
+    "translation": "Übersprungene Phase"
+  },
+  "brew.liveStages.derivedFromTelemetry": {
+    "source": "Derived from saved profile and telemetry",
+    "translation": "Aus gespeichertem Profil und Telemetrie abgeleitet"
+  },
+  "brew.liveStages.shotEndedAriaLabel": {
+    "source": "Shot ended",
+    "translation": "Bezug beendet"
+  },
+  "brew.liveStages.moveOnAlt": {
+    "source": "Move on",
+    "translation": "Weiter"
+  },
+  "brew.liveStages.activeStage": {
+    "source": "Active stage",
+    "translation": "Aktive Phase"
+  },
+  "brew.liveStages.reasonSeparator": {
+    "source": "or",
+    "translation": "oder"
+  },
+  "brew.liveStages.pressureRangeSeparator": {
+    "source": "to",
+    "translation": "bis"
+  },
+  "brew.liveStages.doubleTapToSkipAriaLabel": {
+    "source": "Double tap to skip to the next phase",
+    "translation": "Doppelt tippen, um zur nächsten Phase zu springen"
+  },
+  "brew.liveStages.doubleTapToSkipHint": {
+    "source": "double tap to skip",
+    "translation": "doppelt tippen zum Überspringen"
+  },
+  "brew.liveScreen.timerLabel": {
+    "source": "Timer",
+    "translation": "Timer"
+  },
+  "brew.liveScreen.stopping": {
+    "source": "Stopping…",
+    "translation": "Stoppt …"
+  },
+  "brew.liveScreen.stop": {
+    "source": "Stop",
+    "translation": "Stopp"
+  },
+  "brew.liveScreen.closeAriaLabel": {
+    "source": "Close completed pull",
+    "translation": "Abgeschlossenen Bezug schließen"
+  },
+  "brew.liveScreen.close": {
+    "source": "Close",
+    "translation": "Schließen"
+  },
+  "brew.liveScreen.runningAriaLabel": {
+    "source": "Running {name}",
+    "translation": "{name} läuft"
+  },
+  "brew.chart.live.ariaLabelWithWeight": {
+    "source": "Pressure, flow, yield weight, and temperature chart. Touch and hold to inspect.",
+    "translation": "Diagramm für Druck, Durchfluss, Menge und Temperatur. Zum Prüfen berühren und halten."
+  },
+  "brew.chart.live.ariaLabelNoWeight": {
+    "source": "Pressure, flow, and temperature chart. Touch and hold to inspect.",
+    "translation": "Diagramm für Druck, Durchfluss und Temperatur. Zum Prüfen berühren und halten."
+  },
+  "brew.chart.live.waitingForTelemetry": {
+    "source": "Waiting for brewing telemetry…",
+    "translation": "Warte auf Brühdaten …"
+  },
+  "brew.chart.target.ariaLabelDetail": {
+    "source": "Expected pressure, flow, and temperature for {name}",
+    "translation": "Erwarteter Druck, Durchfluss und Temperatur für {name}"
+  },
+  "brew.chart.target.ariaLabelSummary": {
+    "source": "Expected pressure and flow for {name}",
+    "translation": "Erwarteter Druck und Durchfluss für {name}"
+  },
+  "brew.ratio.label": {
+    "source": "1:{ratio} ratio",
+    "translation": "Verhältnis 1:{ratio}"
+  },
+  "brew.stage.reason.targetYieldReached": {
+    "source": "Target yield reached",
+    "translation": "Zielmenge erreicht"
+  },
+  "brew.stage.reason.targetVolumeReached": {
+    "source": "Target volume reached",
+    "translation": "Zielvolumen erreicht"
+  },
+  "brew.stage.reason.manualStop": {
+    "source": "Manual stop",
+    "translation": "Manueller Stopp"
+  },
+  "brew.stage.reason.manualAdvance": {
+    "source": "Manual advance",
+    "translation": "Manuell übersprungen"
+  },
+  "brew.stage.reason.machineError": {
+    "source": "Machine error",
+    "translation": "Maschinenfehler"
+  },
+  "brew.stage.reason.connectionLost": {
+    "source": "Connection lost",
+    "translation": "Verbindung verloren"
+  },
+  "brew.stage.reason.unknown": {
+    "source": "Unknown",
+    "translation": "Unbekannt"
+  },
+  "brew.stage.reason.timeLimitReached": {
+    "source": "Time limit reached",
+    "translation": "Zeitlimit erreicht"
+  },
+  "brew.stage.reason.stageYieldReached": {
+    "source": "Stage yield reached",
+    "translation": "Phasenmenge erreicht"
+  },
+  "brew.stage.reason.stageVolumeReached": {
+    "source": "Stage volume reached",
+    "translation": "Phasenvolumen erreicht"
+  },
+  "brew.stage.reason.sensorExitReached": {
+    "source": "{type} {symbol}{value} {unit} reached",
+    "translation": "{type} {symbol}{value} {unit} erreicht"
+  },
+  "brew.data.scale.unknownName": {
+    "source": "Unknown scale",
+    "translation": "Unbekannte Waage"
+  },
+  "brew.data.scale.fallbackName": {
+    "source": "Scale",
+    "translation": "Waage"
+  },
+  "brew.data.error.weightStoppingFailed": {
+    "source": "Could not enable hot-water weight stopping. Reconnect the scale to retry.",
+    "translation": "Gewichtsstopp für Heißwasser konnte nicht aktiviert werden. Waage neu verbinden und erneut versuchen."
+  },
+  "brew.data.error.tareUnavailableDuringShot": {
+    "source": "Scale tare is unavailable during the shot.",
+    "translation": "Tarieren der Waage ist während des Bezugs nicht möglich."
+  },
+  "brew.data.error.tareScaleDisconnected": {
+    "source": "The scale disconnected before it could be tared.",
+    "translation": "Die Waage hat die Verbindung getrennt, bevor sie tariert werden konnte."
+  },
+  "brew.data.error.tareRejected": {
+    "source": "The scale did not accept the tare command.",
+    "translation": "Die Waage hat den Tarier-Befehl nicht angenommen."
+  },
+  "brew.data.error.hotWaterSyncFailed": {
+    "source": "Hot water targets could not be synchronised with Decaid. Check the dispenser settings before use.",
+    "translation": "Heißwasser-Zielwerte konnten nicht mit Decaid synchronisiert werden. Vor der Nutzung die Heißwasser-Einstellungen prüfen."
+  },
+  "brew.data.error.cleaningRestoreFailed": {
+    "source": "Cleaning finished, but the previous brew profile could not be restored.",
+    "translation": "Reinigung abgeschlossen, aber das vorherige Brühprofil konnte nicht wiederhergestellt werden."
+  },
+  "brew.data.error.sleepScreenDismissedDisconnected": {
+    "source": "The sleep screen was dismissed, but the disconnected machine could not be woken.",
+    "translation": "Der Ruhebildschirm wurde geschlossen, aber die getrennte Maschine konnte nicht aufgeweckt werden."
+  },
+  "brew.data.error.connectGatewayRequired": {
+    "source": "Connect to a Decaid gateway before controlling the machine.",
+    "translation": "Vor der Steuerung der Maschine mit einem Decaid-Gateway verbinden."
+  },
+  "brew.data.error.sleepRejected": {
+    "source": "The machine did not accept the sleep command.",
+    "translation": "Die Maschine hat den Schlafmodus-Befehl nicht angenommen."
+  },
+  "brew.data.error.wakeRejected": {
+    "source": "The machine did not accept the wake command.",
+    "translation": "Die Maschine hat den Aufwach-Befehl nicht angenommen."
+  },
+  "brew.data.error.scaleSearchFailed": {
+    "source": "Decaid could not start a scale search.",
+    "translation": "Decaid konnte die Waagensuche nicht starten."
+  },
+  "brew.data.error.cleaningSequenceUnavailable": {
+    "source": "That cleaning sequence is not available.",
+    "translation": "Dieser Reinigungsablauf ist nicht verfügbar."
+  },
+  "brew.data.error.connectBeforeCleaningLoad": {
+    "source": "Connect to the machine before loading a cleaning sequence.",
+    "translation": "Vor dem Laden eines Reinigungsablaufs mit der Maschine verbinden."
+  },
+  "brew.data.error.cleaningLoadFailed": {
+    "source": "The cleaning sequence could not be loaded onto the machine.",
+    "translation": "Der Reinigungsablauf konnte nicht auf die Maschine geladen werden."
+  },
+  "brew.data.error.previousProfileRestoreFailed": {
+    "source": "The previous brew profile could not be restored.",
+    "translation": "Das vorherige Brühprofil konnte nicht wiederhergestellt werden."
+  },
+  "brew.data.error.stopDisconnected": {
+    "source": "The machine is disconnected, so the pull could not be stopped.",
+    "translation": "Die Maschine ist getrennt, der Bezug konnte daher nicht gestoppt werden."
+  },
+  "brew.data.error.skipDisconnected": {
+    "source": "The machine is disconnected, so the phase could not be skipped.",
+    "translation": "Die Maschine ist getrennt, die Phase konnte daher nicht übersprungen werden."
+  },
+  "brew.data.error.skipRejected": {
+    "source": "The machine did not accept the skip command.",
+    "translation": "Die Maschine hat den Überspringen-Befehl nicht angenommen."
+  },
+  "brew.data.error.connectBeforeMachineSettings": {
+    "source": "Connect to Decaid before changing machine settings.",
+    "translation": "Vor dem Ändern der Maschineneinstellungen mit Decaid verbinden."
+  },
+  "brew.data.error.connectBeforeProfileSettings": {
+    "source": "Connect to Decaid before changing profile settings.",
+    "translation": "Vor dem Ändern der Profileinstellungen mit Decaid verbinden."
+  },
+  "brew.data.error.profileNotEditable": {
+    "source": "This profile is not available for editing.",
+    "translation": "Dieses Profil kann nicht bearbeitet werden."
+  },
+  "brew.data.error.profileNameAndStageRequired": {
+    "source": "A profile name and at least one stage are required.",
+    "translation": "Ein Profilname und mindestens eine Phase sind erforderlich."
+  },
+  "brew.data.error.protectedProfileCopyRequired": {
+    "source": "This protected profile must be saved as a copy.",
+    "translation": "Dieses geschützte Profil muss als Kopie gespeichert werden."
+  },
+  "brew.data.error.missingSavedProfileId": {
+    "source": "Decaid did not return an identifier for the saved profile.",
+    "translation": "Decaid hat keine Kennung für das gespeicherte Profil zurückgegeben."
+  },
+  "brew.data.error.profileDeletionInProgress": {
+    "source": "A profile is already being deleted.",
+    "translation": "Ein Profil wird bereits gelöscht."
+  },
+  "brew.data.error.connectBeforeDelete": {
+    "source": "Connect to Decaid before deleting a profile.",
+    "translation": "Vor dem Löschen eines Profils mit Decaid verbinden."
+  },
+  "brew.data.feedback.profileDeletedCleanupFailed": {
+    "source": "Profile deleted. Some saved shortcuts could not be updated; reconnect to Decaid. Saved shots are unchanged.",
+    "translation": "Profil gelöscht. Einige gespeicherte Verknüpfungen konnten nicht aktualisiert werden; mit Decaid neu verbinden. Gespeicherte Bezüge bleiben unverändert."
+  },
+  "brew.data.feedback.profileDeleted": {
+    "source": "Profile deleted from your library and favorites. Saved shots are unchanged.",
+    "translation": "Profil aus deiner Bibliothek und den Favoriten gelöscht. Gespeicherte Bezüge bleiben unverändert."
+  },
+  "brew.data.error.profileUnavailable": {
+    "source": "That profile is no longer available.",
+    "translation": "Dieses Profil ist nicht mehr verfügbar."
+  },
+  "brew.data.error.connectBeforeSelect": {
+    "source": "Connect to Decaid before selecting a profile.",
+    "translation": "Vor der Auswahl eines Profils mit Decaid verbinden."
+  },
+  "brew.data.error.profileCannotApply": {
+    "source": "This profile cannot be applied to Decaid.",
+    "translation": "Dieses Profil kann nicht auf Decaid angewendet werden."
+  },
+  "brew.data.error.favoriteSlotUnavailable": {
+    "source": "That favorite slot is not available.",
+    "translation": "Dieser Favoritenplatz ist nicht verfügbar."
+  },
+  "brew.data.error.connectBeforeFavorites": {
+    "source": "Connect to Decaid before changing favorites.",
+    "translation": "Vor dem Ändern der Favoriten mit Decaid verbinden."
+  },
+  "brew.data.error.favoritesSaveFailed": {
+    "source": "Favorite profiles could not be saved.",
+    "translation": "Favoritenprofile konnten nicht gespeichert werden."
+  },
+  "brew.data.label.hotWaterYield": {
+    "source": "Hot water yield",
+    "translation": "Heißwassermenge"
+  },
+  "brew.data.label.hotWaterTemperature": {
+    "source": "Hot water temperature",
+    "translation": "Heißwassertemperatur"
+  },
+  "brew.data.label.hotWaterMaxDuration": {
+    "source": "Hot water max duration",
+    "translation": "Max. Heißwasserdauer"
+  },
+  "brew.data.label.steamTemperature": {
+    "source": "Steam temperature",
+    "translation": "Dampftemperatur"
+  },
+  "brew.data.label.steamDuration": {
+    "source": "Steam duration",
+    "translation": "Dampfdauer"
+  },
+  "brew.data.label.steamFlow": {
+    "source": "Steam flow",
+    "translation": "Dampf-Durchfluss"
+  },
+  "brew.data.feedback.saving": {
+    "source": "Saving {name}…",
+    "translation": "{name} wird gespeichert …"
+  },
+  "brew.data.feedback.settingSaved": {
+    "source": "{name} saved to Decaid.",
+    "translation": "{name} in Decaid gespeichert."
+  },
+  "brew.data.feedback.saveFailed": {
+    "source": "{name} could not be saved.",
+    "translation": "{name} konnte nicht gespeichert werden."
+  },
+  "brew.data.feedback.applyFailed": {
+    "source": "{name} could not be applied to Decaid.",
+    "translation": "{name} konnte nicht auf Decaid angewendet werden."
+  },
+  "brew.data.feedback.savedAndApplied": {
+    "source": "{name} saved and applied.",
+    "translation": "{name} gespeichert und angewendet."
+  },
+  "brew.data.feedback.appliedButDefaultsNotRecorded": {
+    "source": "{name} was applied, but its saved defaults could not be recorded.",
+    "translation": "{name} wurde angewendet, aber die gespeicherten Standardwerte konnten nicht übernommen werden."
+  },
+  "brew.data.feedback.profileUpdated": {
+    "source": "{name} updated.",
+    "translation": "{name} aktualisiert."
+  },
+  "brew.data.feedback.profileSavedAsNew": {
+    "source": "{name} saved as a new profile.",
+    "translation": "{name} als neues Profil gespeichert."
+  },
+  "brew.data.feedback.profileSavedNotApplied": {
+    "source": "{name} was saved, but could not be applied to the machine.",
+    "translation": "{name} wurde gespeichert, konnte aber nicht auf die Maschine angewendet werden."
+  },
+  "brew.data.feedback.profileSyncFailed": {
+    "source": "{name} could not be synchronized with Decaid.",
+    "translation": "{name} konnte nicht mit Decaid synchronisiert werden."
+  },
+  "brew.data.feedback.profileSelectFailed": {
+    "source": "{name} could not be selected.",
+    "translation": "{name} konnte nicht ausgewählt werden."
+  },
+  "brew.data.feedback.scaleConnectFailed": {
+    "source": "Could not connect to {name}.",
+    "translation": "Verbindung zu {name} konnte nicht hergestellt werden."
+  },
+  "insights.profile.unknown": {
+    "source": "Unknown profile",
+    "translation": "Unbekanntes Profil"
+  },
+  "insights.common.close": {
+    "source": "Close",
+    "translation": "Schließen"
+  },
+  "insights.common.retry": {
+    "source": "Retry",
+    "translation": "Erneut versuchen"
+  },
+  "insights.common.duration": {
+    "source": "Duration",
+    "translation": "Dauer"
+  },
+  "insights.common.yield": {
+    "source": "Yield",
+    "translation": "Menge"
+  },
+  "insights.common.savedInDecaid": {
+    "source": "Saved in Decaid",
+    "translation": "In Decaid gespeichert"
+  },
+  "insights.common.brewsPct": {
+    "source": {
+      "one": "{count} brew · {pct}%",
+      "other": "{count} brews · {pct}%"
+    },
+    "translation": {
+      "one": "{count} Bezug · {pct}%",
+      "other": "{count} Bezüge · {pct}%"
+    }
+  },
+  "insights.detail.loadError": {
+    "source": "This graph isn’t saved on this device yet, or is no longer available. Connect to Decaid and retry.",
+    "translation": "Dieses Diagramm ist auf diesem Gerät nicht gespeichert oder nicht mehr verfügbar. Mit Decaid verbinden und erneut versuchen."
+  },
+  "insights.detail.offlineBanner": {
+    "source": "Offline · saved graph",
+    "translation": "Offline · gespeichertes Diagramm"
+  },
+  "insights.detail.fallbackTitle": {
+    "source": "Shot detail",
+    "translation": "Bezugsdetails"
+  },
+  "insights.detail.connectToLoad": {
+    "source": "Connect to Decaid to load this shot.",
+    "translation": "Mit Decaid verbinden, um diesen Bezug zu laden."
+  },
+  "insights.detail.loadingShot": {
+    "source": "Loading recorded shot…",
+    "translation": "Gespeicherter Bezug wird geladen…"
+  },
+  "insights.period.latestSavedRecords": {
+    "source": "Latest {count} saved records",
+    "translation": "Neueste {count} gespeicherte Einträge"
+  },
+  "insights.filter.all": {
+    "source": "All brews",
+    "translation": "Alle Bezüge"
+  },
+  "insights.filter.selectedProfile": {
+    "source": "Selected profile",
+    "translation": "Ausgewähltes Profil"
+  },
+  "insights.table.ariaLabel": {
+    "source": "Recorded brews",
+    "translation": "Erfasste Bezüge"
+  },
+  "insights.table.when": {
+    "source": "When",
+    "translation": "Wann"
+  },
+  "insights.table.profile": {
+    "source": "Profile",
+    "translation": "Profil"
+  },
+  "insights.table.dose": {
+    "source": "Dose",
+    "translation": "Dosis"
+  },
+  "insights.table.analysis": {
+    "source": "Analysis",
+    "translation": "Analyse"
+  },
+  "insights.table.rowAriaLabel": {
+    "source": "Analyse {profile}, {date} at {time}",
+    "translation": "{profile} analysieren, {date} um {time}"
+  },
+  "insights.table.emptyNoCache": {
+    "source": "History will appear once Decaid is connected.",
+    "translation": "Die Historie erscheint, sobald Decaid verbunden ist."
+  },
+  "insights.table.emptyNoMatches": {
+    "source": "No saved brews match this view.",
+    "translation": "Keine gespeicherten Bezüge passen zu dieser Ansicht."
+  },
+  "insights.nav.closeLabel": {
+    "source": "Close insights",
+    "translation": "Auswertung schließen"
+  },
+  "insights.nav.navigationAriaLabel": {
+    "source": "Insights navigation",
+    "translation": "Auswertungsnavigation"
+  },
+  "insights.nav.eyebrow": {
+    "source": "YOUR BREWING",
+    "translation": "DEINE BEZÜGE"
+  },
+  "insights.nav.overview": {
+    "source": "Overview",
+    "translation": "Übersicht"
+  },
+  "insights.nav.history": {
+    "source": "History",
+    "translation": "Historie"
+  },
+  "insights.nav.latestRecords": {
+    "source": "Latest {count} records",
+    "translation": "Neueste {count} Einträge"
+  },
+  "insights.nav.cachedOnDevice": {
+    "source": "Cached on this device",
+    "translation": "Auf diesem Gerät zwischengespeichert"
+  },
+  "insights.heading.overview": {
+    "source": "Your brewing",
+    "translation": "Deine Bezüge"
+  },
+  "insights.heading.history": {
+    "source": "Brew history",
+    "translation": "Historie"
+  },
+  "insights.controls.drinkTypeLabel": {
+    "source": "Drink type",
+    "translation": "Getränkeart"
+  },
+  "insights.controls.periodLabel": {
+    "source": "Period",
+    "translation": "Zeitraum"
+  },
+  "insights.controls.lastDays": {
+    "source": "Last {days} days",
+    "translation": "Letzte {days} Tage"
+  },
+  "insights.controls.allCachedHistory": {
+    "source": "All cached history",
+    "translation": "Gesamte gespeicherte Historie"
+  },
+  "insights.drink.espresso": {
+    "source": "Espresso",
+    "translation": "Espresso"
+  },
+  "insights.drink.pourover": {
+    "source": "Pour-over",
+    "translation": "Pour-over"
+  },
+  "insights.drink.other": {
+    "source": "Other / unknown",
+    "translation": "Sonstige / unbekannt"
+  },
+  "insights.drink.all": {
+    "source": "All recorded activities",
+    "translation": "Alle erfassten Aktivitäten"
+  },
+  "insights.drink.allOption": {
+    "source": "All activities",
+    "translation": "Alle Aktivitäten"
+  },
+  "insights.sync.recordsSaved": {
+    "source": "{shown} of {total} records saved",
+    "translation": "{shown} von {total} Einträgen gespeichert"
+  },
+  "insights.sync.storageWarning": {
+    "source": "Offline storage is unavailable. This session’s data may not survive closing the app.",
+    "translation": "Offline-Speicher ist nicht verfügbar. Die Daten dieser Sitzung überstehen das Schließen der App möglicherweise nicht."
+  },
+  "insights.sync.limitedCoverage": {
+    "source": "Limited date coverage — showing cached records, not a complete period.",
+    "translation": "Eingeschränkte Datenabdeckung — es werden gespeicherte Einträge angezeigt, kein vollständiger Zeitraum."
+  },
+  "insights.sync.notEnoughHistory": {
+    "source": "Not enough history for comparison.",
+    "translation": "Nicht genug Historie für einen Vergleich."
+  },
+  "insights.sync.refresh": {
+    "source": "Refresh",
+    "translation": "Aktualisieren"
+  },
+  "insights.overview.byDay": {
+    "source": "By day",
+    "translation": "Nach Tag"
+  },
+  "insights.overview.weekdayChartAriaLabel": {
+    "source": "Brews by weekday",
+    "translation": "Bezüge nach Wochentag"
+  },
+  "insights.overview.weekdayAriaLabel": {
+    "source": "{weekday}, {period}: {count} cached brews. View shots",
+    "translation": "{weekday}, {period}: {count} gespeicherte Bezüge. Bezüge ansehen"
+  },
+  "insights.overview.weekdayAriaLabelComparison": {
+    "source": "{weekday}, {period}: {count} cached brews. {priorPeriod}: {priorCount}. View shots",
+    "translation": "{weekday}, {period}: {count} gespeicherte Bezüge. {priorPeriod}: {priorCount}. Bezüge ansehen"
+  },
+  "insights.metrics.sectionAriaLabel": {
+    "source": "Period summary",
+    "translation": "Zusammenfassung des Zeitraums"
+  },
+  "insights.metrics.brews": {
+    "source": "Brews",
+    "translation": "Bezüge"
+  },
+  "insights.metrics.brewsChange": {
+    "source": "{delta} vs {period}",
+    "translation": "{delta} ggü. {period}"
+  },
+  "insights.metrics.cachedRecordsOnly": {
+    "source": "Cached records only",
+    "translation": "Nur gespeicherte Einträge"
+  },
+  "insights.metrics.brewingDays": {
+    "source": "Brewing days",
+    "translation": "Tage mit Bezug"
+  },
+  "insights.metrics.brewingDaysHint": {
+    "source": "A day with at least one brew",
+    "translation": "Ein Tag mit mindestens einem Bezug"
+  },
+  "insights.metrics.typicalYield": {
+    "source": "Typical yield",
+    "translation": "Typische Menge"
+  },
+  "insights.metrics.needsReadings": {
+    "source": "Needs 5 yield readings",
+    "translation": "Braucht 5 Messwerte"
+  },
+  "insights.metrics.readingsOf": {
+    "source": "{coverage}/{count} readings",
+    "translation": "{coverage}/{count} Messwerte"
+  },
+  "insights.metrics.mostUsedProfile": {
+    "source": "Most-used profile",
+    "translation": "Meistgenutztes Profil"
+  },
+  "insights.metrics.noBrewsInView": {
+    "source": "No brews in this view",
+    "translation": "Keine Bezüge in dieser Ansicht"
+  },
+  "insights.profiles.heading": {
+    "source": "Profiles you return to",
+    "translation": "Profile, zu denen du zurückkehrst"
+  },
+  "insights.profiles.subheading": {
+    "source": "Grouped by profile name",
+    "translation": "Gruppiert nach Profilname"
+  },
+  "insights.profiles.allBrews": {
+    "source": "All brews ↗",
+    "translation": "Alle Bezüge ↗"
+  },
+  "insights.story.eyebrowChanging": {
+    "source": "WHAT’S CHANGING",
+    "translation": "WAS SICH ÄNDERT"
+  },
+  "insights.story.eyebrowPattern": {
+    "source": "YOUR PATTERN",
+    "translation": "DEIN MUSTER"
+  },
+  "insights.story.headingChanging": {
+    "source": "A new go-to is taking shape.",
+    "translation": "Ein neuer Favorit zeichnet sich ab."
+  },
+  "insights.story.headingActive": {
+    "source": "Your brewing, one shot at a time.",
+    "translation": "Deine Bezüge, einer nach dem anderen."
+  },
+  "insights.story.headingEmpty": {
+    "source": "Your next brew starts the story.",
+    "translation": "Dein nächster Bezug beginnt die Geschichte."
+  },
+  "insights.story.changingBody": {
+    "source": "{profile} appears in {pct}% of this period’s brews, up from {priorPct}%.",
+    "translation": "{profile} taucht in {pct}% der Bezüge dieses Zeitraums auf, gegenüber {priorPct}% zuvor."
+  },
+  "insights.story.staticBody": {
+    "source": "Explore the recorded brews behind these numbers. Comparisons appear when both periods are covered.",
+    "translation": "Entdecke die erfassten Bezüge hinter diesen Zahlen. Vergleiche erscheinen, sobald beide Zeiträume abgedeckt sind."
+  },
+  "insights.story.cachedBrewsCount": {
+    "source": "{count} cached brews · {period}",
+    "translation": "{count} gespeicherte Bezüge · {period}"
+  },
+  "insights.story.exploreBrews": {
+    "source": "Explore these brews ↗",
+    "translation": "Diese Bezüge entdecken ↗"
+  },
+  "insights.recent.heading": {
+    "source": "Behind the numbers",
+    "translation": "Hinter den Zahlen"
+  },
+  "insights.recent.viewAllHistory": {
+    "source": "View all history ↗",
+    "translation": "Gesamte Historie ansehen ↗"
+  },
+  "insights.history.clearFilterAriaLabel": {
+    "source": "Clear insight filter",
+    "translation": "Filter zurücksetzen"
+  },
+  "insights.history.searchLabel": {
+    "source": "Search profiles",
+    "translation": "Profile suchen"
+  },
+  "insights.history.recordedBrewsCount": {
+    "source": "{count} recorded brews",
+    "translation": "{count} erfasste Bezüge"
+  },
+  "insights.history.yieldReadingsCount": {
+    "source": "{count} with yield readings",
+    "translation": "{count} mit Mengenwerten"
+  },
+  "insights.history.tapToAnalyse": {
+    "source": "Tap a brew to analyse ↗",
+    "translation": "Bezug antippen, um zu analysieren ↗"
+  },
+  "insights.history.shownCount": {
+    "source": "{visible} of {total} shown",
+    "translation": "{visible} von {total} angezeigt"
+  },
+  "insights.history.showMore": {
+    "source": "Show more brews",
+    "translation": "Weitere Bezüge anzeigen"
+  },
+  "insights.footnote.main": {
+    "source": "Read-only · {timezone} · Dose comes from the saved shot, and may be a target rather than a measured dose. Duration uses saved measurements; unavailable timings remain —. Older missing yield loads with the graph. Known cleaning/calibration records are excluded from drink totals; older records may not identify simulation.",
+    "translation": "Nur lesend · {timezone} · Die Dosis stammt vom gespeicherten Bezug und kann eine Zielvorgabe statt einer gemessenen Dosis sein. Die Dauer verwendet gespeicherte Messwerte; fehlende Zeiten bleiben —. Fehlende ältere Mengenwerte laden mit dem Diagramm nach. Bekannte Reinigungs-/Kalibrierdatensätze sind von den Getränke-Summen ausgeschlossen; ältere Einträge erkennen Simulationen möglicherweise nicht."
+  },
+  "insights.footnote.omitted": {
+    "source": "{count} records lack a usable date or ID.",
+    "translation": "{count} Einträge haben kein verwendbares Datum oder keine ID."
+  },
+  "insights.coxcomb.sectionAriaLabel": {
+    "source": "Brewing across 24 hours",
+    "translation": "Bezüge über 24 Stunden"
+  },
+  "insights.coxcomb.heading": {
+    "source": "By hour",
+    "translation": "Nach Stunde"
+  },
+  "insights.coxcomb.periodGroupAriaLabel": {
+    "source": "Time chart period",
+    "translation": "Zeitraum des Stundendiagramms"
+  },
+  "insights.coxcomb.chartAriaLabel": {
+    "source": "{period}: brews in two-hour windows, clockwise with noon at the top and midnight at the bottom. Lighter base is 6 am to 6 pm; darker base is night. Sector area represents count; both periods use the same scale.",
+    "translation": "{period}: Bezüge in Zweistundenfenstern, im Uhrzeigersinn mit Mittag oben und Mitternacht unten. Der hellere Bereich ist 6 bis 18 Uhr, der dunklere Bereich ist die Nacht. Die Sektorfläche stellt die Anzahl dar; beide Zeiträume nutzen denselben Maßstab."
+  },
+  "insights.coxcomb.sectorAriaLabel": {
+    "source": {
+      "one": "{period}, {range}: {count} brew",
+      "other": "{period}, {range}: {count} brews"
+    },
+    "translation": {
+      "one": "{period}, {range}: {count} Bezug",
+      "other": "{period}, {range}: {count} Bezüge"
+    }
+  },
+  "insights.coxcomb.brewWord": {
+    "source": {
+      "one": "brew",
+      "other": "brews"
+    },
+    "translation": {
+      "one": "Bezug",
+      "other": "Bezüge"
+    }
+  },
+  "insights.coxcomb.allDay": {
+    "source": "24h",
+    "translation": "24 h"
+  },
+  "insights.coxcomb.allDayAriaLabel": {
+    "source": "24 hours",
+    "translation": "24 Stunden"
+  },
+  "insights.coxcomb.viewBrewsAriaLabel": {
+    "source": "View brews: {selection}",
+    "translation": "Bezüge ansehen: {selection}"
+  },
+  "insights.home.sectionAriaLabel": {
+    "source": "Brewing insights and latest shot",
+    "translation": "Auswertung und letzter Bezug"
+  },
+  "insights.home.openInsightsAriaLabel": {
+    "source": "Open brewing insights",
+    "translation": "Auswertung öffnen"
+  },
+  "insights.home.periodContext": {
+    "source": "Espresso brews from today and the previous six days. Today is still in progress. Average yield uses {coverage} of {count} saved readings.",
+    "translation": "Espresso-Bezüge von heute und den vorangegangenen sechs Tagen. Heute ist noch nicht abgeschlossen. Die durchschnittliche Menge nutzt {coverage} von {count} gespeicherten Messwerten."
+  },
+  "insights.home.dayAriaLabel": {
+    "source": "{weekday} {date}: {count} cached shots",
+    "translation": "{weekday} {date}: {count} gespeicherte Bezüge"
+  },
+  "insights.home.periodLine1": {
+    "source": "Past 7 days",
+    "translation": "Letzte 7 Tage"
+  },
+  "insights.home.periodLine2": {
+    "source": "insight",
+    "translation": "Auswertung"
+  },
+  "insights.home.shotsLabel": {
+    "source": "Shots",
+    "translation": "Bezüge"
+  },
+  "insights.home.cachedShotsLabel": {
+    "source": "Cached shots",
+    "translation": "Gespeicherte Bezüge"
+  },
+  "insights.home.avgYield": {
+    "source": "Avg. yield",
+    "translation": "Ø Menge"
+  },
+  "insights.home.noSavedBrews": {
+    "source": "No saved brews yet",
+    "translation": "Noch keine gespeicherten Bezüge"
+  },
+  "insights.home.waitingForHistory": {
+    "source": "Waiting for saved history",
+    "translation": "Warte auf gespeicherte Historie"
+  },
+  "insights.home.openLatestShotAriaLabel": {
+    "source": "Open latest shot: {name}",
+    "translation": "Letzten Bezug öffnen: {name}"
+  },
+  "insights.home.openBrewHistoryAriaLabel": {
+    "source": "Open brew history",
+    "translation": "Historie öffnen"
+  },
+  "insights.home.dateTimeLabel": {
+    "source": "{date}, {time}",
+    "translation": "{date}, {time}"
+  },
+  "insights.historyPanel.loading": {
+    "source": "Loading shot history…",
+    "translation": "Historie wird geladen…"
+  },
+  "insights.historyPanel.emptyNoCups": {
+    "source": "You haven’t filled any cups yet",
+    "translation": "Du hast noch keine Tasse gefüllt"
+  },
+  "insights.historyPanel.error": {
+    "source": "Shot history unavailable",
+    "translation": "Historie nicht verfügbar"
+  },
+  "insights.historyPanel.openAriaLabel": {
+    "source": "Open shot history: {profile}",
+    "translation": "Historie öffnen: {profile}"
+  },
+  "insights.historyPanel.totalYield": {
+    "source": "Total yield",
+    "translation": "Gesamtmenge"
+  },
+  "insights.historyPanel.totalTime": {
+    "source": "Total time",
+    "translation": "Gesamtzeit"
+  },
+  "insights.historyPanel.today": {
+    "source": "Today, {time}",
+    "translation": "Heute, {time}"
+  },
+  "insights.historyPanel.lastPull": {
+    "source": "Last pull",
+    "translation": "Letzter Bezug"
+  },
+  "insights.previousShot.dateUnavailable": {
+    "source": "Date unavailable",
+    "translation": "Datum nicht verfügbar"
+  },
+  "insights.previousShot.title": {
+    "source": "Shot history",
+    "translation": "Historie"
+  },
+  "insights.previousShot.findingPulls": {
+    "source": "Finding your pulls…",
+    "translation": "Deine Bezüge werden gesucht…"
+  },
+  "insights.previousShot.noCupsYet": {
+    "source": "You haven't filled any cups yet.",
+    "translation": "Du hast noch keine Tasse gefüllt."
+  },
+  "insights.previousShot.fallbackTitle": {
+    "source": "Pull history",
+    "translation": "Historie"
+  },
+  "insights.previousShot.chartAriaLabelWeight": {
+    "source": "Shot history: {profile}",
+    "translation": "Historie: {profile}"
+  },
+  "insights.previousShot.chartAriaLabelGeneric": {
+    "source": "Shot history chart",
+    "translation": "Historien-Diagramm"
+  },
+  "insights.previousShot.loadError": {
+    "source": "That pull couldn’t be loaded. Try selecting it again.",
+    "translation": "Dieser Bezug konnte nicht geladen werden. Bitte erneut auswählen."
+  },
+  "insights.miniChart.ariaLabelWeight": {
+    "source": "Previous shot pressure, flow, and yield weight graph",
+    "translation": "Diagramm: Druck, Durchfluss und Menge des vorherigen Bezugs"
+  },
+  "insights.miniChart.ariaLabelCleaning": {
+    "source": "Previous cleaning pressure and flow graph",
+    "translation": "Diagramm: Druck und Durchfluss der vorherigen Reinigung"
+  },
+  "insights.status.unavailableRetrying": {
+    "source": "History unavailable · retrying automatically",
+    "translation": "Historie nicht verfügbar · wird automatisch erneut versucht"
+  },
+  "insights.status.loading": {
+    "source": "Loading history…",
+    "translation": "Historie wird geladen…"
+  },
+  "insights.status.showingSavedRetrying": {
+    "source": "Showing saved history · retrying automatically",
+    "translation": "Zeigt gespeicherte Historie · wird automatisch erneut versucht"
+  },
+  "insights.status.limitedCached": {
+    "source": "Limited history · cached records",
+    "translation": "Eingeschränkte Historie · gespeicherte Einträge"
+  },
+  "insights.chart.unavailableRetrying": {
+    "source": "Chart unavailable · retrying automatically",
+    "translation": "Diagramm nicht verfügbar · wird automatisch erneut versucht"
+  },
+  "insights.chart.retrying": {
+    "source": "Retrying chart…",
+    "translation": "Diagramm wird erneut versucht…"
+  },
+  "insights.chart.empty": {
+    "source": "No graph recorded for this shot",
+    "translation": "Kein Diagramm für diesen Bezug gespeichert"
+  },
+  "insights.chart.loading": {
+    "source": "Loading chart…",
+    "translation": "Diagramm wird geladen…"
+  },
+  "insights.period.dayMonth": {
+    "source": "{day} {month}",
+    "translation": "{day}. {month}"
+  },
+  "insights.period.dayOnly": {
+    "source": "{day}",
+    "translation": "{day}."
+  },
+  "library.eyebrow.library": {
+    "source": "LIBRARY",
+    "translation": "BIBLIOTHEK"
+  },
+  "library.eyebrow.source": {
+    "source": "SOURCE",
+    "translation": "QUELLE"
+  },
+  "library.eyebrow.homeFavorites": {
+    "source": "HOME FAVORITES",
+    "translation": "STARTFAVORITEN"
+  },
+  "library.nav.profileLibraryAria": {
+    "source": "Profile library",
+    "translation": "Profilbibliothek"
+  },
+  "library.nav.profileSourceAria": {
+    "source": "Profile source",
+    "translation": "Profilquelle"
+  },
+  "library.section.allProfiles": {
+    "source": "All profiles",
+    "translation": "Alle Profile"
+  },
+  "library.section.favorites": {
+    "source": "Favorites",
+    "translation": "Favoriten"
+  },
+  "library.source.preloaded": {
+    "source": "Preloaded",
+    "translation": "Vorinstalliert"
+  },
+  "library.source.imported": {
+    "source": "Imported",
+    "translation": "Importiert"
+  },
+  "library.source.myProfiles": {
+    "source": "My profiles",
+    "translation": "Meine Profile"
+  },
+  "library.action.import": {
+    "source": "Import",
+    "translation": "Importieren"
+  },
+  "library.action.createProfile": {
+    "source": "Create profile",
+    "translation": "Profil erstellen"
+  },
+  "library.action.unfavorite": {
+    "source": "Unfavorite",
+    "translation": "Aus Favoriten entfernen"
+  },
+  "library.action.favorite": {
+    "source": "Favorite",
+    "translation": "Favorit"
+  },
+  "library.action.clearFilters": {
+    "source": "Clear filters",
+    "translation": "Filter zurücksetzen"
+  },
+  "library.action.saving": {
+    "source": "Saving…",
+    "translation": "Speichert…"
+  },
+  "library.action.select": {
+    "source": "Select",
+    "translation": "Auswählen"
+  },
+  "library.action.edit": {
+    "source": "Edit",
+    "translation": "Bearbeiten"
+  },
+  "library.action.editCopy": {
+    "source": "Edit a copy",
+    "translation": "Kopie bearbeiten"
+  },
+  "library.action.delete": {
+    "source": "Delete",
+    "translation": "Löschen"
+  },
+  "library.action.backToProfiles": {
+    "source": "Back to profiles",
+    "translation": "Zurück zu den Profilen"
+  },
+  "library.action.replace": {
+    "source": "Replace",
+    "translation": "Ersetzen"
+  },
+  "library.action.cancel": {
+    "source": "Cancel",
+    "translation": "Abbrechen"
+  },
+  "library.action.deleting": {
+    "source": "Deleting…",
+    "translation": "Löscht…"
+  },
+  "library.favorites.intro": {
+    "source": "Your home shortcuts, in your order.",
+    "translation": "Deine Startverknüpfungen, in deiner Reihenfolge."
+  },
+  "library.favorites.addSlotTitle": {
+    "source": "Add a favorite",
+    "translation": "Favorit hinzufügen"
+  },
+  "library.favorites.addSlotHint": {
+    "source": "Choose from your library",
+    "translation": "Aus deiner Bibliothek wählen"
+  },
+  "library.aria.viewProfile": {
+    "source": "View {name}",
+    "translation": "Profil {name} ansehen"
+  },
+  "library.aria.moveEarlier": {
+    "source": "Move {name} earlier",
+    "translation": "{name} nach vorn verschieben"
+  },
+  "library.aria.moveLater": {
+    "source": "Move {name} later",
+    "translation": "{name} nach hinten verschieben"
+  },
+  "library.aria.unfavoriteProfile": {
+    "source": "Unfavorite {name}",
+    "translation": "{name} aus Favoriten entfernen"
+  },
+  "library.aria.favoriteProfile": {
+    "source": "Favorite {name}",
+    "translation": "{name} zu Favoriten hinzufügen"
+  },
+  "library.aria.searchProfiles": {
+    "source": "Search profiles",
+    "translation": "Profile durchsuchen"
+  },
+  "library.aria.clearSearch": {
+    "source": "Clear search",
+    "translation": "Suche löschen"
+  },
+  "library.aria.filterCategory": {
+    "source": "Filter category",
+    "translation": "Nach Kategorie filtern"
+  },
+  "library.aria.sortProfiles": {
+    "source": "Sort profiles",
+    "translation": "Profile sortieren"
+  },
+  "library.aria.profileGraphHeader": {
+    "source": "Profile graph header",
+    "translation": "Kopfbereich der Profilgrafik"
+  },
+  "library.aria.closeProfileDetail": {
+    "source": "Close profile detail",
+    "translation": "Profildetails schließen"
+  },
+  "library.aria.overallTargets": {
+    "source": "Overall targets",
+    "translation": "Gesamtziele"
+  },
+  "library.aria.importProfileJson": {
+    "source": "Import profile JSON",
+    "translation": "Profil-JSON importieren"
+  },
+  "library.aria.closeFavoriteReplacement": {
+    "source": "Close favorite replacement",
+    "translation": "Favoriten-Ersetzung schließen"
+  },
+  "library.aria.replaceProfile": {
+    "source": "Replace {name}",
+    "translation": "{name} ersetzen"
+  },
+  "library.aria.closeProfiles": {
+    "source": "Close profiles",
+    "translation": "Profile schließen"
+  },
+  "library.aria.profilesSection": {
+    "source": "Profiles",
+    "translation": "Profile"
+  },
+  "library.search.placeholder": {
+    "source": "Search name or category",
+    "translation": "Name oder Kategorie suchen"
+  },
+  "library.filter.allCategories": {
+    "source": "All categories",
+    "translation": "Alle Kategorien"
+  },
+  "library.sort.nameAsc": {
+    "source": "Name A–Z",
+    "translation": "Name A–Z"
+  },
+  "library.sort.recent": {
+    "source": "Recently added",
+    "translation": "Zuletzt hinzugefügt"
+  },
+  "library.list.profileCount": {
+    "source": {
+      "one": "{count} profile",
+      "other": "{count} profiles"
+    },
+    "translation": {
+      "one": "{count} Profil",
+      "other": "{count} Profile"
+    }
+  },
+  "library.list.hint": {
+    "source": "Open a profile to explore its recipe",
+    "translation": "Öffne ein Profil, um sein Rezept zu erkunden"
+  },
+  "library.column.profile": {
+    "source": "Profile",
+    "translation": "Profil"
+  },
+  "library.column.recipe": {
+    "source": "Recipe",
+    "translation": "Rezept"
+  },
+  "library.column.temp": {
+    "source": "Temp.",
+    "translation": "Temp."
+  },
+  "library.field.source": {
+    "source": "Source",
+    "translation": "Quelle"
+  },
+  "library.empty.noMatchTitle": {
+    "source": "No matching profiles",
+    "translation": "Keine passenden Profile"
+  },
+  "library.empty.noneTitle": {
+    "source": "No profiles yet",
+    "translation": "Noch keine Profile"
+  },
+  "library.empty.noMatchHint": {
+    "source": "Try another name, source or category.",
+    "translation": "Versuch einen anderen Namen, eine andere Quelle oder Kategorie."
+  },
+  "library.empty.noneHint": {
+    "source": "Create or import a profile to get started.",
+    "translation": "Erstelle oder importiere ein Profil, um loszulegen."
+  },
+  "library.metric.dose": {
+    "source": "Dose",
+    "translation": "Dosis"
+  },
+  "library.metric.targetYield": {
+    "source": "Target yield",
+    "translation": "Zielmenge"
+  },
+  "library.metric.ratio": {
+    "source": "Ratio",
+    "translation": "Verhältnis"
+  },
+  "library.detail.profileDetailsTitle": {
+    "source": "Profile details",
+    "translation": "Profildetails"
+  },
+  "library.detail.category": {
+    "source": "Category",
+    "translation": "Kategorie"
+  },
+  "library.detail.type": {
+    "source": "Type",
+    "translation": "Typ"
+  },
+  "library.detail.version": {
+    "source": "Version",
+    "translation": "Version"
+  },
+  "library.detail.author": {
+    "source": "Author",
+    "translation": "Autor"
+  },
+  "library.detail.grindSize": {
+    "source": "Grind size",
+    "translation": "Mahlgrad"
+  },
+  "library.detail.aboutRecipe": {
+    "source": "About this recipe",
+    "translation": "Über dieses Rezept"
+  },
+  "library.detail.noDescription": {
+    "source": "No description provided for this profile.",
+    "translation": "Für dieses Profil wurde keine Beschreibung angegeben."
+  },
+  "library.beverageType.espresso": {
+    "source": "espresso",
+    "translation": "Espresso"
+  },
+  "library.beverageType.pourover": {
+    "source": "Pour over",
+    "translation": "Pour-over"
+  },
+  "library.beverageType.cleaning": {
+    "source": "cleaning",
+    "translation": "Reinigung"
+  },
+  "library.beverageType.calibrate": {
+    "source": "calibrate",
+    "translation": "Kalibrierung"
+  },
+  "library.beverageType.manual": {
+    "source": "manual",
+    "translation": "Manuell"
+  },
+  "library.unavailable.title": {
+    "source": "Profile unavailable",
+    "translation": "Profil nicht verfügbar"
+  },
+  "library.unavailable.hint": {
+    "source": "This profile may have been removed or is still loading.",
+    "translation": "Dieses Profil wurde möglicherweise entfernt oder wird noch geladen."
+  },
+  "library.dialog.makeRoomFor": {
+    "source": "Make room for {name}",
+    "translation": "Platz schaffen für {name}"
+  },
+  "library.dialog.homeSlotsFull": {
+    "source": "Your five home slots are full. Choose one to replace. The replaced profile stays in your library.",
+    "translation": "Deine fünf Startplätze sind voll. Wähle eins zum Ersetzen. Das ersetzte Profil bleibt in deiner Bibliothek."
+  },
+  "library.feedback.saveFailed": {
+    "source": "That change could not be saved. Check your connection and try again.",
+    "translation": "Diese Änderung konnte nicht gespeichert werden. Prüf deine Verbindung und versuch es erneut."
+  },
+  "library.feedback.saveFailedRetry": {
+    "source": "That change could not be saved. Please try again.",
+    "translation": "Diese Änderung konnte nicht gespeichert werden. Bitte versuch es erneut."
+  },
+  "library.feedback.importFailed": {
+    "source": "That profile could not be imported.",
+    "translation": "Dieses Profil konnte nicht importiert werden."
+  },
+  "library.delete.title": {
+    "source": "Delete profile?",
+    "translation": "Profil löschen?"
+  },
+  "library.delete.description": {
+    "source": "Remove this profile from your library and favorites. Your saved shots and their graphs will stay.",
+    "translation": "Entfernt dieses Profil aus deiner Bibliothek und den Favoriten. Deine gespeicherten Bezüge und ihre Grafiken bleiben erhalten."
+  },
+  "library.delete.currentlyLoaded": {
+    "source": "This profile is currently loaded. Use another profile first, then delete this one.",
+    "translation": "Dieses Profil ist gerade geladen. Verwende zuerst ein anderes Profil und lösche dieses danach."
+  },
+  "library.delete.retryFailed": {
+    "source": "The profile could not be deleted. Please try again.",
+    "translation": "Das Profil konnte nicht gelöscht werden. Bitte versuch es erneut."
+  },
+  "library.delete.confirmButton": {
+    "source": "Delete profile",
+    "translation": "Profil löschen"
+  },
+  "library.deletion.onlyUserProfiles": {
+    "source": "Only created or imported profiles can be deleted. Built-in profiles are protected.",
+    "translation": "Nur erstellte oder importierte Profile können gelöscht werden. Vorinstallierte Profile sind geschützt."
+  },
+  "library.deletion.machineBusy": {
+    "source": "Wait until the current machine operation has finished before deleting a profile.",
+    "translation": "Warte, bis der aktuelle Maschinenvorgang abgeschlossen ist, bevor du ein Profil löschst."
+  },
+  "library.deletion.differentProfile": {
+    "source": "Decaid returned a different profile. Nothing was deleted.",
+    "translation": "Decaid hat ein anderes Profil zurückgegeben. Es wurde nichts gelöscht."
+  },
+  "library.deletion.currentlyLoadedInDecaid": {
+    "source": "This profile is currently loaded in Decaid. Use another profile first, then delete this one.",
+    "translation": "Dieses Profil ist gerade in Decaid geladen. Verwende zuerst ein anderes Profil und lösche dieses danach."
+  },
+  "library.deletion.verifyFailed": {
+    "source": "Could not verify deletion with Decaid. Reconnect and try again to check the result.",
+    "translation": "Die Löschung konnte bei Decaid nicht überprüft werden. Verbinde erneut und versuch es noch einmal, um das Ergebnis zu prüfen."
+  },
+  "library.import.invalidJson": {
+    "source": "That file is not valid JSON.",
+    "translation": "Diese Datei ist kein gültiges JSON."
+  },
+  "library.import.noProfile": {
+    "source": "That file does not contain a profile.",
+    "translation": "Diese Datei enthält kein Profil."
+  },
+  "library.import.needsName": {
+    "source": "The imported profile needs a name.",
+    "translation": "Das importierte Profil braucht einen Namen."
+  },
+  "library.import.noStages": {
+    "source": "The imported profile does not contain any brewing stages.",
+    "translation": "Das importierte Profil enthält keine Brühphasen."
+  },
+  "library.import.invalidStages": {
+    "source": "One or more brewing stages in this file are invalid.",
+    "translation": "Eine oder mehrere Brühphasen in dieser Datei sind ungültig."
+  },
+  "library.verification.missingId": {
+    "source": "Decaid saved the profile without returning an identifier.",
+    "translation": "Decaid hat das Profil gespeichert, aber keine Kennung zurückgegeben."
+  },
+  "library.verification.notVisible": {
+    "source": "The saved profile is not visible in the Decaid profile library.",
+    "translation": "Das gespeicherte Profil ist in der Decaid-Profilbibliothek nicht sichtbar."
+  },
+  "library.verification.missingExecutionData": {
+    "source": "Decaid returned the saved profile without its execution data.",
+    "translation": "Decaid hat das gespeicherte Profil ohne Ausführungsdaten zurückgegeben."
+  },
+  "library.verification.executionDataChanged": {
+    "source": "Decaid changed some profile execution data while saving. The editor has kept your draft open for review.",
+    "translation": "Decaid hat beim Speichern einige Ausführungsdaten des Profils geändert. Der Editor hat deinen Entwurf zur Prüfung offen gelassen."
+  },
+  "library.verification.metadataChanged": {
+    "source": "Decaid changed the profile metadata while saving. The editor has kept your draft open for review.",
+    "translation": "Decaid hat beim Speichern die Profil-Metadaten geändert. Der Editor hat deinen Entwurf zur Prüfung offen gelassen."
+  },
+  "library.verification.unexpectedLineage": {
+    "source": "Decaid returned an unexpected profile lineage. The editor has kept your draft open for review.",
+    "translation": "Decaid hat eine unerwartete Profil-Abstammung zurückgegeben. Der Editor hat deinen Entwurf zur Prüfung offen gelassen."
+  },
+  "library.verification.readbackMismatch": {
+    "source": "The profile returned by Decaid could not be verified after saving.",
+    "translation": "Das von Decaid zurückgegebene Profil konnte nach dem Speichern nicht verifiziert werden."
+  },
+  "builder.axis.pressure": {
+    "source": "Pressure",
+    "translation": "Druck"
+  },
+  "builder.axis.flow": {
+    "source": "Flow",
+    "translation": "Durchfluss"
+  },
+  "builder.common.max": {
+    "source": "Max",
+    "translation": "Max."
+  },
+  "builder.chart.preview": {
+    "source": "Profile target preview",
+    "translation": "Vorschau der Profilziele"
+  },
+  "builder.chart.svgLabel": {
+    "source": "Flow, pressure, and temperature targets across the profile stages",
+    "translation": "Ziel für Durchfluss, Druck und Temperatur über die Profilphasen"
+  },
+  "builder.segment.stageControl": {
+    "source": "Stage control",
+    "translation": "Phasensteuerung"
+  },
+  "builder.transition.groupLabel": {
+    "source": "Stage transition",
+    "translation": "Phasenübergang"
+  },
+  "builder.transition.fast": {
+    "source": "Fast",
+    "translation": "Schnell"
+  },
+  "builder.transition.smooth": {
+    "source": "Smooth",
+    "translation": "Sanft"
+  },
+  "builder.sensor.groupLabel": {
+    "source": "Temperature sensor",
+    "translation": "Temperatursensor"
+  },
+  "builder.sensor.coffee": {
+    "source": "Coffee",
+    "translation": "Kaffee"
+  },
+  "builder.sensor.water": {
+    "source": "Water",
+    "translation": "Wasser"
+  },
+  "builder.stepper.valueLabel": {
+    "source": "{label}, {value} {unit}",
+    "translation": "{label}, {value} {unit}"
+  },
+  "builder.stepper.decreaseLabel": {
+    "source": "Reduce {label}; hold for whole units",
+    "translation": "{label} verringern; halten für ganze Einheiten"
+  },
+  "builder.stepper.openFullscreenLabel": {
+    "source": "Open {label} fullscreen adjustment",
+    "translation": "{label} im Vollbild anpassen"
+  },
+  "builder.stepper.increaseLabel": {
+    "source": "Increase {label}; hold for whole units",
+    "translation": "{label} erhöhen; halten für ganze Einheiten"
+  },
+  "builder.exit.moveOnPressure": {
+    "source": "Move on pressure",
+    "translation": "Weiter bei Druck"
+  },
+  "builder.exit.moveOnFlow": {
+    "source": "Move on flow",
+    "translation": "Weiter bei Durchfluss"
+  },
+  "builder.exit.moveOnPressureConditionLabel": {
+    "source": "Move on pressure condition",
+    "translation": "Bedingung „Weiter bei Druck“"
+  },
+  "builder.exit.moveOnFlowConditionLabel": {
+    "source": "Move on flow condition",
+    "translation": "Bedingung „Weiter bei Durchfluss“"
+  },
+  "builder.stage.dragHandle": {
+    "source": "Drag to reorder stage",
+    "translation": "Ziehen, um die Phase neu anzuordnen"
+  },
+  "builder.stage.maxFlowLabel": {
+    "source": "Max flow",
+    "translation": "Max. Durchfluss"
+  },
+  "builder.stage.maxPressureLabel": {
+    "source": "Max pressure",
+    "translation": "Max. Druck"
+  },
+  "builder.stage.maxTimeLabel": {
+    "source": "Max time",
+    "translation": "Max. Zeit"
+  },
+  "builder.stage.moveOnVolumeLabel": {
+    "source": "Move on volume",
+    "translation": "Weiter bei Volumen"
+  },
+  "builder.stage.moveOnYieldLabel": {
+    "source": "Move on yield",
+    "translation": "Weiter bei Menge"
+  },
+  "builder.stage.secondsMax": {
+    "source": "{value}s max",
+    "translation": "max. {value} s"
+  },
+  "builder.stage.weightAtLeast": {
+    "source": "Weight ≥ {value} g",
+    "translation": "Gewicht ≥ {value} g"
+  },
+  "builder.stage.volumeAtLeast": {
+    "source": "Volume ≥ {value} ml",
+    "translation": "Volumen ≥ {value} ml"
+  },
+  "builder.stage.openLabel": {
+    "source": "Open stage {n}: {name}",
+    "translation": "Phase {n} öffnen: {name}"
+  },
+  "builder.stage.pressureTargetLabel": {
+    "source": "Pressure Target",
+    "translation": "Zieldruck"
+  },
+  "builder.stage.flowTargetLabel": {
+    "source": "Flow Target",
+    "translation": "Zieldurchfluss"
+  },
+  "builder.stage.pressureTargetAriaLabel": {
+    "source": "pressure target",
+    "translation": "Zieldruck"
+  },
+  "builder.stage.flowTargetAriaLabel": {
+    "source": "flow target",
+    "translation": "Zieldurchfluss"
+  },
+  "builder.stage.waterTemperatureLabel": {
+    "source": "Water temperature",
+    "translation": "Wassertemperatur"
+  },
+  "builder.stage.coffeeTemperatureLabel": {
+    "source": "Coffee temperature",
+    "translation": "Kaffeetemperatur"
+  },
+  "builder.stage.movesOnSummary": {
+    "source": "Moves on when any is reached",
+    "translation": "Geht weiter, sobald eine Bedingung erfüllt ist"
+  },
+  "builder.stage.activeLabel": {
+    "source": "Stage {n}: {name}",
+    "translation": "Phase {n}: {name}"
+  },
+  "builder.stage.nameFieldLabel": {
+    "source": "Stage {n} name",
+    "translation": "Name der Phase {n}"
+  },
+  "builder.stage.tabsLabel": {
+    "source": "Stage settings",
+    "translation": "Phaseneinstellungen"
+  },
+  "builder.stage.moveOnTab": {
+    "source": "Move on",
+    "translation": "Weiter, wenn"
+  },
+  "builder.stage.duplicateLabel": {
+    "source": "Duplicate stage {n}",
+    "translation": "Phase {n} duplizieren"
+  },
+  "builder.stage.deleteLabel": {
+    "source": "Delete stage {n}",
+    "translation": "Phase {n} löschen"
+  },
+  "builder.stage.targetPanelLabel": {
+    "source": "Target controls",
+    "translation": "Zielsteuerung"
+  },
+  "builder.stage.transitionLabel": {
+    "source": "Transition",
+    "translation": "Übergang"
+  },
+  "builder.stage.measureFromLabel": {
+    "source": "Measure from",
+    "translation": "Messen ab"
+  },
+  "builder.stage.conditionsPanelLabel": {
+    "source": "Move on conditions",
+    "translation": "Weiter-Bedingungen"
+  },
+  "builder.stage.conditionsHint": {
+    "source": "The next stage starts as soon as any condition on the left is met.",
+    "translation": "Die nächste Phase beginnt, sobald eine der Bedingungen links erfüllt ist."
+  },
+  "builder.stage.stripLabel": {
+    "source": "Editable brew stages",
+    "translation": "Bearbeitbare Brühphasen"
+  },
+  "builder.stage.addStage": {
+    "source": "Add stage",
+    "translation": "Phase hinzufügen"
+  },
+  "builder.stage.numberLabel": {
+    "source": "Stage {n}",
+    "translation": "Phase {n}"
+  },
+  "builder.profile.closeMoreSettings": {
+    "source": "Close more settings",
+    "translation": "Weitere Einstellungen schließen"
+  },
+  "builder.profile.nameLabel": {
+    "source": "Profile name",
+    "translation": "Profilname"
+  },
+  "builder.profile.categoryLabel": {
+    "source": "Category",
+    "translation": "Kategorie"
+  },
+  "builder.profile.categoryPlaceholder": {
+    "source": "Choose category (optional)",
+    "translation": "Kategorie wählen (optional)"
+  },
+  "builder.profile.uncategorized": {
+    "source": "Uncategorized",
+    "translation": "Ohne Kategorie"
+  },
+  "builder.profile.lessSettings": {
+    "source": "Less settings",
+    "translation": "Weniger Einstellungen"
+  },
+  "builder.profile.moreSettings": {
+    "source": "More settings",
+    "translation": "Weitere Einstellungen"
+  },
+  "builder.profile.typeLabel": {
+    "source": "Type",
+    "translation": "Typ"
+  },
+  "builder.profile.endShotYield": {
+    "source": "End shot yield",
+    "translation": "Endmenge"
+  },
+  "builder.profile.saveFailed": {
+    "source": "This profile could not be saved.",
+    "translation": "Dieses Profil konnte nicht gespeichert werden."
+  },
+  "builder.actions.cancel": {
+    "source": "Cancel",
+    "translation": "Abbrechen"
+  },
+  "builder.actions.saving": {
+    "source": "Saving…",
+    "translation": "Speichert…"
+  },
+  "builder.actions.save": {
+    "source": "Save",
+    "translation": "Speichern"
+  },
+  "builder.actions.saveAnyway": {
+    "source": "Save anyway",
+    "translation": "Trotzdem speichern"
+  },
+  "builder.beverageType.espresso": {
+    "source": "Espresso",
+    "translation": "Espresso"
+  },
+  "builder.beverageType.pourover": {
+    "source": "Pour over",
+    "translation": "Pour-over"
+  },
+  "builder.beverageType.manual": {
+    "source": "Manual",
+    "translation": "Manuell"
+  },
+  "builder.beverageType.cleaning": {
+    "source": "Cleaning",
+    "translation": "Reinigung"
+  },
+  "builder.beverageType.calibrate": {
+    "source": "Calibrate",
+    "translation": "Kalibrieren"
+  },
+  "builder.validation.panelLabel": {
+    "source": "Profile validation",
+    "translation": "Profilprüfung"
+  },
+  "builder.validation.needsAttention": {
+    "source": "Profile needs attention",
+    "translation": "Profil braucht Aufmerksamkeit"
+  },
+  "builder.validation.reviewBeforeSaving": {
+    "source": "Review before saving",
+    "translation": "Vor dem Speichern prüfen"
+  },
+  "builder.validation.closeLabel": {
+    "source": "Close validation",
+    "translation": "Prüfung schließen"
+  },
+  "builder.validation.profileLabel": {
+    "source": "Profile",
+    "translation": "Profil"
+  },
+  "builder.validation.allValid": {
+    "source": "All required profile data is valid.",
+    "translation": "Alle erforderlichen Profildaten sind gültig."
+  },
+  "builder.details.panelLabel": {
+    "source": "Profile details and advanced settings",
+    "translation": "Profildetails und erweiterte Einstellungen"
+  },
+  "builder.details.versionLabel": {
+    "source": "Profile version",
+    "translation": "Profilversion"
+  },
+  "builder.details.versionPlaceholder": {
+    "source": "Choose or enter a version",
+    "translation": "Version wählen oder eingeben"
+  },
+  "builder.details.endShotVolumeLabel": {
+    "source": "End shot volume (without scale)",
+    "translation": "Endvolumen (ohne Waage)"
+  },
+  "builder.details.endShotVolumeFallbackLabel": {
+    "source": "End shot volume fallback",
+    "translation": "Ersatz-Endvolumen"
+  },
+  "builder.details.flowToleranceLabel": {
+    "source": "Flow tolerance",
+    "translation": "Durchfluss-Toleranz"
+  },
+  "builder.details.pressureToleranceLabel": {
+    "source": "Pressure tolerance",
+    "translation": "Druck-Toleranz"
+  },
+  "builder.details.volumeStartLabel": {
+    "source": "Start measuring volume from",
+    "translation": "Volumenmessung starten ab"
+  },
+  "builder.details.chooseStage": {
+    "source": "Choose a stage",
+    "translation": "Phase wählen"
+  },
+  "builder.details.authorLabel": {
+    "source": "Author",
+    "translation": "Autor"
+  },
+  "builder.details.authorPlaceholder": {
+    "source": "Your Decent username, or user",
+    "translation": "Dein Decent-Benutzername oder „user“"
+  },
+  "builder.details.authorHint": {
+    "source": "Set from the signed-in account when saved.",
+    "translation": "Wird beim Speichern aus dem angemeldeten Konto übernommen."
+  },
+  "builder.details.descriptionLabel": {
+    "source": "Description",
+    "translation": "Beschreibung"
+  },
+  "builder.details.descriptionPlaceholder": {
+    "source": "Describe how this profile brews",
+    "translation": "Beschreibe, wie dieses Profil brüht"
+  },
+  "builder.discard.title": {
+    "source": "Discard profile changes?",
+    "translation": "Profiländerungen verwerfen?"
+  },
+  "builder.discard.body": {
+    "source": "Your unsaved changes will be lost.",
+    "translation": "Deine ungespeicherten Änderungen gehen verloren."
+  },
+  "builder.discard.keepEditing": {
+    "source": "Keep editing",
+    "translation": "Weiter bearbeiten"
+  },
+  "builder.discard.discard": {
+    "source": "Discard",
+    "translation": "Verwerfen"
+  },
+  "builder.validation.mustBeNumber": {
+    "source": "{label} must be a number.",
+    "translation": "{label} muss eine Zahl sein."
+  },
+  "builder.validation.mustBeBetween": {
+    "source": "{label} must be between {min} and {max}.",
+    "translation": "{label} muss zwischen {min} und {max} liegen."
+  },
+  "builder.validation.label.pressureTarget": {
+    "source": "Pressure target",
+    "translation": "Zieldruck"
+  },
+  "builder.validation.label.flowTarget": {
+    "source": "Flow target",
+    "translation": "Zieldurchfluss"
+  },
+  "builder.validation.label.maximumTime": {
+    "source": "Maximum time",
+    "translation": "Max. Zeit"
+  },
+  "builder.validation.label.stageVolume": {
+    "source": "Stage volume",
+    "translation": "Phasenvolumen"
+  },
+  "builder.validation.label.moveOnThreshold": {
+    "source": "Move-on threshold",
+    "translation": "Schwellenwert"
+  },
+  "builder.validation.label.limiterValue": {
+    "source": "Limiter value",
+    "translation": "Begrenzerwert"
+  },
+  "builder.validation.label.limiterResponseRange": {
+    "source": "Limiter response range",
+    "translation": "Begrenzer-Reaktionsbereich"
+  },
+  "builder.validation.schema.noName": {
+    "source": "The generated profile has no name.",
+    "translation": "Das generierte Profil hat keinen Namen."
+  },
+  "builder.validation.schema.noStages": {
+    "source": "The generated profile has no stages.",
+    "translation": "Das generierte Profil hat keine Phasen."
+  },
+  "builder.validation.schema.volumeStartNotInteger": {
+    "source": "The generated volume-count start is not an integer.",
+    "translation": "Der generierte Startwert für die Volumenzählung ist keine ganze Zahl."
+  },
+  "builder.validation.schema.tankTemperatureInvalid": {
+    "source": "The generated tank temperature is invalid.",
+    "translation": "Die generierte Tanktemperatur ist ungültig."
+  },
+  "builder.validation.schema.invalidStage": {
+    "source": "The generated profile contains an invalid stage.",
+    "translation": "Das generierte Profil enthält eine ungültige Phase."
+  },
+  "builder.validation.schema.unsupportedPump": {
+    "source": "The generated profile contains an unsupported pump mode.",
+    "translation": "Das generierte Profil enthält einen nicht unterstützten Pumpenmodus."
+  },
+  "builder.validation.schema.unsupportedTransition": {
+    "source": "The generated profile contains an unsupported transition.",
+    "translation": "Das generierte Profil enthält einen nicht unterstützten Übergang."
+  },
+  "builder.validation.schema.unsupportedSensor": {
+    "source": "The generated profile contains an unsupported temperature sensor.",
+    "translation": "Das generierte Profil enthält einen nicht unterstützten Temperatursensor."
+  },
+  "builder.validation.schema.missingStageValue": {
+    "source": "The generated profile contains a missing stage value.",
+    "translation": "Dem generierten Profil fehlt ein Phasenwert."
+  },
+  "builder.validation.schema.missingAxisTarget": {
+    "source": "The generated profile is missing its controlled-axis target.",
+    "translation": "Dem generierten Profil fehlt das Ziel der gesteuerten Achse."
+  },
+  "builder.validation.schema.invalidMoveOn": {
+    "source": "The generated profile contains an invalid move-on condition.",
+    "translation": "Das generierte Profil enthält eine ungültige „Weiter, wenn“-Bedingung."
+  },
+  "builder.validation.schema.invalidLimiter": {
+    "source": "The generated profile contains an invalid limiter.",
+    "translation": "Das generierte Profil enthält einen ungültigen Begrenzer."
+  },
+  "builder.validation.schema.roundTripChanged": {
+    "source": "The profile cannot be round-tripped without changing its data.",
+    "translation": "Das Profil kann nicht verlustfrei hin- und zurückkonvertiert werden."
+  },
+  "builder.validation.schema.notEncodable": {
+    "source": "The profile cannot be encoded as Decaid-compatible JSON.",
+    "translation": "Das Profil kann nicht als Decaid-kompatibles JSON kodiert werden."
+  },
+  "builder.validation.profile.titleRequired": {
+    "source": "Enter a profile name.",
+    "translation": "Gib einen Profilnamen ein."
+  },
+  "builder.validation.profile.stagesRequired": {
+    "source": "Add at least one brew stage.",
+    "translation": "Füge mindestens eine Brühphase hinzu."
+  },
+  "builder.validation.profile.maxStages": {
+    "source": "Decent profiles support up to {max} stages.",
+    "translation": "Decent-Profile unterstützen bis zu {max} Phasen."
+  },
+  "builder.validation.profile.beverageType": {
+    "source": "Choose a supported beverage type.",
+    "translation": "Wähle eine unterstützte Getränkeart."
+  },
+  "builder.validation.profile.tankTemperatureNumber": {
+    "source": "Tank temperature must be a number.",
+    "translation": "Die Tanktemperatur muss eine Zahl sein."
+  },
+  "builder.validation.profile.volumeStartWhole": {
+    "source": "Volume count start must be a whole stage number.",
+    "translation": "Der Startwert für die Volumenzählung muss eine ganze Phasennummer sein."
+  },
+  "builder.validation.profile.targetWeightRange": {
+    "source": "End shot yield must be between 0 and {max} g.",
+    "translation": "Die Endmenge muss zwischen 0 und {max} g liegen."
+  },
+  "builder.validation.profile.targetVolumeRange": {
+    "source": "End shot volume fallback must be between 0 and {max} ml.",
+    "translation": "Das Ersatz-Endvolumen muss zwischen 0 und {max} ml liegen."
+  },
+  "builder.validation.profile.volumeStartRange": {
+    "source": "Choose where volume measurement starts. The previously selected step no longer exists.",
+    "translation": "Wähle, ab welcher Phase die Volumenmessung beginnt. Die zuvor gewählte Phase gibt es nicht mehr."
+  },
+  "builder.validation.profile.noFinalTarget": {
+    "source": "No final stop amount is set. This recipe will finish through its steps, or when you stop it manually.",
+    "translation": "Es ist keine Abschlussmenge festgelegt. Dieses Rezept läuft bis zum Ende seiner Phasen oder bis du es manuell stoppst."
+  },
+  "builder.validation.profile.conversionFailed": {
+    "source": "The profile cannot be converted to Decaid format without changing its data.",
+    "translation": "Das Profil kann nicht in das Decaid-Format umgewandelt werden, ohne dass sich seine Daten ändern."
+  },
+  "builder.validation.stage.nameEmpty": {
+    "source": "Name this step. A short name will make it easier to recognise.",
+    "translation": "Benenne diese Phase. Ein kurzer Name macht sie leichter wiedererkennbar."
+  },
+  "builder.validation.stage.pumpRequired": {
+    "source": "Choose pressure or flow control.",
+    "translation": "Wähle Druck- oder Durchflusssteuerung."
+  },
+  "builder.validation.stage.transitionRequired": {
+    "source": "Choose a fast or smooth transition.",
+    "translation": "Wähle einen schnellen oder sanften Übergang."
+  },
+  "builder.validation.stage.sensorRequired": {
+    "source": "Choose the coffee or water temperature sensor.",
+    "translation": "Wähle den Kaffee- oder Wassertemperatursensor."
+  },
+  "builder.validation.stage.exitTypeRequired": {
+    "source": "Choose a pressure or flow move-on condition.",
+    "translation": "Wähle eine Druck- oder Durchfluss-Bedingung für „Weiter, wenn“."
+  },
+  "builder.validation.stage.exitConditionRequired": {
+    "source": "Choose whether the reading moves over or under the threshold.",
+    "translation": "Wähle, ob der Messwert über oder unter dem Schwellenwert liegen muss."
+  },
+  "builder.validation.stage.exitBeyondLimiter": {
+    "source": "One move-on condition may not work. {axis} is limited to {limiterValue}, so “above {exitValue}” probably won't be reached. This step will still move on after {duration} or when another condition is met.",
+    "translation": "Eine „Weiter, wenn“-Bedingung funktioniert möglicherweise nicht. {axis} ist auf {limiterValue} begrenzt, sodass „über {exitValue}“ wahrscheinlich nicht erreicht wird. Diese Phase geht trotzdem nach {duration} weiter oder wenn eine andere Bedingung erfüllt ist."
+  },
+  "builder.validation.stage.exitAlreadyMet": {
+    "source": "This step may be skipped. It may begin around {value}, which already meets the move-on condition.",
+    "translation": "Diese Phase wird möglicherweise übersprungen. Sie beginnt voraussichtlich bei etwa {value}, was die „Weiter, wenn“-Bedingung bereits erfüllt."
+  },
+  "builder.validation.stage.limiterMismatchPressureStage": {
+    "source": "A pressure-controlled stage can only limit flow.",
+    "translation": "Eine druckgesteuerte Phase kann nur den Durchfluss begrenzen."
+  },
+  "builder.validation.stage.limiterMismatchFlowStage": {
+    "source": "A flow-controlled stage can only limit pressure.",
+    "translation": "Eine durchflussgesteuerte Phase kann nur den Druck begrenzen."
+  },
+  "builder.validation.readyToSave": {
+    "source": "Ready to save",
+    "translation": "Bereit zum Speichern"
+  },
+  "builder.import.stageTargetNumber": {
+    "source": "The stage target must be a number.",
+    "translation": "Das Phasenziel muss eine Zahl sein."
+  },
+  "builder.import.temperatureNumber": {
+    "source": "Temperature must be a number.",
+    "translation": "Temperatur muss eine Zahl sein."
+  },
+  "builder.import.secondsNumber": {
+    "source": "Seconds must be a number.",
+    "translation": "Sekunden müssen eine Zahl sein."
+  },
+  "builder.import.volumeNumber": {
+    "source": "Volume must be a number.",
+    "translation": "Volumen muss eine Zahl sein."
+  },
+  "builder.import.exitTypeUnsupported": {
+    "source": "Choose a supported pressure or flow move-on condition.",
+    "translation": "Wähle eine unterstützte Druck- oder Durchfluss-Bedingung für „Weiter, wenn“."
+  },
+  "builder.import.exitConditionUnsupported": {
+    "source": "Choose whether the move-on value is over or under the threshold.",
+    "translation": "Wähle, ob der „Weiter, wenn“-Wert über oder unter dem Schwellenwert liegen muss."
+  },
+  "builder.import.exitThresholdNumber": {
+    "source": "The move-on threshold must be a number.",
+    "translation": "Der Schwellenwert für „Weiter, wenn“ muss eine Zahl sein."
+  },
+  "builder.import.limiterValueNumber": {
+    "source": "The limiter value must be a number.",
+    "translation": "Der Begrenzerwert muss eine Zahl sein."
+  },
+  "builder.import.limiterRangeRequired": {
+    "source": "The limiter response range is required and must be a number.",
+    "translation": "Der Begrenzer-Reaktionsbereich ist erforderlich und muss eine Zahl sein."
+  },
+  "builder.import.volumeCountStartRequired": {
+    "source": "Volume count start is required and must be a number.",
+    "translation": "Der Startwert für die Volumenzählung ist erforderlich und muss eine Zahl sein."
+  },
+  "builder.import.tankTemperatureRequired": {
+    "source": "Tank temperature is required and must be a number.",
+    "translation": "Die Tanktemperatur ist erforderlich und muss eine Zahl sein."
+  },
+  "builder.validation.issueCount": {
+    "source": {
+      "one": "{count} profile issue",
+      "other": "{count} profile issues"
+    },
+    "translation": {
+      "one": "{count} Profilproblem",
+      "other": "{count} Profilprobleme"
+    }
+  },
+  "builder.validation.stageSeconds": {
+    "source": {
+      "one": "{count} second",
+      "other": "{count} seconds"
+    },
+    "translation": {
+      "one": "{count} Sekunde",
+      "other": "{count} Sekunden"
+    }
+  },
+  "builder.validation.errorCount": {
+    "source": {
+      "one": "{count} error",
+      "other": "{count} errors"
+    },
+    "translation": {
+      "one": "{count} Fehler",
+      "other": "{count} Fehler"
+    }
+  },
+  "builder.validation.warningCount": {
+    "source": {
+      "one": "{count} warning",
+      "other": "{count} warnings"
+    },
+    "translation": {
+      "one": "{count} Warnung",
+      "other": "{count} Warnungen"
+    }
+  },
+  "settings.section.overview.label": {
+    "source": "Overview",
+    "translation": "Übersicht"
+  },
+  "settings.section.prepare.label": {
+    "source": "Prepare drinks",
+    "translation": "Zubereitung"
+  },
+  "settings.section.clean.label": {
+    "source": "Clean & flush",
+    "translation": "Reinigen & Spülen"
+  },
+  "settings.section.alerts.label": {
+    "source": "Alerts & water",
+    "translation": "Warnungen"
+  },
+  "settings.section.devices.label": {
+    "source": "Connected devices",
+    "translation": "Geräte"
+  },
+  "settings.section.power.label": {
+    "source": "Power & display",
+    "translation": "Strom & Anzeige"
+  },
+  "settings.section.experience.label": {
+    "source": "App experience",
+    "translation": "App-Erlebnis"
+  },
+  "settings.section.data.label": {
+    "source": "Data & privacy",
+    "translation": "Daten & Backup"
+  },
+  "settings.section.extensions.label": {
+    "source": "Extensions",
+    "translation": "Erweiterungen"
+  },
+  "settings.section.advanced.label": {
+    "source": "Advanced",
+    "translation": "Erweitert"
+  },
+  "settings.group.bestpresso": {
+    "source": "Bestpresso",
+    "translation": "Bestpresso"
+  },
+  "settings.group.makeMaintain": {
+    "source": "Make & maintain",
+    "translation": "Zubereiten & pflegen"
+  },
+  "settings.group.machineDevices": {
+    "source": "Machine & devices",
+    "translation": "Maschine & Geräte"
+  },
+  "settings.group.system": {
+    "source": "System",
+    "translation": "System"
+  },
+  "settings.section.overview.keywords": {
+    "source": "status version account",
+    "translation": "status version konto account"
+  },
+  "settings.section.prepare.keywords": {
+    "source": "espresso steam hot water temperature flow volume weight multiplier",
+    "translation": "espresso dampf heißwasser temperatur durchfluss volumen gewicht multiplikator espresso steam hot water temperature flow volume weight multiplier"
+  },
+  "settings.section.clean.keywords": {
+    "source": "rinse flush tank temperature duration flow",
+    "translation": "spülen tank temperatur dauer durchfluss rinse flush tank temperature duration flow"
+  },
+  "settings.section.alerts.keywords": {
+    "source": "reservoir warning scale required tare",
+    "translation": "wassertank warnung waage erforderlich tarieren reservoir warning scale required tare"
+  },
+  "settings.section.devices.keywords": {
+    "source": "machine scale bluetooth wifi scan connect preferred power",
+    "translation": "maschine waage bluetooth wlan suchen verbinden bevorzugt strom machine scale bluetooth wifi scan connect preferred power"
+  },
+  "settings.section.power.keywords": {
+    "source": "brightness sleep wake schedule charging battery presence",
+    "translation": "helligkeit schlafmodus aufwecken zeitplan laden akku anwesenheit brightness sleep wake schedule charging battery presence"
+  },
+  "settings.section.experience.keywords": {
+    "source": "sound chart thickness theme appearance language animations motion performance",
+    "translation": "ton diagramm linienstärke erscheinungsbild sprache animationen bewegung leistung sound chart thickness theme appearance language animations motion performance"
+  },
+  "settings.section.data.keywords": {
+    "source": "backup restore import export logs history",
+    "translation": "sicherung wiederherstellen importieren exportieren protokolle historie backup restore import export logs history"
+  },
+  "settings.section.extensions.keywords": {
+    "source": "plugin visualizer upload integration",
+    "translation": "plugin visualizer hochladen integration upload"
+  },
+  "settings.section.advanced.keywords": {
+    "source": "gateway log heater refill usb fan firmware calibration simulation",
+    "translation": "gateway protokoll heizung nachfüllen usb lüfter firmware kalibrierung simulation gateway log heater refill fan calibration simulation"
+  },
+  "settings.section.overview.title": {
+    "source": "Settings",
+    "translation": "Einstellungen"
+  },
+  "settings.section.overview.description": {
+    "source": "Your machine, preparation and Bestpresso preferences in one place.",
+    "translation": "Deine Maschine, Zubereitung und Bestpresso-Einstellungen an einem Ort."
+  },
+  "settings.section.prepare.title": {
+    "source": "Prepare drinks",
+    "translation": "Getränke zubereiten"
+  },
+  "settings.section.prepare.description": {
+    "source": "Set espresso stopping behaviour and everyday steam and hot-water defaults.",
+    "translation": "Lege das Stopp-Verhalten für Espresso sowie die Standardwerte für Dampf und Heißwasser fest."
+  },
+  "settings.section.clean.title": {
+    "source": "Clean & flush",
+    "translation": "Reinigen & Spülen"
+  },
+  "settings.section.clean.description": {
+    "source": "Control the water sent through the group head and the tank heating policy.",
+    "translation": "Steuere das Wasser durch die Brühgruppe und die Heizrichtlinie für den Tank."
+  },
+  "settings.section.alerts.title": {
+    "source": "Alerts & water",
+    "translation": "Warnungen & Wasser"
+  },
+  "settings.section.alerts.description": {
+    "source": "Choose when Bestpresso should draw attention and which brewing safeguards apply.",
+    "translation": "Lege fest, wann Bestpresso dich aufmerksam machen soll und welche Sicherungen beim Bezug gelten."
+  },
+  "settings.section.devices.title": {
+    "source": "Connected devices",
+    "translation": "Verbundene Geräte"
+  },
+  "settings.section.devices.description": {
+    "source": "Find, connect and choose the machine and scale Bestpresso should prefer.",
+    "translation": "Suche, verbinde und wähle Maschine und Waage, die Bestpresso bevorzugen soll."
+  },
+  "settings.section.power.title": {
+    "source": "Power & display",
+    "translation": "Energie & Bildschirm"
+  },
+  "settings.section.power.description": {
+    "source": "Control brightness, sleep, wake and tablet charging behaviour.",
+    "translation": "Steuere Helligkeit, Schlafmodus, Aufwecken und das Ladeverhalten des Tablets."
+  },
+  "settings.section.experience.title": {
+    "source": "App experience",
+    "translation": "App-Erlebnis"
+  },
+  "settings.section.experience.description": {
+    "source": "Tune sound, chart readability and the visual experience.",
+    "translation": "Passe Ton, Diagrammlesbarkeit und das visuelle Erlebnis an."
+  },
+  "settings.section.data.title": {
+    "source": "Data & privacy",
+    "translation": "Daten & Datenschutz"
+  },
+  "settings.section.data.description": {
+    "source": "Back up or restore Decaid data without leaving Bestpresso.",
+    "translation": "Sichere oder stelle Decaid-Daten wieder her, ohne Bestpresso zu verlassen."
+  },
+  "settings.section.extensions.title": {
+    "source": "Extensions",
+    "translation": "Erweiterungen"
+  },
+  "settings.section.extensions.description": {
+    "source": "See and control the plugins installed in Decaid.",
+    "translation": "Sieh dir die in Decaid installierten Plugins an und steuere sie."
+  },
+  "settings.section.advanced.title": {
+    "source": "Advanced",
+    "translation": "Erweitert"
+  },
+  "settings.section.advanced.description": {
+    "source": "Specialist Decaid and machine controls. Change these only when you understand their effect.",
+    "translation": "Spezialisierte Decaid- und Maschinensteuerungen. Ändere sie nur, wenn du die Wirkung verstehst."
+  },
+  "settings.unavailable.decaid": {
+    "source": "Decaid",
+    "translation": "Decaid"
+  },
+  "settings.unavailable.machine": {
+    "source": "machine",
+    "translation": "Maschine"
+  },
+  "settings.unavailable.advancedMachine": {
+    "source": "advanced machine",
+    "translation": "erweiterte Maschineneinstellungen"
+  },
+  "settings.unavailable.workflow": {
+    "source": "workflow",
+    "translation": "Workflow"
+  },
+  "settings.unavailable.display": {
+    "source": "display",
+    "translation": "Bildschirm"
+  },
+  "settings.unavailable.presence": {
+    "source": "presence",
+    "translation": "Anwesenheit"
+  },
+  "settings.unavailable.devices": {
+    "source": "devices",
+    "translation": "Geräte"
+  },
+  "settings.unavailable.plugins": {
+    "source": "plugins",
+    "translation": "Plugins"
+  },
+  "settings.unavailable.system": {
+    "source": "system",
+    "translation": "System"
+  },
+  "settings.unavailable.capabilities": {
+    "source": "capabilities",
+    "translation": "Fähigkeiten"
+  },
+  "settings.devices.typeMachine": {
+    "source": "machine",
+    "translation": "Espressomaschine"
+  },
+  "settings.devices.typeScale": {
+    "source": "scale",
+    "translation": "Waage"
+  },
+  "settings.devices.stateConnected": {
+    "source": "connected",
+    "translation": "verbunden"
+  },
+  "settings.devices.stateDisconnected": {
+    "source": "disconnected",
+    "translation": "getrennt"
+  },
+  "settings.chartLineWeight.thin": {
+    "source": "Thin",
+    "translation": "Dünn"
+  },
+  "settings.chartLineWeight.medium": {
+    "source": "Medium",
+    "translation": "Mittel"
+  },
+  "settings.chartLineWeight.thick": {
+    "source": "Thick",
+    "translation": "Dick"
+  },
+  "settings.number.decrease": {
+    "source": "Decrease {label}",
+    "translation": "{label} verringern"
+  },
+  "settings.number.increase": {
+    "source": "Increase {label}",
+    "translation": "{label} erhöhen"
+  },
+  "settings.number.adjust": {
+    "source": "Adjust {label}, current value {value}",
+    "translation": "{label} anpassen, aktueller Wert {value}"
+  },
+  "settings.select.unavailable": {
+    "source": "Unavailable",
+    "translation": "Nicht verfügbar"
+  },
+  "settings.message.routineFailed": {
+    "source": "The machine could not start this routine.",
+    "translation": "Die Maschine konnte diese Routine nicht starten."
+  },
+  "settings.overview.hero.eyebrow": {
+    "source": "Connected setup",
+    "translation": "Verbindungsstatus"
+  },
+  "settings.overview.hero.titleReady": {
+    "source": "Your Decent is ready",
+    "translation": "Dein Decent ist bereit"
+  },
+  "settings.overview.hero.titleAttention": {
+    "source": "Machine connection needs attention",
+    "translation": "Maschinenverbindung braucht Aufmerksamkeit"
+  },
+  "settings.overview.hero.description": {
+    "source": "Everyday Bestpresso and Decaid controls now share this settings surface.",
+    "translation": "Alltägliche Bestpresso- und Decaid-Einstellungen teilen sich jetzt diese Oberfläche."
+  },
+  "settings.overview.hero.machineConnected": {
+    "source": "Machine connected",
+    "translation": "Maschine verbunden"
+  },
+  "settings.overview.hero.machineDisconnected": {
+    "source": "Machine disconnected",
+    "translation": "Maschine getrennt"
+  },
+  "settings.overview.hero.scaleConnected": {
+    "source": "Scale connected",
+    "translation": "Waage verbunden"
+  },
+  "settings.overview.hero.scaleNone": {
+    "source": "No scale connected",
+    "translation": "Keine Waage verbunden"
+  },
+  "settings.overview.hero.versionUnavailable": {
+    "source": "Decaid version unavailable",
+    "translation": "Decaid-Version nicht verfügbar"
+  },
+  "settings.overview.glance.eyebrow": {
+    "source": "At a glance",
+    "translation": "Auf einen Blick"
+  },
+  "settings.overview.glance.title": {
+    "source": "Drink preparation",
+    "translation": "Getränkezubereitung"
+  },
+  "settings.overview.glance.description": {
+    "source": "Current defaults",
+    "translation": "Aktuelle Standardwerte"
+  },
+  "settings.metric.amount": {
+    "source": "Amount",
+    "translation": "Menge"
+  },
+  "settings.state.off": {
+    "source": "Off",
+    "translation": "Aus"
+  },
+  "settings.action.reviewPreparation": {
+    "source": "Review preparation",
+    "translation": "Zubereitung prüfen"
+  },
+  "settings.overview.feedback.title": {
+    "source": "Feedback & charts",
+    "translation": "Feedback & Diagramme"
+  },
+  "settings.overview.feedback.description": {
+    "source": "Preferences stored for this skin",
+    "translation": "Einstellungen, die für diesen Skin gespeichert sind"
+  },
+  "settings.overview.feedback.completionSound": {
+    "source": "Completion sound",
+    "translation": "Ton bei Fertigstellung"
+  },
+  "settings.state.on": {
+    "source": "On",
+    "translation": "Ein"
+  },
+  "settings.overview.feedback.chartLines": {
+    "source": "Chart lines",
+    "translation": "Diagrammlinien"
+  },
+  "settings.overview.feedback.waterWarning": {
+    "source": "Water warning",
+    "translation": "Wasserwarnung"
+  },
+  "settings.action.personalize": {
+    "source": "Personalize Bestpresso",
+    "translation": "Bestpresso personalisieren"
+  },
+  "settings.eyebrow.decaid": {
+    "source": "Decaid",
+    "translation": "Decaid"
+  },
+  "settings.overview.system.description": {
+    "source": "Live bridge information",
+    "translation": "Live-Bridge-Informationen"
+  },
+  "settings.overview.system.gateway": {
+    "source": "Gateway",
+    "translation": "Gateway"
+  },
+  "settings.overview.system.connected": {
+    "source": "Connected",
+    "translation": "Verbunden"
+  },
+  "settings.connection.connecting": {
+    "source": "connecting",
+    "translation": "verbindet"
+  },
+  "settings.connection.fixture": {
+    "source": "fixture",
+    "translation": "fixture"
+  },
+  "settings.connection.disconnected": {
+    "source": "disconnected",
+    "translation": "getrennt"
+  },
+  "settings.overview.system.build": {
+    "source": "Build",
+    "translation": "Build"
+  },
+  "settings.overview.system.unavailableGroups": {
+    "source": "Unavailable groups",
+    "translation": "Nicht verfügbare Bereiche"
+  },
+  "settings.overview.system.none": {
+    "source": "None",
+    "translation": "Keine"
+  },
+  "settings.action.reviewSystem": {
+    "source": "Review system controls",
+    "translation": "Systemsteuerung prüfen"
+  },
+  "settings.prepare.calibration.eyebrow": {
+    "source": "Drink settings",
+    "translation": "Getränkeeinstellungen"
+  },
+  "settings.prepare.calibration.title": {
+    "source": "Stopping calibration",
+    "translation": "Stopp-Kalibrierung"
+  },
+  "settings.prepare.calibration.description": {
+    "source": "Calibrate espresso and hot water separately. Higher values stop earlier.",
+    "translation": "Kalibriere Espresso und Heißwasser getrennt. Höhere Werte stoppen früher."
+  },
+  "settings.prepare.espressoYield": {
+    "source": "Espresso yield",
+    "translation": "Espresso nach Gewicht"
+  },
+  "settings.prepare.hotWaterYield": {
+    "source": "Hot-water yield",
+    "translation": "Heißwasser nach Gewicht"
+  },
+  "settings.prepare.hotWaterYieldHint": {
+    "source": "Decaid default: 0.3 s. Zero uses that default, not no prediction.",
+    "translation": "Decaid-Standard: 0,3 s. Null verwendet diesen Standard, nicht „keine Vorhersage“."
+  },
+  "settings.prepare.volumeHint": {
+    "source": "Shot stopping without a scale",
+    "translation": "Bezugsstopp ohne Waage"
+  },
+  "settings.prepare.steam.title": {
+    "source": "Steam defaults",
+    "translation": "Dampf-Standardwerte"
+  },
+  "settings.prepare.steam.description": {
+    "source": "Uploaded together through the current Decaid workflow.",
+    "translation": "Wird zusammen über den aktuellen Decaid-Workflow hochgeladen."
+  },
+  "settings.prepare.steam.temperatureHint": {
+    "source": "Off, or {min}–{max}{unit}",
+    "translation": "Aus oder {min}–{max}{unit}"
+  },
+  "settings.prepare.hotWater.title": {
+    "source": "Dispenser defaults",
+    "translation": "Ausgabe-Standardwerte"
+  },
+  "settings.prepare.hotWater.description": {
+    "source": "Automatically stops by weight when a scale is connected; otherwise uses volume and time.",
+    "translation": "Stoppt automatisch nach Gewicht, wenn eine Waage verbunden ist; sonst nach Volumen und Zeit."
+  },
+  "settings.clean.groupHead.eyebrow": {
+    "source": "Group head",
+    "translation": "Brühgruppe"
+  },
+  "settings.clean.groupHead.title": {
+    "source": "Quick flush",
+    "translation": "Schnellspülung"
+  },
+  "settings.clean.groupHead.description": {
+    "source": "Stored in the active Decaid workflow and applied to the machine through that single path.",
+    "translation": "Wird im aktiven Decaid-Workflow gespeichert und über diesen einen Weg auf die Maschine angewendet."
+  },
+  "settings.clean.tankTemperature": {
+    "source": "Tank temperature",
+    "translation": "Tanktemperatur"
+  },
+  "settings.clean.maintenance.eyebrow": {
+    "source": "Maintenance",
+    "translation": "Wartung"
+  },
+  "settings.clean.maintenance.title": {
+    "source": "Guided machine routines",
+    "translation": "Geführte Maschinenroutinen"
+  },
+  "settings.clean.maintenance.description": {
+    "source": "Cleaning profiles stay in Profiles. Start machine-owned service routines here.",
+    "translation": "Reinigungsprofile bleiben in Profile. Starte hier maschineneigene Service-Routinen."
+  },
+  "settings.clean.cleaning": {
+    "source": "Cleaning",
+    "translation": "Reinigung"
+  },
+  "settings.clean.useCleaningProfile": {
+    "source": "Use a cleaning profile",
+    "translation": "Ein Reinigungsprofil verwenden"
+  },
+  "settings.clean.descaling.confirm": {
+    "source": "Start the machine-guided descaling routine? Prepare the machine and descaling solution before continuing.",
+    "translation": "Die maschinengeführte Entkalkungsroutine starten? Bereite Maschine und Entkalkerlösung vor, bevor du fortfährst."
+  },
+  "settings.clean.descaling.title": {
+    "source": "Descaling",
+    "translation": "Entkalken"
+  },
+  "settings.clean.descaling.hint": {
+    "source": "Machine-guided routine",
+    "translation": "Maschinengeführte Routine"
+  },
+  "settings.action.starting": {
+    "source": "Starting…",
+    "translation": "Startet…"
+  },
+  "settings.action.start": {
+    "source": "Start",
+    "translation": "Start"
+  },
+  "settings.clean.transport.confirm": {
+    "source": "Enter transport mode? This runs the air-purge routine to prepare the machine for transport.",
+    "translation": "Transportmodus aktivieren? Dies startet die Entleerungsroutine, um die Maschine für den Transport vorzubereiten."
+  },
+  "settings.clean.transport.title": {
+    "source": "Transport mode",
+    "translation": "Transportmodus"
+  },
+  "settings.clean.transport.hint": {
+    "source": "Air-purge preparation",
+    "translation": "Entleerung vorbereiten"
+  },
+  "settings.action.enable": {
+    "source": "Enable",
+    "translation": "Aktivieren"
+  },
+  "settings.alerts.reservoir.title": {
+    "source": "Reservoir warning",
+    "translation": "Wassertank-Warnung"
+  },
+  "settings.alerts.reservoir.description": {
+    "source": "Choose when to show an early low-water warning.",
+    "translation": "Lege fest, wann eine frühe Warnung bei wenig Wasser erscheinen soll."
+  },
+  "settings.action.reset": {
+    "source": "Reset",
+    "translation": "Zurücksetzen"
+  },
+  "settings.alerts.warnMe": {
+    "source": "Warn me",
+    "translation": "Warnen bei"
+  },
+  "settings.alerts.warnMeHint": {
+    "source": "Reservoir estimate",
+    "translation": "Geschätzter Tankstand"
+  },
+  "settings.alerts.priorityHelper": {
+    "source": "The machine’s own needs-water state always takes priority.",
+    "translation": "Der eigene „Wasser nachfüllen“-Status der Maschine hat immer Vorrang."
+  },
+  "settings.alerts.safeguard.eyebrow": {
+    "source": "Brewing safeguard",
+    "translation": "Bezugssicherung"
+  },
+  "settings.alerts.safeguard.title": {
+    "source": "Scale policy",
+    "translation": "Waagen-Richtlinie"
+  },
+  "settings.alerts.requireScale": {
+    "source": "Require a scale",
+    "translation": "Waage erforderlich"
+  },
+  "settings.alerts.requireScaleHint": {
+    "source": "Prevent a shot from starting without one",
+    "translation": "Verhindert den Start eines Bezugs ohne Waage"
+  },
+  "settings.alerts.blockTare": {
+    "source": "Block app tare during a shot",
+    "translation": "App-Tarieren während des Bezugs blockieren"
+  },
+  "settings.alerts.blockTareHint": {
+    "source": "The scale’s physical tare button is unaffected",
+    "translation": "Die physische Tara-Taste der Waage ist davon nicht betroffen"
+  },
+  "settings.devices.connection.eyebrow": {
+    "source": "Connection",
+    "translation": "Verbindung"
+  },
+  "settings.devices.machine": {
+    "source": "Espresso machine",
+    "translation": "Espressomaschine"
+  },
+  "settings.devices.scanHint": {
+    "source": "Scan, connect and choose the preferred {type}.",
+    "translation": "Suchen, verbinden und bevorzugte {type} festlegen."
+  },
+  "settings.action.scanning": {
+    "source": "Scanning…",
+    "translation": "Sucht…"
+  },
+  "settings.action.scan": {
+    "source": "Scan",
+    "translation": "Suchen"
+  },
+  "settings.state.unavailable": {
+    "source": "unavailable",
+    "translation": "nicht verfügbar"
+  },
+  "settings.action.prefer": {
+    "source": "Prefer",
+    "translation": "Bevorzugen"
+  },
+  "settings.action.disconnect": {
+    "source": "Disconnect",
+    "translation": "Trennen"
+  },
+  "settings.action.connect": {
+    "source": "Connect",
+    "translation": "Verbinden"
+  },
+  "settings.devices.forgetConfirm": {
+    "source": "Forget {name}?",
+    "translation": "{name} vergessen?"
+  },
+  "settings.devices.thisDevice": {
+    "source": "this device",
+    "translation": "dieses Gerät"
+  },
+  "settings.action.forget": {
+    "source": "Forget",
+    "translation": "Entfernen"
+  },
+  "settings.devices.noneFound": {
+    "source": "No {type} found. Run a scan to look for nearby devices.",
+    "translation": "Keine {type} gefunden. Starte eine Suche nach Geräten in der Nähe."
+  },
+  "settings.devices.sleepPowerMode.label": {
+    "source": "When the machine sleeps",
+    "translation": "Wenn die Maschine schläft"
+  },
+  "settings.devices.sleepPowerMode.doNothing": {
+    "source": "Do nothing",
+    "translation": "Nichts tun"
+  },
+  "settings.devices.sleepPowerMode.displayOff": {
+    "source": "Turn display off",
+    "translation": "Bildschirm ausschalten"
+  },
+  "settings.devices.sleepPowerMode.disconnectScale": {
+    "source": "Disconnect scale",
+    "translation": "Waage trennen"
+  },
+  "settings.power.display.eyebrow": {
+    "source": "Display",
+    "translation": "Bildschirm"
+  },
+  "settings.power.display.title": {
+    "source": "Screen brightness",
+    "translation": "Bildschirmhelligkeit"
+  },
+  "settings.power.brightness": {
+    "source": "Brightness",
+    "translation": "Helligkeit"
+  },
+  "settings.power.brightnessHintCapped": {
+    "source": "Currently capped by low battery",
+    "translation": "Aktuell durch niedrigen Akkustand begrenzt"
+  },
+  "settings.power.brightnessHintDefault": {
+    "source": "100 returns control to the operating system",
+    "translation": "100 übergibt die Kontrolle wieder an das Betriebssystem"
+  },
+  "settings.power.limitBrightness": {
+    "source": "Limit brightness on low battery",
+    "translation": "Helligkeit bei niedrigem Akkustand begrenzen"
+  },
+  "settings.power.screensaverBrightness": {
+    "source": "Screensaver brightness",
+    "translation": "Helligkeit des Bildschirmschoners"
+  },
+  "settings.power.screensaverBrightnessHint": {
+    "source": "Used while the machine sleeps. Default: 7%.",
+    "translation": "Wird verwendet, während die Maschine schläft. Standard: 7 %."
+  },
+  "settings.power.battery.eyebrow": {
+    "source": "Battery",
+    "translation": "Akku"
+  },
+  "settings.power.battery.title": {
+    "source": "Charging",
+    "translation": "Laden"
+  },
+  "settings.power.chargingMode": {
+    "source": "Charging mode",
+    "translation": "Lademodus"
+  },
+  "settings.state.disabled": {
+    "source": "Disabled",
+    "translation": "Deaktiviert"
+  },
+  "settings.power.chargingMode.longevity": {
+    "source": "Battery longevity",
+    "translation": "Akkulebensdauer"
+  },
+  "settings.power.chargingMode.balanced": {
+    "source": "Balanced",
+    "translation": "Ausgeglichen"
+  },
+  "settings.power.chargingMode.highAvailability": {
+    "source": "High availability",
+    "translation": "Hohe Verfügbarkeit"
+  },
+  "settings.power.overnightSchedule": {
+    "source": "Overnight charging schedule",
+    "translation": "Nächtlicher Ladezeitplan"
+  },
+  "settings.power.sleepTime": {
+    "source": "Sleep time",
+    "translation": "Schlafenszeit"
+  },
+  "settings.power.morningTime": {
+    "source": "Morning time",
+    "translation": "Morgenzeit"
+  },
+  "settings.power.sleepWake.eyebrow": {
+    "source": "Sleep & wake",
+    "translation": "Schlaf & Aufwecken"
+  },
+  "settings.power.sleepWake.title": {
+    "source": "Sleep & presence",
+    "translation": "Schlaf & Anwesenheit"
+  },
+  "settings.power.keepScreenAwake": {
+    "source": "Keep screen awake",
+    "translation": "Bildschirm wach halten"
+  },
+  "settings.power.presenceDetection": {
+    "source": "Presence detection",
+    "translation": "Anwesenheitserkennung"
+  },
+  "settings.power.sleepAfter": {
+    "source": "Sleep after",
+    "translation": "Schlafen nach"
+  },
+  "settings.power.sleepAfterHint": {
+    "source": "0 disables automatic idle sleep",
+    "translation": "0 deaktiviert den automatischen Ruhemodus"
+  },
+  "settings.power.schedule.eyebrow": {
+    "source": "Schedule",
+    "translation": "Zeitplan"
+  },
+  "settings.power.schedule.title": {
+    "source": "Wake times",
+    "translation": "Aufwachzeiten"
+  },
+  "settings.power.schedule.description": {
+    "source": "Each schedule is an independent Decaid record and saves immediately.",
+    "translation": "Jeder Zeitplan ist ein eigener Decaid-Eintrag und speichert sofort."
+  },
+  "settings.action.addSchedule": {
+    "source": "Add schedule",
+    "translation": "Zeitplan hinzufügen"
+  },
+  "settings.power.schedule.wakeTime": {
+    "source": "Wake time",
+    "translation": "Aufwachzeit"
+  },
+  "settings.power.schedule.everyDay": {
+    "source": "Every day",
+    "translation": "Jeden Tag"
+  },
+  "settings.power.schedule.daysCount": {
+    "source": {
+      "one": "{count} day",
+      "other": "{count} days"
+    },
+    "translation": {
+      "one": "{count} Tag",
+      "other": "{count} Tage"
+    }
+  },
+  "settings.power.schedule.enabled": {
+    "source": "Schedule enabled",
+    "translation": "Zeitplan aktiviert"
+  },
+  "settings.power.schedule.deleteConfirm": {
+    "source": "Delete this wake schedule?",
+    "translation": "Diesen Aufwachzeitplan löschen?"
+  },
+  "settings.action.remove": {
+    "source": "Remove",
+    "translation": "Entfernen"
+  },
+  "settings.power.schedule.empty": {
+    "source": "No wake schedules configured.",
+    "translation": "Keine Aufwachzeitpläne eingerichtet."
+  },
+  "settings.experience.sound.eyebrow": {
+    "source": "Sound & feedback",
+    "translation": "Ton & Feedback"
+  },
+  "settings.experience.playSound": {
+    "source": "Play sound on shot complete",
+    "translation": "Ton bei Bezugsende abspielen"
+  },
+  "settings.experience.appearance.eyebrow": {
+    "source": "Appearance",
+    "translation": "Erscheinungsbild"
+  },
+  "settings.experience.appearance.title": {
+    "source": "Display",
+    "translation": "Anzeige"
+  },
+  "settings.experience.bestpressoTheme": {
+    "source": "Bestpresso theme",
+    "translation": "Bestpresso-Design"
+  },
+  "settings.experience.bestpressoThemeHint": {
+    "source": "Light mode is in beta. Dark is the default.",
+    "translation": "Der helle Modus ist in der Beta-Phase. Dunkel ist die Standardeinstellung."
+  },
+  "settings.theme.dark": {
+    "source": "Dark",
+    "translation": "Dunkel"
+  },
+  "settings.theme.lightBeta": {
+    "source": "Light (Beta)",
+    "translation": "Hell (Beta)"
+  },
+  "settings.experience.decaidTheme": {
+    "source": "Decaid system theme",
+    "translation": "Decaid-Systemdesign"
+  },
+  "settings.experience.decaidThemeHint": {
+    "source": "Appearance outside Bestpresso",
+    "translation": "Erscheinungsbild außerhalb von Bestpresso"
+  },
+  "settings.option.followDevice": {
+    "source": "Follow device",
+    "translation": "Wie Gerät"
+  },
+  "settings.theme.light": {
+    "source": "Light",
+    "translation": "Hell"
+  },
+  "settings.experience.clockFormat": {
+    "source": "Clock format",
+    "translation": "Uhrzeitformat"
+  },
+  "settings.experience.clockFormatHint": {
+    "source": "Screensaver and history times in Bestpresso",
+    "translation": "Bildschirmschoner- und Historienzeiten in Bestpresso"
+  },
+  "settings.clock.12h": {
+    "source": "12-hour (AM/PM)",
+    "translation": "12-Stunden (AM/PM)"
+  },
+  "settings.clock.24h": {
+    "source": "24-hour",
+    "translation": "24-Stunden"
+  },
+  "settings.experience.temperatureUnitHint": {
+    "source": "Bestpresso display only; Decaid stays in Celsius",
+    "translation": "Nur Bestpresso-Anzeige; Decaid bleibt bei Celsius"
+  },
+  "settings.unit.celsius": {
+    "source": "Celsius (°C)",
+    "translation": "Celsius (°C)"
+  },
+  "settings.unit.fahrenheit": {
+    "source": "Fahrenheit (°F)",
+    "translation": "Fahrenheit (°F)"
+  },
+  "settings.experience.charts.eyebrow": {
+    "source": "Charts & monitoring",
+    "translation": "Diagramme & Überwachung"
+  },
+  "settings.experience.lineWeight.title": {
+    "source": "Line weight",
+    "translation": "Linienstärke"
+  },
+  "settings.experience.lineWeight.description": {
+    "source": "Apply one telemetry line weight throughout Bestpresso.",
+    "translation": "Wendet eine einheitliche Telemetrie-Linienstärke in ganz Bestpresso an."
+  },
+  "settings.experience.reset.title": {
+    "source": "Reset preferences",
+    "translation": "Einstellungen zurücksetzen"
+  },
+  "settings.experience.reset.description": {
+    "source": "Restore this skin’s defaults. Your profiles and machine settings stay unchanged.",
+    "translation": "Stellt die Standardwerte dieses Skins wieder her. Deine Profile und Maschineneinstellungen bleiben unverändert."
+  },
+  "settings.action.resetPreferences": {
+    "source": "Reset Bestpresso preferences",
+    "translation": "Bestpresso-Einstellungen zurücksetzen"
+  },
+  "settings.data.backup.eyebrow": {
+    "source": "Backup",
+    "translation": "Sicherung"
+  },
+  "settings.data.backup.title": {
+    "source": "Export Decaid data",
+    "translation": "Decaid-Daten exportieren"
+  },
+  "settings.data.backup.description": {
+    "source": "Downloads profiles, shots, workflow, settings, beans, grinders and the shared store in one ZIP.",
+    "translation": "Lädt Profile, Bezüge, Workflow, Einstellungen, Bohnen, Mühlen und den gemeinsamen Speicher in einer ZIP-Datei herunter."
+  },
+  "settings.action.download": {
+    "source": "Download backup",
+    "translation": "Sicherung herunterladen"
+  },
+  "settings.data.restore.eyebrow": {
+    "source": "Restore",
+    "translation": "Wiederherstellen"
+  },
+  "settings.data.restore.title": {
+    "source": "Import a backup",
+    "translation": "Eine Sicherung importieren"
+  },
+  "settings.data.restore.description": {
+    "source": "Existing records are preserved when duplicate IDs are found.",
+    "translation": "Vorhandene Einträge bleiben erhalten, wenn doppelte IDs gefunden werden."
+  },
+  "settings.action.importing": {
+    "source": "Importing…",
+    "translation": "Importiert…"
+  },
+  "settings.action.chooseBackupZip": {
+    "source": "Choose backup ZIP",
+    "translation": "Sicherungs-ZIP auswählen"
+  },
+  "settings.data.diagnostics.eyebrow": {
+    "source": "Diagnostics",
+    "translation": "Diagnose"
+  },
+  "settings.data.diagnostics.title": {
+    "source": "Recent Decaid logs",
+    "translation": "Aktuelle Decaid-Protokolle"
+  },
+  "settings.data.diagnostics.description": {
+    "source": "Open the latest log window as plain text.",
+    "translation": "Öffnet das aktuelle Protokollfenster als reinen Text."
+  },
+  "settings.action.viewLogs": {
+    "source": "View recent logs",
+    "translation": "Aktuelle Protokolle ansehen"
+  },
+  "settings.extensions.eyebrow": {
+    "source": "Decaid plugin",
+    "translation": "Decaid-Plugin"
+  },
+  "settings.extensions.fallbackTitle": {
+    "source": "Plugin",
+    "translation": "Plugin"
+  },
+  "settings.extensions.fallbackDescription": {
+    "source": "Installed extension",
+    "translation": "Installierte Erweiterung"
+  },
+  "settings.extensions.pluginEnabledLabel": {
+    "source": "{name} enabled",
+    "translation": "{name} aktiviert"
+  },
+  "settings.extensions.version": {
+    "source": "Version",
+    "translation": "Version"
+  },
+  "settings.extensions.autoLoad": {
+    "source": "Auto load",
+    "translation": "Automatisch laden"
+  },
+  "settings.extensions.update": {
+    "source": "Update",
+    "translation": "Update"
+  },
+  "settings.state.available": {
+    "source": "Available",
+    "translation": "Verfügbar"
+  },
+  "settings.extensions.noPlugins.title": {
+    "source": "No plugins reported",
+    "translation": "Keine Plugins gemeldet"
+  },
+  "settings.extensions.noPlugins.description": {
+    "source": "Plugin management will appear when Decaid returns installed manifests.",
+    "translation": "Die Plugin-Verwaltung erscheint, sobald Decaid installierte Manifeste zurückgibt."
+  },
+  "settings.extensions.noPlugins.helper": {
+    "source": "This is live Decaid state, not placeholder content.",
+    "translation": "Das ist Live-Status von Decaid, kein Platzhalterinhalt."
+  },
+  "settings.advanced.gateway.title": {
+    "source": "Gateway & diagnostics",
+    "translation": "Gateway & Diagnose"
+  },
+  "settings.advanced.gatewayMode": {
+    "source": "Gateway mode",
+    "translation": "Gateway-Modus"
+  },
+  "settings.advanced.gatewayMode.tracking": {
+    "source": "Tracking",
+    "translation": "Tracking"
+  },
+  "settings.advanced.gatewayMode.full": {
+    "source": "Full control",
+    "translation": "Volle Kontrolle"
+  },
+  "settings.advanced.logLevel": {
+    "source": "Log level",
+    "translation": "Protokollstufe"
+  },
+  "settings.advanced.autoUpdateChecks": {
+    "source": "Automatic update checks",
+    "translation": "Automatische Update-Prüfungen"
+  },
+  "settings.advanced.customWebUiFolder": {
+    "source": "Custom WebUI folder",
+    "translation": "Eigener WebUI-Ordner"
+  },
+  "settings.advanced.customWebUiFolderHint": {
+    "source": "Leave blank to use installed skins",
+    "translation": "Leer lassen, um installierte Skins zu verwenden"
+  },
+  "settings.advanced.customWebUiFolderPlaceholder": {
+    "source": "No custom folder",
+    "translation": "Kein eigener Ordner"
+  },
+  "settings.advanced.machine.eyebrow": {
+    "source": "Machine",
+    "translation": "Maschine"
+  },
+  "settings.advanced.general.title": {
+    "source": "General",
+    "translation": "Allgemein"
+  },
+  "settings.advanced.usbCharging": {
+    "source": "USB charging",
+    "translation": "USB-Laden"
+  },
+  "settings.advanced.fanThreshold": {
+    "source": "Fan threshold",
+    "translation": "Lüfterschwelle"
+  },
+  "settings.advanced.steamPurgeMode": {
+    "source": "Steam purge mode",
+    "translation": "Dampf-Spülmodus"
+  },
+  "settings.purge.normal": {
+    "source": "Normal",
+    "translation": "Normal"
+  },
+  "settings.purge.twoTap": {
+    "source": "Two-tap stop",
+    "translation": "Zwei-Tipp-Stopp"
+  },
+  "settings.advanced.heating.title": {
+    "source": "Heating",
+    "translation": "Heizung"
+  },
+  "settings.advanced.heatingFlowPhase1": {
+    "source": "Heating flow · phase 1",
+    "translation": "Heizdurchfluss · Phase 1"
+  },
+  "settings.advanced.heatingFlowPhase2": {
+    "source": "Heating flow · phase 2",
+    "translation": "Heizdurchfluss · Phase 2"
+  },
+  "settings.advanced.idleHeaterTemp": {
+    "source": "Idle heater temperature",
+    "translation": "Standby-Heiztemperatur"
+  },
+  "settings.advanced.stabilizationTimeout": {
+    "source": "Stabilization timeout",
+    "translation": "Stabilisierungs-Zeitlimit"
+  },
+  "settings.advanced.installation.title": {
+    "source": "Installation",
+    "translation": "Installation"
+  },
+  "settings.advanced.installation.description": {
+    "source": "Settings written to Decent firmware.",
+    "translation": "Einstellungen, die in die Decent-Firmware geschrieben werden."
+  },
+  "settings.advanced.refillKit": {
+    "source": "Refill kit",
+    "translation": "Nachfüllset"
+  },
+  "settings.refill.automatic": {
+    "source": "Automatic",
+    "translation": "Automatisch"
+  },
+  "settings.refill.forceOn": {
+    "source": "Force on",
+    "translation": "Erzwungen ein"
+  },
+  "settings.refill.forceOff": {
+    "source": "Force off",
+    "translation": "Erzwungen aus"
+  },
+  "settings.advanced.heaterVoltage": {
+    "source": "Heater voltage",
+    "translation": "Heizspannung"
+  },
+  "settings.advanced.heaterVoltageHint": {
+    "source": "Choose the mains region for the heater",
+    "translation": "Wähle die Netzspannungsregion für die Heizung"
+  },
+  "settings.voltage.notSet": {
+    "source": "Not set",
+    "translation": "Nicht festgelegt"
+  },
+  "settings.voltage.120": {
+    "source": "110–120 V region",
+    "translation": "110–120-V-Region"
+  },
+  "settings.voltage.230": {
+    "source": "220–230 V region",
+    "translation": "220–230-V-Region"
+  },
+  "settings.advanced.capabilities": {
+    "source": "Reported capabilities",
+    "translation": "Gemeldete Fähigkeiten"
+  },
+  "settings.advanced.capabilitiesFallback": {
+    "source": "Standard DE1",
+    "translation": "Standard-DE1"
+  },
+  "settings.advanced.capabilitiesHelper": {
+    "source": "Bengle-only controls are shown only when the connected machine reports support for them.",
+    "translation": "Bengle-spezifische Steuerungen werden nur angezeigt, wenn die verbundene Maschine deren Unterstützung meldet."
+  },
+  "settings.advanced.developer.eyebrow": {
+    "source": "Developer",
+    "translation": "Entwickler"
+  },
+  "settings.advanced.developer.title": {
+    "source": "Simulated hardware",
+    "translation": "Simulierte Hardware"
+  },
+  "settings.advanced.developer.description": {
+    "source": "Expose Decaid’s test devices during discovery.",
+    "translation": "Zeigt Decaids Testgeräte während der Suche an."
+  },
+  "settings.advanced.mockMachine": {
+    "source": "Mock machine",
+    "translation": "Simulierte Maschine"
+  },
+  "settings.advanced.mockScale": {
+    "source": "Mock scale",
+    "translation": "Simulierte Waage"
+  },
+  "settings.advanced.mockSensor": {
+    "source": "Mock sensor",
+    "translation": "Simulierter Sensor"
+  },
+  "settings.advanced.mockBengle": {
+    "source": "Mock Bengle",
+    "translation": "Simuliertes Bengle"
+  },
+  "settings.sidebar.closeSettings": {
+    "source": "Close settings",
+    "translation": "Einstellungen schließen"
+  },
+  "settings.sidebar.accountConnected": {
+    "source": "Decaid connected",
+    "translation": "Decaid verbunden"
+  },
+  "settings.sidebar.accountLocal": {
+    "source": "Local preferences",
+    "translation": "Lokale Einstellungen"
+  },
+  "settings.sidebar.navLabel": {
+    "source": "Settings sections",
+    "translation": "Einstellungsbereiche"
+  },
+  "settings.search.placeholder": {
+    "source": "Find a setting",
+    "translation": "Einstellung suchen"
+  },
+  "settings.action.cancel": {
+    "source": "Cancel",
+    "translation": "Abbrechen"
+  },
+  "settings.action.saving": {
+    "source": "Saving…",
+    "translation": "Speichert…"
+  },
+  "settings.action.save": {
+    "source": "Save",
+    "translation": "Speichern"
+  },
+  "settings.status.loading": {
+    "source": "Loading settings from Decaid…",
+    "translation": "Lädt Einstellungen von Decaid…"
+  },
+  "settings.status.unavailable": {
+    "source": "Some controls are unavailable: {list}.",
+    "translation": "Einige Steuerungen sind nicht verfügbar: {list}."
+  },
+  "settings.message.saved": {
+    "source": "Settings sent to Decaid. Values refreshed from the machine.",
+    "translation": "Einstellungen an Decaid gesendet. Werte von der Maschine aktualisiert."
+  },
+  "settings.message.saveFailed": {
+    "source": "Settings could not be saved.",
+    "translation": "Einstellungen konnten nicht gespeichert werden."
+  },
+  "settings.message.actionFailed": {
+    "source": "The action could not be completed.",
+    "translation": "Die Aktion konnte nicht abgeschlossen werden."
+  },
+  "settings.message.scanComplete": {
+    "source": "Device scan complete.",
+    "translation": "Gerätesuche abgeschlossen."
+  },
+  "settings.message.deviceConnected": {
+    "source": "Device connected.",
+    "translation": "Gerät verbunden."
+  },
+  "settings.message.deviceDisconnected": {
+    "source": "Device disconnected.",
+    "translation": "Gerät getrennt."
+  },
+  "settings.message.deviceForgotten": {
+    "source": "Device forgotten.",
+    "translation": "Gerät vergessen."
+  },
+  "settings.message.pluginEnabled": {
+    "source": "Plugin enabled.",
+    "translation": "Plugin aktiviert."
+  },
+  "settings.message.pluginDisabled": {
+    "source": "Plugin disabled.",
+    "translation": "Plugin deaktiviert."
+  },
+  "settings.message.scheduleAdded": {
+    "source": "Wake schedule added.",
+    "translation": "Aufwachzeitplan hinzugefügt."
+  },
+  "settings.message.scheduleUpdated": {
+    "source": "Wake schedule updated.",
+    "translation": "Aufwachzeitplan aktualisiert."
+  },
+  "settings.message.scheduleRemoved": {
+    "source": "Wake schedule removed.",
+    "translation": "Aufwachzeitplan entfernt."
+  },
+  "settings.brightness.outOfRange": {
+    "source": "Brightness must be between 0 and 100.",
+    "translation": "Die Helligkeit muss zwischen 0 und 100 liegen."
+  },
+  "settings.brightness.persistFailed": {
+    "source": "Brightness applied to Decaid, but this browser could not remember it for the next launch.",
+    "translation": "Helligkeit an Decaid übermittelt, aber der Browser konnte sie nicht für den nächsten Start speichern."
+  },
+  "settings.experience.animations": {
+    "source": "Animations",
+    "translation": "Animationen"
+  },
+  "settings.experience.animationsHint": {
+    "source": "Status orbit, favorite card effects and smooth steam gauge. Turn off to reduce device workload.",
+    "translation": "Statusanimation, Favoriten-Effekte und fließende Dampfanzeige. Ausschalten, um die Gerätebelastung zu reduzieren."
+  },
+  "brew.data.error.stopTrackingLost": {
+    "source": "Stop unconfirmed—connection or shot tracking lost. Check the machine.",
+    "translation": "Stopp unbestätigt – Verbindung oder Bezugsverfolgung verloren. Bitte die Maschine prüfen."
+  },
+  "brew.data.error.stopFailed": {
+    "source": "The stop request failed. Check the machine before retrying.",
+    "translation": "Die Stopp-Anfrage ist fehlgeschlagen. Bitte die Maschine vor einem erneuten Versuch prüfen."
+  },
+  "brew.data.error.stopUnconfirmed": {
+    "source": "The machine has not confirmed the stop. Check the machine or tap Stop again.",
+    "translation": "Die Maschine hat den Stopp nicht bestätigt. Bitte die Maschine prüfen oder erneut auf Stopp tippen."
+  }
+}
