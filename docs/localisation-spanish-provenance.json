@@ -7561,6 +7561,41 @@
       "english": "Means use recorded samples only; the sample counts show pressure and flow coverage in A/B order. These are descriptive measurements, not calibrated phase scores.",
       "translation": "Las medias usan solo muestras registradas; los recuentos muestran la cobertura de presión y caudal en orden A/B. Son medidas descriptivas, no puntuaciones de fase calibradas.",
       "kind": "contextual"
+    },
+    "library.coffee.tab.livingProfile": {
+      "english": "Living Profile",
+      "translation": "Perfil vivo",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.title": {
+      "english": "Tune the Living Profile",
+      "translation": "Ajustar el Perfil vivo",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.active": {
+      "english": "Editing your active Living Profile. Changes remain a draft until you apply them.",
+      "translation": "Estás editando el Perfil vivo activo. Los cambios son un borrador hasta que los apliques.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.fromBean": {
+      "english": "Starting from a recipe for {bean}. Changes remain a draft until you apply them.",
+      "translation": "Receta inicial para {bean}. Los cambios son un borrador hasta que los apliques.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.hint": {
+      "english": "Adjust one variable at a time. Flow target, pressure ceiling, and temperature stay within supported ranges. This editor never changes a live shot.",
+      "translation": "Ajusta una variable cada vez. El caudal, el límite de presión y la temperatura respetan los rangos admitidos. Este editor nunca modifica una extracción en curso.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.applyHint": {
+      "english": "Saves this profile and selects it; it will not change settings during a live shot.",
+      "translation": "Guarda este perfil y lo selecciona; no modifica ajustes durante una extracción.",
+      "kind": "contextual"
+    },
+    "library.coffee.livingEditor.saved": {
+      "english": "Profile saved and selected.",
+      "translation": "Perfil guardado y seleccionado.",
+      "kind": "contextual"
     }
   }
 }

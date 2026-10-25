@@ -12415,6 +12415,83 @@
         "zh-Hans"
       ],
       "note": "Shot Lab phase summary; translated for this feature."
+    },
+    "library.coffee.tab.livingProfile": {
+      "english": "Living Profile",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
+    },
+    "library.coffee.livingEditor.title": {
+      "english": "Tune the Living Profile",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
+    },
+    "library.coffee.livingEditor.active": {
+      "english": "Editing your active Living Profile. Changes remain a draft until you apply them.",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
+    },
+    "library.coffee.livingEditor.fromBean": {
+      "english": "Starting from a recipe for {bean}. Changes remain a draft until you apply them.",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
+    },
+    "library.coffee.livingEditor.hint": {
+      "english": "Adjust one variable at a time. Flow target, pressure ceiling, and temperature stay within supported ranges. This editor never changes a live shot.",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
+    },
+    "library.coffee.livingEditor.applyHint": {
+      "english": "Saves this profile and selects it; it will not change settings during a live shot.",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
+    },
+    "library.coffee.livingEditor.saved": {
+      "english": "Profile saved and selected.",
+      "languages": [
+        "de",
+        "fr",
+        "it",
+        "zh-Hant",
+        "zh-Hans"
+      ],
+      "note": "Living Profile editor; explicit draft/apply workflow."
     }
   }
 }
