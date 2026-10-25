@@ -125,7 +125,7 @@ test('shots without pressurised flow are not analysable', () => {
 test('a real LRv3 shot (Londinium-style, public Decent share) reads as clean and steady', async () => {
   const { readFileSync } = await import('node:fs')
   const { shotToDomain } = await import('../src/api/decaid/adapters.ts')
-  const record = JSON.parse(readFileSync(new URL('../src/fixtures/real-shot-lrv3.json, import.meta.url), 'utf8'))
+  const record = JSON.parse(readFileSync(new URL('../src/fixtures/real-shot-lrv3.json', import.meta.url), 'utf8'))
   const analysis = analyseShot(shotToDomain(record).points ?? [])
   assert.deepEqual(analysis.findings, [], 'no channel or stall on a clean real shot')
   assert.ok(analysis.mainExtractionAtMs! > 14_000 && analysis.mainExtractionAtMs! < 16_500, 'shape is measured after the 3 bar infusion')
