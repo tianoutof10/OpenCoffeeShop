@@ -4,6 +4,12 @@ export type ShotAlignment =
   | { kind: 'phases'; phases: string[]; position: (point: LiveShotPoint, shot: LiveShotPoint[]) => number }
   | { kind: 'elapsed'; position: (point: LiveShotPoint, shot: LiveShotPoint[]) => number }
 
+export interface PhaseSummary {
+  name: string
+  a: { durationMs: number | null; pressure: number | null; flow: number | null; pressureSamples: number; flowSamples: number }
+  b: { durationMs: number | null; pressure: number | null; flow: number | null; pressureSamples: number; flowSamples: number }
+}
+
 const elapsedPosition = (point: LiveShotPoint, shot: LiveShotPoint[]) => {
   const duration = Math.max(1, shot.at(-1)?.elapsedMs ?? 1)
   return Math.max(0, Math.min(1, point.elapsedMs / duration))
@@ -42,6 +48,31 @@ export function comparisonAlignment(a: LiveShotPoint[], b: LiveShotPoint[]): Sho
     return (index + progress) / phaseCount
   }
   return { kind: 'phases', phases: phasesA.map(phase => phase.slice(phase.indexOf(':') + 1)), position }
+}
+
+const average = (values: number[]) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null
+function summarizePhase(points: LiveShotPoint[]) {
+  const pressure = points.flatMap(point => typeof point.pressure === 'number' && Number.isFinite(point.pressure) ? [point.pressure] : [])
+  const flow = points.flatMap(point => typeof point.flow === 'number' && Number.isFinite(point.flow) ? [point.flow] : [])
+  const start = points[0]?.elapsedMs, end = points.at(-1)?.elapsedMs
+  return {
+    durationMs: start !== undefined && end !== undefined && points.length > 1 ? Math.max(0, end - start) : null,
+    pressure: average(pressure), flow: average(flow), pressureSamples: pressure.length, flowSamples: flow.length,
+  }
+}
+
+/** Measured sample means for matching phases; absent sensor readings stay null. */
+export function phaseSummaries(a: LiveShotPoint[], b: LiveShotPoint[]): PhaseSummary[] | null {
+  const phasesA = phaseSequence(a), phasesB = phaseSequence(b)
+  if (!phasesA || !phasesB || phasesA.length !== phasesB.length || phasesA.some((phase, i) => phase !== phasesB[i])) return null
+  return phasesA.map((phaseA, index) => {
+    const phaseB = phasesB[index]
+    return {
+      name: phaseA.slice(phaseA.indexOf(':') + 1),
+      a: summarizePhase(a.filter(point => `${point.stageIndex}:${point.stageName?.trim().toLocaleLowerCase()}` === phaseA)),
+      b: summarizePhase(b.filter(point => `${point.stageIndex}:${point.stageName?.trim().toLocaleLowerCase()}` === phaseB)),
+    }
+  })
 }
 
 /** A neutral, one-variable protocol; it never writes to machine settings or predicts taste. */

@@ -7526,6 +7526,41 @@
       "english": "Keep the same bean, dose, target yield, profile, and water temperature. Record the result; no machine setting is changed here.",
       "translation": "Mantén iguales el café, la dosis, el rendimiento objetivo, el perfil y la temperatura del agua. Registra el resultado; aquí no se cambia ningún ajuste de la máquina.",
       "kind": "contextual"
+    },
+    "insights.lab.phaseSummary": {
+      "english": "Measured values by matching phase",
+      "translation": "Valores medidos por fase coincidente",
+      "kind": "contextual"
+    },
+    "insights.lab.phase": {
+      "english": "Phase",
+      "translation": "Fase",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseDuration": {
+      "english": "Duration · s",
+      "translation": "Duración · s",
+      "kind": "contextual"
+    },
+    "insights.lab.phasePressure": {
+      "english": "Mean pressure · bar",
+      "translation": "Presión media · bar",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseFlow": {
+      "english": "Mean flow · ml/s",
+      "translation": "Caudal medio · ml/s",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseSamples": {
+      "english": "Samples · pressure / flow",
+      "translation": "Muestras · presión / caudal",
+      "kind": "contextual"
+    },
+    "insights.lab.phaseMeanNote": {
+      "english": "Means use recorded samples only; the sample counts show pressure and flow coverage in A/B order. These are descriptive measurements, not calibrated phase scores.",
+      "translation": "Las medias usan solo muestras registradas; los recuentos muestran la cobertura de presión y caudal en orden A/B. Son medidas descriptivas, no puntuaciones de fase calibradas.",
+      "kind": "contextual"
     }
   }
 }

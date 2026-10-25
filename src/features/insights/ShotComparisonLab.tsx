@@ -3,7 +3,7 @@ import type { HistoryCache, HistoryRecord } from './historyData'
 import type { LiveShotPoint, PreviousShot } from '../../domain/brewing'
 import { formatDecimal, t } from '../../i18n/index.ts'
 import { dateLabel, historyProfileName, timeLabel } from './historyData'
-import { comparisonAlignment, type ShotAlignment } from './shotComparison.ts'
+import { comparisonAlignment, phaseSummaries, type ShotAlignment, type PhaseSummary } from './shotComparison.ts'
 import { useCoffeeLibrary } from '../beans/coffeeLibrary.ts'
 import type { Bean } from '../../domain/beans.ts'
 
@@ -12,6 +12,17 @@ type Metric = 'pressure' | 'flow'
 const usable = (shot?: PreviousShot): shot is PreviousShot & { points: LiveShotPoint[] } =>
   !!shot?.points && shot.points.filter(p => Number.isFinite(p.pressure) || Number.isFinite(p.flow)).length > 1
 const number = (value: number | null | undefined, digits = 1) => value == null || !Number.isFinite(value) ? '—' : formatDecimal(value, digits)
+
+function PhaseSummaryTable({ phases }: { phases: PhaseSummary[] }) {
+  const pair = (a: string, b: string) => <span className="ins-lab-phase-pair"><i>{a}</i><i>{b}</i></span>
+  return <section className="ins-lab-phase-summary" aria-label={t('insights.lab.phaseSummary')}>
+    <h3>{t('insights.lab.phaseSummary')}</h3>
+    <div className="ins-lab-phase-scroll"><table><thead><tr><th>{t('insights.lab.phase')}</th><th>{t('insights.lab.phaseDuration')}</th><th>{t('insights.lab.phasePressure')}</th><th>{t('insights.lab.phaseFlow')}</th><th>{t('insights.lab.phaseSamples')}</th></tr></thead>
+      <tbody>{phases.map(phase => <tr key={phase.name}><th scope="row">{phase.name}</th><td>{pair(number(phase.a.durationMs === null ? null : phase.a.durationMs / 1000), number(phase.b.durationMs === null ? null : phase.b.durationMs / 1000))}</td><td>{pair(number(phase.a.pressure), number(phase.b.pressure))}</td><td>{pair(number(phase.a.flow), number(phase.b.flow))}</td><td>{pair(`${phase.a.pressureSamples}/${phase.a.flowSamples}`, `${phase.b.pressureSamples}/${phase.b.flowSamples}`)}</td></tr>)}</tbody>
+    </table></div>
+    <p>{t('insights.lab.phaseMeanNote')}</p>
+  </section>
+}
 
 function Plot({ metric, shots, alignment }: { metric: Metric; shots: [Shot, Shot]; alignment: ShotAlignment }) {
   const values = shots.flatMap(s => s.detail.points.map(p => p[metric]).filter((n): n is number => typeof n === 'number' && Number.isFinite(n)))
@@ -25,7 +36,7 @@ function Plot({ metric, shots, alignment }: { metric: Metric; shots: [Shot, Shot
   }
   const label = metric === 'pressure' ? t('insights.lab.pressure') : t('insights.lab.flow')
   return <section className="ins-lab-plot" aria-label={label}>
-    <header><h3>{label}</h3><span>{metric === 'pressure' ? 'bar' : 'g/s'}</span></header>
+    <header><h3>{label}</h3><span>{metric === 'pressure' ? 'bar' : 'ml/s'}</span></header>
     <svg viewBox="0 0 560 190" role="img" aria-label={t('insights.lab.plotAria', { metric: label })}>
       {[0,1,2,3].map(i => <g key={i}><line x1="42" x2="542" y1={30+i*42} y2={30+i*42} className="ins-lab-grid"/><text x="32" y={34+i*42} textAnchor="end" className="ins-lab-axis">{number(max*(1-i/3))}</text></g>)}
       {[0,25,50,75,100].map(n => <g key={n}><line x1={42+n*5} x2={42+n*5} y1="30" y2="156" className="ins-lab-grid ins-lab-grid--vertical"/><text x={42+n*5} y="177" textAnchor="middle" className="ins-lab-axis">{n}</text></g>)}
@@ -48,6 +59,7 @@ export function ShotComparisonLab({ cache }: { cache: HistoryCache | null }) {
   const b = shots.find(s => s.record.id === idB && s.record.id !== a?.record.id) ?? shots.find(s => s.record.id !== a?.record.id)
   const pair = a && b ? [a,b] as [Shot,Shot] : null
   const alignment = pair ? comparisonAlignment(pair[0].detail.points, pair[1].detail.points) : null
+  const phaseData = pair ? phaseSummaries(pair[0].detail.points, pair[1].detail.points) : null
   const label = (s: Shot) => `${historyProfileName(s.record)} · ${dateLabel(s.record.date)} ${timeLabel(s.record)}`
   const beanFor = (s: Shot): Bean | undefined => {
     const id = library.shotBeans[s.record.id]?.beanId
@@ -67,6 +79,7 @@ export function ShotComparisonLab({ cache }: { cache: HistoryCache | null }) {
         {[a, pair[1]].map((shot, i) => <div key={shot.record.id}><span><i className={`ins-lab-dot ins-lab-dot--${i ? 'b' : 'a'}`}/>{i ? t('insights.lab.shotB') : t('insights.lab.shotA')}</span><strong>{beanSummary(beanFor(shot))}</strong><small>{historyProfileName(shot.record)} · {number(shot.record.dose)}{t('insights.lab.gramsUnit')} → {number(shot.record.yield)}{t('insights.lab.gramsUnit')} · {shot.detail.grindSetting ?? t('insights.lab.grindUnknown')}</small></div>)}
       </div>
       <div className="ins-lab-plots"><Plot metric="pressure" shots={pair} alignment={alignment!}/><Plot metric="flow" shots={pair} alignment={alignment!}/></div>
+      {phaseData && <PhaseSummaryTable phases={phaseData}/>}
       <div className="ins-lab-summary">
         <div><span>{t('insights.common.duration')}</span><strong>{number(a.record.duration)}{t('insights.lab.secondsUnit')} <small>/</small> {number(pair[1].record.duration)}{t('insights.lab.secondsUnit')}</strong></div>
         <div><span>{t('insights.common.yield')}</span><strong>{number(a.record.yield)}{t('insights.lab.gramsUnit')} <small>/</small> {number(pair[1].record.yield)}{t('insights.lab.gramsUnit')}</strong></div>
