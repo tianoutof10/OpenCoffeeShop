@@ -21,16 +21,16 @@ function Plot({ metric, shots }: { metric: Metric; shots: [Shot, Shot] }) {
       return [`${(42 + Math.max(0, Math.min(1, p.elapsedMs / duration)) * 500).toFixed(1)},${(156 - Math.max(0, Math.min(1, v / max)) * 126).toFixed(1)}`]
     }).join(' ')
   }
-  const label = metric === 'pressure' ? 'Pressure' : 'Flow'
+  const label = metric === 'pressure' ? t('insights.lab.pressure') : t('insights.lab.flow')
   return <section className="ins-lab-plot" aria-label={label}>
     <header><h3>{label}</h3><span>{metric === 'pressure' ? 'bar' : 'g/s'}</span></header>
-    <svg viewBox="0 0 560 190" role="img" aria-label={label + ' comparison, elapsed time normalized to each shot'}>
+    <svg viewBox="0 0 560 190" role="img" aria-label={t('insights.lab.plotAria', { metric: label })}>
       {[0,1,2,3].map(i => <g key={i}><line x1="42" x2="542" y1={30+i*42} y2={30+i*42} className="ins-lab-grid"/><text x="32" y={34+i*42} textAnchor="end" className="ins-lab-axis">{number(max*(1-i/3))}</text></g>)}
       {[0,25,50,75,100].map(n => <g key={n}><line x1={42+n*5} x2={42+n*5} y1="30" y2="156" className="ins-lab-grid ins-lab-grid--vertical"/><text x={42+n*5} y="177" textAnchor="middle" className="ins-lab-axis">{n}</text></g>)}
       <polyline points={path(shots[0].detail.points)} className="ins-lab-line ins-lab-line--a"/>
       <polyline points={path(shots[1].detail.points)} className="ins-lab-line ins-lab-line--b"/>
     </svg>
-    <footer><span><i className="ins-lab-dot ins-lab-dot--a"/>A</span><span><i className="ins-lab-dot ins-lab-dot--b"/>B</span><small>Elapsed time (%)</small></footer>
+    <footer><span><i className="ins-lab-dot ins-lab-dot--a"/>{t('insights.lab.shotA')}</span><span><i className="ins-lab-dot ins-lab-dot--b"/>{t('insights.lab.shotB')}</span><small>{t('insights.lab.normalizedTime')}</small></footer>
   </section>
 }
 
@@ -46,19 +46,19 @@ export function ShotComparisonLab({ cache }: { cache: HistoryCache | null }) {
   const pair = a && b ? [a,b] as [Shot,Shot] : null
   const label = (s: Shot) => `${historyProfileName(s.record)} · ${dateLabel(s.record.date)} ${timeLabel(s.record)}`
   return <section className="ins-panel ins-lab" aria-labelledby="ins-lab-title">
-    <header className="ins-lab-heading"><div><small className="ins-eyebrow">SHOT LAB</small><h2 id="ins-lab-title">Compare two pulls</h2><p>Overlay recorded pressure and flow on each shot’s own timeline.</p></div><span className="ins-lab-badge">Recorded telemetry</span></header>
+    <header className="ins-lab-heading"><div><small className="ins-eyebrow">{t('insights.lab.eyebrow')}</small><h2 id="ins-lab-title">{t('insights.lab.title')}</h2><p>{t('insights.lab.subtitle')}</p></div><span className="ins-lab-badge">{t('insights.lab.measuredOnly')}</span></header>
     {pair ? <>
       <div className="ins-lab-selectors">
-        <label><span><i className="ins-lab-dot ins-lab-dot--a"/>Shot A</span><select value={a.record.id} onChange={e => setA(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
-        <label><span><i className="ins-lab-dot ins-lab-dot--b"/>Shot B</span><select value={b.record.id} onChange={e => setB(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
+        <label><span><i className="ins-lab-dot ins-lab-dot--a"/>{t('insights.lab.shotA')}</span><select value={a.record.id} onChange={e => setA(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
+        <label><span><i className="ins-lab-dot ins-lab-dot--b"/>{t('insights.lab.shotB')}</span><select value={b.record.id} onChange={e => setB(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
       </div>
       <div className="ins-lab-plots"><Plot metric="pressure" shots={pair}/><Plot metric="flow" shots={pair}/></div>
       <div className="ins-lab-summary">
-        <div><span>{t('insights.common.duration')}</span><strong>{number(a.record.duration)}s <small>/</small> {number(b.record.duration)}s</strong></div>
-        <div><span>{t('insights.common.yield')}</span><strong>{number(a.record.yield)}g <small>/</small> {number(b.record.yield)}g</strong></div>
-        <div><span>Dose</span><strong>{number(a.record.dose)}g <small>/</small> {number(b.record.dose)}g</strong></div>
+        <div><span>{t('insights.common.duration')}</span><strong>{number(a.record.duration)}{t('insights.lab.secondsUnit')} <small>/</small> {number(b.record.duration)}{t('insights.lab.secondsUnit')}</strong></div>
+        <div><span>{t('insights.common.yield')}</span><strong>{number(a.record.yield)}{t('insights.lab.gramsUnit')} <small>/</small> {number(b.record.yield)}{t('insights.lab.gramsUnit')}</strong></div>
+        <div><span>{t('insights.lab.dose')}</span><strong>{number(a.record.dose)}{t('insights.lab.gramsUnit')} <small>/</small> {number(b.record.dose)}{t('insights.lab.gramsUnit')}</strong></div>
       </div>
-      <p className="ins-lab-note">Curves are aligned by elapsed-time percentage, not by matching events. Similar shapes do not prove similar extraction or taste.</p>
-    </> : <div className="ins-lab-empty"><span aria-hidden="true">⌁</span><strong>Two recorded shots needed</strong><p>Once two saved espresso shots include pressure or flow telemetry, you can compare their curves here.</p></div>}
+      <p className="ins-lab-note">{t('insights.lab.note')}</p>
+    </> : <div className="ins-lab-empty"><span aria-hidden="true">⌁</span><strong>{t('insights.lab.emptyTitle')}</strong><p>{t('insights.lab.emptyBody')}</p></div>}
   </section>
 }
