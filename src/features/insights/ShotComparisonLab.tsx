@@ -42,7 +42,7 @@ export function ShotComparisonLab({ cache }: { cache: HistoryCache | null }) {
   const [idA, setA] = useState('')
   const [idB, setB] = useState('')
   const a = shots.find(s => s.record.id === idA) ?? shots[0]
-  const b = shots.find(s => s.record.id === idB) ?? shots.find(s => s.record.id !== a?.record.id) ?? a
+  const b = shots.find(s => s.record.id === idB && s.record.id !== a?.record.id) ?? shots.find(s => s.record.id !== a?.record.id)
   const pair = a && b ? [a,b] as [Shot,Shot] : null
   const label = (s: Shot) => `${historyProfileName(s.record)} · ${dateLabel(s.record.date)} ${timeLabel(s.record)}`
   return <section className="ins-panel ins-lab" aria-labelledby="ins-lab-title">
