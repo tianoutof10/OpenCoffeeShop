@@ -182,7 +182,7 @@ One universal three-stage profile instead of many:
 3. **Extraction** by flow under a pressure ceiling, with an optional gentle decline stage.
 
 Its parameters (soak, flow, ceiling, decline, temperature, dose, target weight)
-are stored in the profile's metadata (`bestpressoChassis`), clamped to safe
+are stored in the profile's metadata (the profile metadata), clamped to safe
 ranges, and compiled into valid v2.1 steps (verified by OpenCoffeeShop's own builder
 validator in tests). The barista controls grind and puck prep; the app proposes
 hydraulic changes, applied by one tap.
@@ -234,7 +234,7 @@ does not change a live shot.
   screen, water alkalinity, and Modern Clarity vs Traditional Body. Scale
   latency is already handled by Decaid's weight-flow look-ahead setting.
 
-All of this is stored on the tablet per gateway (`bestpresso-coffee-v1:<gateway>`).
+All of this is stored on the tablet per gateway (a gateway-scoped local storage record).
 
 ## 7. Calibration before trusting advice
 

@@ -76,7 +76,7 @@ interface AppShellProps {
   onOpenPreviousShot: () => void
 }
 
-const utilityLayoutStorageKey = 'bestpresso.utility-layout-collapsed.v1'
+const utilityLayoutStorageKey = 'opencoffeeshop.utility-layout-collapsed.v1'
 
 const initialUtilityLayout = () => {
   try {

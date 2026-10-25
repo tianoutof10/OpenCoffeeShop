@@ -2,7 +2,7 @@ import { getDisplayState, setDisplayBrightness } from '../../api/decaid/client'
 import { t } from '../../i18n/index.ts'
 import { createDisplayBrightnessPolicy } from './displayBrightnessPolicy'
 
-const KEY = 'bestpresso:display-brightness'
+const KEY = 'opencoffeeshop:display-brightness'
 export const displayBrightness = createDisplayBrightnessPolicy({
   read: getDisplayState,
   write: setDisplayBrightness,

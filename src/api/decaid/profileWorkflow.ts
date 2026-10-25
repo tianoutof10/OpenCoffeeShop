@@ -1,8 +1,9 @@
 import type { BrewProfile } from '../../domain/brewing.ts'
 import { VALUE_ADJUSTMENTS } from '../../domain/valueAdjustments.ts'
 import type { DecaidProfile, DecaidProfileRecord, DecaidWorkflowPatch } from './types.ts'
+import { migrateProfileMetadata } from '../../compatibility/legacyDataMigration.ts'
 
-export const OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY = 'bestpressoTargetYield'
+export const OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY = 'openCoffeeShopTargetYield'
 
 export const profileUsesStopAtWeight = (profile?: DecaidProfile) => {
   const targetWeight = Number(profile?.target_weight)
@@ -25,8 +26,8 @@ const nonNegativeTargetYield = (value: unknown) => {
 }
 
 export const profileUserTargetYield = (metadata?: Record<string, unknown> | null) => (
-  Object.prototype.hasOwnProperty.call(metadata ?? {}, OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY)
-    ? nonNegativeTargetYield(metadata?.[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY])
+  Object.prototype.hasOwnProperty.call(migrateProfileMetadata(metadata), OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY)
+    ? nonNegativeTargetYield(migrateProfileMetadata(metadata)[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY])
     : undefined
 )
 

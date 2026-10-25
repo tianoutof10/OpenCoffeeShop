@@ -39,7 +39,7 @@ try {
   if (!readCoffeeLibrary().beans.length) {
     const roast = new Date(Date.now() - 6 * 86_400_000).toISOString().slice(0, 10)
     const { library } = coffeeUpdates.addBean(readCoffeeLibrary(), { name: 'Sample · Ethiopia Guji', roaster: 'Review Roasters', origin: 'Ethiopia', process: 'Washed', roastLevel: 'light', roastDate: roast, altitudeMasl: 2000, tastingNotes: ['jasmine', 'peach'] })
-    localStorage.setItem(`bestpresso-coffee-v1:${getDecaidEndpoints().apiBase}`, JSON.stringify(library))
+    localStorage.setItem(`opencoffeeshop-coffee-v1:${getDecaidEndpoints().apiBase}`, JSON.stringify(library))
   }
 } catch { /* review only */ }
 

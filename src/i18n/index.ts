@@ -26,7 +26,7 @@ export function loadLanguage(language: Language): Promise<void> {
   loading.set(language, promise)
   return promise
 }
-const languageEvent = 'bestpresso:language-changed'
+const languageEvent = 'opencoffeeshop:language-changed'
 
 type Catalog = EnglishCatalog
 export type MessageKey = { [Key in keyof Catalog]: Catalog[Key] extends string ? Key : never }[keyof Catalog]

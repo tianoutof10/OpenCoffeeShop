@@ -25,8 +25,8 @@ export interface OpenCoffeeShopPreferences {
   homeView: HomeView
 }
 
-export const OPENCOFFEESHOP_PREFERENCES_KEY = 'bestpresso.preferences.v1'
-const preferenceEvent = 'bestpresso:preferences-changed'
+export const OPENCOFFEESHOP_PREFERENCES_KEY = 'opencoffeeshop.preferences.v1'
+const preferenceEvent = 'opencoffeeshop:preferences-changed'
 
 export const DEFAULT_OPENCOFFEESHOP_PREFERENCES: OpenCoffeeShopPreferences = {
   theme: 'nordic',

@@ -11,9 +11,9 @@ const records = [
   { id: 'user-fail', isDefault: false, visibility: 'visible', profile: recipe('Unavailable profile') },
 ]
 let workflow = { profile: records[1].profile, context: { targetYield: 36, targetDoseWeight: 18 } }
-const store = { 'favorite-profiles': { 0: 'builtin', 1: 'user-created', 2: 'user/imported', 3: 'user-active', 4: null }, 'bestpresso-last-selected-profile': 'user-active' }
+const store = { 'favorite-profiles': { 0: 'builtin', 1: 'user-created', 2: 'user/imported', 3: 'user-active', 4: null }, 'opencoffeeshop-last-selected-profile': 'user-active' }
 const shot = { id: 'saved-shot', timestamp: '2026-09-12T06:00:00Z', workflow: { profile: records[3].profile, context: { targetDoseWeight: 18, targetYield: 36 } }, annotations: { actualYield: 36 }, measurements: [] }
-for (const record of records) { record.metadata = record.id === 'user-created' ? {bestpressoSource:'created', bestpressoCreatedAt:'2026-09-14',targetDoseWeight:18} : record.id === 'user/imported' ? {bestpressoSource:'imported',targetDoseWeight:20,description:'Imported recipe description. '.repeat(40)} : null }
+for (const record of records) { record.metadata = record.id === 'user-created' ? {openCoffeeShopSource:'created', openCoffeeShopCreatedAt:'2026-09-14',targetDoseWeight:18} : record.id === 'user/imported' ? {openCoffeeShopSource:'imported',targetDoseWeight:20,description:'Imported recipe description. '.repeat(40)} : null }
 const writes = []
 let brightness = 100
 const server = createServer(async (req, res) => {

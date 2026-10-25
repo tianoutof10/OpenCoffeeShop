@@ -137,7 +137,7 @@ const withHotWaterReadback = (model: BrewingScreenModel): BrewingScreenModel => 
   }) }
 }
 
-const localFavoriteStorageKey = 'bestpresso.favorite-profile-ids.v1'
+const localFavoriteStorageKey = 'opencoffeeshop.favorite-profile-ids.v1'
 
 const favoriteAssignmentsForSlots = (slots: Array<string | null>): FavoriteAssignments => Object.fromEntries(Array.from({ length: 5 }, (_, slot) => [String(slot), slots[slot] ?? null]))
 

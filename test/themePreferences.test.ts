@@ -48,7 +48,7 @@ test('appearance selector labels light as beta and does not depend on the Decaid
   const screen = readFileSync(new URL('../src/features/settings/SettingsScreen.tsx', import.meta.url), 'utf8')
   const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8')
   const en = readFileSync(new URL('../src/i18n/en/settings.ts', import.meta.url), 'utf8')
-  assert.match(screen, /label=\{t\('settings\.experience\.bestpressoTheme'\)\}[^>]+value=\{preferences.theme\}/)
+  assert.match(screen, /label=\{t\('settings\.experience\.openCoffeeShopTheme'\)\}[^>]+value=\{preferences.theme\}/)
   assert.match(screen, /label: t\('settings\.theme\.lightBeta'\)/)
   assert.match(en, /'settings\.theme\.lightBeta': 'Light \(Beta\)'/)
   assert.match(screen, /label=\{t\('settings\.experience\.decaidTheme'\)\}/)
