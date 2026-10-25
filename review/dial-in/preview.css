@@ -1,0 +1,5 @@
+.stage-review-nav { height:40px; display:flex; align-items:center; gap:10px; padding:0 16px; color:#aaa; background:#171717; font:12px system-ui; }
+.stage-review-nav span { margin-right:auto; }
+.stage-review-nav button { border:1px solid #555; border-radius:20px; padding:5px 12px; color:#eee; background:#333; font:inherit; }
+.stage-review-body { height:calc(100dvh - 40px); overflow:hidden; }
+.stage-review-body>.live-brew-screen,.stage-review-body>.history-browser-screen { height:100%; }

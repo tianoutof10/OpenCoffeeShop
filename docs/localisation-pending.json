@@ -1,0 +1,16 @@
+{
+  "insights.period.dayMonth": {
+    "english": "{day} {month}",
+    "fr": "",
+    "it": "",
+    "zh-Hant": "",
+    "zh-Hans": ""
+  },
+  "insights.period.dayOnly": {
+    "english": "{day}",
+    "fr": "",
+    "it": "",
+    "zh-Hant": "",
+    "zh-Hans": ""
+  }
+}

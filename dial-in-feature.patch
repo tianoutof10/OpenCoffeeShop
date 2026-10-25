@@ -1,0 +1,3170 @@
+From fa051e9c97df3a2c13a21d1997974f3269e9f824 Mon Sep 17 00:00:00 2001
+From: Tian <tian@sanchez-ballado.com>
+Date: Sat, 24 Oct 2026 20:07:38 +0000
+Subject: [PATCH] Add shot analysis, taste-first dial-in and calm live view
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- domain/shotAnalysis: Decent puck resistance (P/F²), abrupt relative drop
+  detection guarded against stage changes, commanded target changes and the
+  shot tail; choked-flow detection; first drops and breakdown shape.
+- insights/dialIn: espresso-compass rules producing one next step from real
+  dose/yield/grind; puck findings first; yield before grind.
+- Dial-in sheet on finished live pulls and Insights shot detail, with chart
+  markers; device-local taste journal.
+- Calm live view preference (ring + stage) toggled from the live header.
+- scripts/analyze-shots.ts calibration helper (read-only).
+- en/es/fr/it/zh drafts with provenance; review page; docs.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015NuaqczNcFBQoTF56BhAqz
+---
+ README.md                                     |   6 +
+ docs/localisation-contextual-drafts.json      | 410 ++++++++++++++++++
+ docs/localisation-spanish-provenance.json     | 410 ++++++++++++++++++
+ docs/shot-analysis-and-dial-in.md             | 133 ++++++
+ review/dial-in/index.html                     |   1 +
+ review/dial-in/preview.css                    |   5 +
+ review/dial-in/preview.tsx                    |  47 ++
+ scripts/analyze-shots.ts                      |  74 ++++
+ src/api/decaid/adapters.ts                    |   5 +
+ src/domain/brewing.ts                         |   4 +
+ src/domain/shotAnalysis.ts                    | 239 ++++++++++
+ src/features/brew/CalmLiveView.tsx            |  42 ++
+ src/features/brew/LiveBrewingScreen.tsx       |  25 +-
+ src/features/brew/LiveShotChart.tsx           |  12 +-
+ src/features/brew/calmRing.ts                 |   7 +
+ src/features/history/PreviousShotScreen.tsx   |  17 +-
+ src/features/insights/ShotDialInPanel.tsx     | 150 +++++++
+ src/features/insights/dialIn.ts               | 130 ++++++
+ src/features/insights/shotDialIn.css          |  99 +++++
+ src/features/insights/tasteNotesStorage.ts    |  50 +++
+ .../settings/bestpressoPreferences.ts         |   5 +
+ src/i18n/en/brew.ts                           |   9 +
+ src/i18n/en/insights.ts                       |  75 ++++
+ src/i18n/es/brew.ts                           |  10 +-
+ src/i18n/es/insights.ts                       |  76 +++-
+ src/i18n/fr/brew.ts                           |  10 +-
+ src/i18n/fr/insights.ts                       |  76 +++-
+ src/i18n/interface-literals.json              |  15 +-
+ src/i18n/it/brew.ts                           |  10 +-
+ src/i18n/it/insights.ts                       |  76 +++-
+ src/i18n/zh-Hans/brew.ts                      |  10 +-
+ src/i18n/zh-Hans/insights.ts                  |  76 +++-
+ src/i18n/zh-Hant/brew.ts                      |  10 +-
+ src/i18n/zh-Hant/insights.ts                  |  76 +++-
+ test/bestpressoPreferences.test.ts            |   7 +
+ test/calmRing.test.ts                         |  14 +
+ test/dialIn.test.ts                           |  75 ++++
+ test/shotAnalysis.test.ts                     | 123 ++++++
+ 38 files changed, 2595 insertions(+), 24 deletions(-)
+ create mode 100644 docs/shot-analysis-and-dial-in.md
+ create mode 100644 review/dial-in/index.html
+ create mode 100644 review/dial-in/preview.css
+ create mode 100644 review/dial-in/preview.tsx
+ create mode 100644 scripts/analyze-shots.ts
+ create mode 100644 src/domain/shotAnalysis.ts
+ create mode 100644 src/features/brew/CalmLiveView.tsx
+ create mode 100644 src/features/brew/calmRing.ts
+ create mode 100644 src/features/insights/ShotDialInPanel.tsx
+ create mode 100644 src/features/insights/dialIn.ts
+ create mode 100644 src/features/insights/shotDialIn.css
+ create mode 100644 src/features/insights/tasteNotesStorage.ts
+ create mode 100644 test/calmRing.test.ts
+ create mode 100644 test/dialIn.test.ts
+ create mode 100644 test/shotAnalysis.test.ts
+
+diff --git a/README.md b/README.md
+index ada4c02..b7719c0 100644
+--- a/README.md
++++ b/README.md
+@@ -51,6 +51,12 @@ The status pill first confirms Decaid availability and then the machine device's
+ 
+ The header Sleep control sends `sleeping` and shows the clock at the configured screensaver brightness (7% by default). Settings → Power → Screen brightness → Screen off after optionally blacks out the screen after a delay; 0 disables this. A single tap on the black screen restores the clock at screensaver brightness and restarts the delay without waking the machine. A one-second hold on either the clock or black screen wakes the machine and restores normal screen brightness. Taps while the clock is visible do not extend the delay. The Settings control opens Decaid's bundled settings interface with `backName=Bestpresso` so its Back control returns to the skin.
+ 
++## Shot analysis and dial-in
++
++After a pull, and on any saved shot in Insights, **Dial in** opens a display-only sheet. It shows what the puck did, using Decent's resistance convention (pressure ÷ flow²): possible channels (abrupt relative resistance drops that the profile didn't command, ignoring stage changes and the final two seconds), stalled flow at high pressure, time to first drops, and the shape of the puck's breakdown. Findings are also marked on the chart. A 3 × 3 espresso compass (sour ↔ bitter, weak ↔ strong) plus a drying-finish flag produces **one** next step from the shot's real dose, yield and grind. Puck problems come first, and yield is adjusted before grind. Taste notes stay on the tablet, keyed per gateway and shot. Nothing is written to Decaid and no machine setting changes. The **Calm** control on the live screen swaps the chart for a single yield ring while the shot runs, and the choice is remembered.
++
++Thresholds are not yet calibrated against real shots. Run `node --experimental-strip-types scripts/analyze-shots.ts --gateway YOUR_DECAID_IP --limit 100 --csv shots.csv` to compare findings with shots you remember. Rules, references and the calibration bar are in [docs/shot-analysis-and-dial-in.md](docs/shot-analysis-and-dial-in.md). Review it with sample data at `/review/dial-in/index.html` in development.
++
+ ## License
+ 
+ Bestpresso is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html) (GPLv3).
+diff --git a/docs/localisation-contextual-drafts.json b/docs/localisation-contextual-drafts.json
+index 4e70ad6..05a9ef1 100644
+--- a/docs/localisation-contextual-drafts.json
++++ b/docs/localisation-contextual-drafts.json
+@@ -8403,6 +8403,416 @@
+         "zh-Hans"
+       ],
+       "note": "Terminology consistency revision of the source seed."
++    },
++    "insights.dialIn.open": {
++      "english": "Dial in",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.openAriaLabel": {
++      "english": "Dial in the next shot",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.title": {
++      "english": "Dial in",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.subtitle": {
++      "english": "Display only. Nothing changes on the machine.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.close": {
++      "english": "Close",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.puckHeading": {
++      "english": "What the puck did",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.notAnalysable": {
++      "english": "Not enough pressurised flow to analyse this shot.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.clean": {
++      "english": "No sudden resistance drops or stalled flow found.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.drop.title": {
++      "english": "Possible channel at {time}",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.drop.detail": {
++      "english": "Puck resistance fell {pct}% in about a second, at {pressure} bar and {flow} ml/s.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.drop.early": {
++      "english": "Early in the shot, this usually points to distribution or tamping.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.drop.late": {
++      "english": "Late in the shot, this can be the puck eroding under high pressure.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.choked.title": {
++      "english": "Flow stalled at {time}",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.choked.detail": {
++      "english": "{pressure} bar pushed only {flow} ml/s for {seconds} s.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.metric.firstDrops": {
++      "english": "First drops",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.metric.peakResistance": {
++      "english": "Peak resistance",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.metric.resistanceFell": {
++      "english": "Peak-to-end drop",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.metric.breakdown": {
++      "english": "Breakdown",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.metric.ratio": {
++      "english": "Ratio",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.breakdown.steady": {
++      "english": "Steady",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.breakdown.mixed": {
++      "english": "Mixed",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.breakdown.uneven": {
++      "english": "Uneven",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.method": {
++      "english": "Resistance = pressure ÷ flow², Decent’s convention. Thresholds aren’t calibrated to your machine yet.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.tasteHeading": {
++      "english": "How did it taste?",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.sour": {
++      "english": "Sour",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.balanced": {
++      "english": "Balanced",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.bitter": {
++      "english": "Bitter",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.weak": {
++      "english": "Weak",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.strong": {
++      "english": "Strong",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.extractionAxis": {
++      "english": "Extraction",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.strengthAxis": {
++      "english": "Strength",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.cellAriaLabel": {
++      "english": "{extraction}, {strength}",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.drying": {
++      "english": "Drying or harsh finish",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.saved": {
++      "english": "Saved on this tablet",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.taste.prompt": {
++      "english": "Tap the cell that matches the cup.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.nextHeading": {
++      "english": "Next shot",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.then": {
++      "english": "Then",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.why": {
++      "english": "Why",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.basis.both": {
++      "english": "Based on your tasting and the shot data.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.basis.taste": {
++      "english": "Based on your tasting.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.keep": {
++      "english": "Keep everything the same and note this recipe.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.puckPrep": {
++      "english": "Fix puck prep first: distribute thoroughly (WDT), tamp level, and check the basket and puck screen. Keep grind and ratio the same.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.lowerPeakPressure": {
++      "english": "Lower the peak pressure to {to} bar.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.lowerPeakPressureFrom": {
++      "english": "Lower the peak pressure from {from} to {to} bar.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.grindFiner": {
++      "english": "Grind one step finer.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.grindFinerFrom": {
++      "english": "Grind one step finer than {setting}.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.grindCoarser": {
++      "english": "Grind one step coarser.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.grindCoarserFrom": {
++      "english": "Grind one step coarser than {setting}.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.longerYield": {
++      "english": "Pull a longer shot, about 10% more yield.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.longerYieldTo": {
++      "english": "Stop at {to} g instead of {from} g.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.shorterYield": {
++      "english": "Pull a shorter shot, about 10% less yield.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.shorterYieldTo": {
++      "english": "Stop at {to} g instead of {from} g.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.moreDose": {
++      "english": "Add about 1 g of coffee at the same ratio.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.moreDoseTo": {
++      "english": "Dose {to} g instead of {from} g, and stop at {yield} g to keep the same ratio.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.lessDose": {
++      "english": "Use about 1 g less coffee at the same ratio.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.step.lessDoseTo": {
++      "english": "Dose {to} g instead of {from} g, and stop at {yield} g to keep the same ratio.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.chokedFlow": {
++      "english": "Flow stalled at high pressure. A stalled bed extracts unevenly, and grinding finer past this point can lower extraction (Cameron et al., 2020).",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.puckDrop": {
++      "english": "Resistance dropped suddenly, which often means water found a channel. Changing grind or ratio won’t fix uneven flow.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.drying": {
++      "english": "A drying finish usually means uneven extraction. Lower pressure made shots more repeatable in Cameron et al. (2020).",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.sourStrong": {
++      "english": "Sour and strong: more water raises extraction and lowers strength. Total yield is the biggest lever on what ends up in the cup (Schmieder et al., 2023).",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.sourBalanced": {
++      "english": "Sour: a longer yield raises extraction. Total yield is the biggest lever on what ends up in the cup (Schmieder et al., 2023).",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.sourWeak": {
++      "english": "Sour and weak: grinding finer raises extraction and strength together.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.bitterWeak": {
++      "english": "Bitter and weak: a shorter yield lowers extraction and raises strength.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.bitterBalanced": {
++      "english": "Bitter: a shorter yield lowers extraction.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.bitterStrong": {
++      "english": "Bitter and strong: grinding coarser lowers extraction and strength together.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.balancedWeak": {
++      "english": "Balanced but weak: more coffee at the same ratio adds strength without changing extraction much.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.balancedStrong": {
++      "english": "Balanced but strong: less coffee at the same ratio softens it.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.balanced": {
++      "english": "This cup is where you want it.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.ratioAlreadyLong": {
++      "english": "Sour, but the ratio is already {ratio}. More water would mostly thin the cup, so grind finer instead.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.reason.ratioAlreadyShort": {
++      "english": "Bitter, but the ratio is already {ratio}. Coarsen the grind instead of shortening further.",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.ratioValue": {
++      "english": "1:{ratio}",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.chartMarker.drop": {
++      "english": "Possible channel",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "insights.dialIn.chartMarker.choked": {
++      "english": "Flow stalled",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
++    },
++    "brew.liveScreen.calmView": {
++      "english": "Calm",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.chartView": {
++      "english": "Chart",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.calmViewAriaLabel": {
++      "english": "Switch to the calm view",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.chartViewAriaLabel": {
++      "english": "Switch to the chart view",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.calmRingAriaLabel": {
++      "english": "{weight} of {target} grams",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.calmRingTimeAriaLabel": {
++      "english": "{seconds} seconds elapsed",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.calmTarget": {
++      "english": "of {target} g",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "brew.liveScreen.calmStage": {
++      "english": "Stage",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Calm live view: a single yield ring shown while a shot runs."
++    },
++    "insights.dialIn.thenAfterPrep": {
++      "english": "If it’s still off once flow is even",
++      "languages": ["fr", "it", "zh-Hant", "zh-Hans"],
++      "note": "Display-only dial-in sheet: puck-resistance findings and taste-compass advice; see docs/shot-analysis-and-dial-in.md."
+     }
+   }
+ }
+diff --git a/docs/localisation-spanish-provenance.json b/docs/localisation-spanish-provenance.json
+index 2beeaf8..8e6c070 100644
+--- a/docs/localisation-spanish-provenance.json
++++ b/docs/localisation-spanish-provenance.json
+@@ -5561,6 +5561,416 @@
+       "english": "Brightness applied to Decaid, but this browser could not remember it for the next launch.",
+       "translation": "Se aplicó el brillo en Decaid, pero este navegador no pudo guardarlo para el próximo inicio.",
+       "kind": "contextual"
++    },
++    "insights.dialIn.open": {
++      "english": "Dial in",
++      "translation": "Ajustar",
++      "kind": "contextual"
++    },
++    "insights.dialIn.openAriaLabel": {
++      "english": "Dial in the next shot",
++      "translation": "Ajustar la próxima extracción",
++      "kind": "contextual"
++    },
++    "insights.dialIn.title": {
++      "english": "Dial in",
++      "translation": "Ajustar",
++      "kind": "contextual"
++    },
++    "insights.dialIn.subtitle": {
++      "english": "Display only. Nothing changes on the machine.",
++      "translation": "Solo informativo. No cambia nada en la máquina.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.close": {
++      "english": "Close",
++      "translation": "Cerrar",
++      "kind": "contextual"
++    },
++    "insights.dialIn.puckHeading": {
++      "english": "What the puck did",
++      "translation": "Qué hizo la pastilla",
++      "kind": "contextual"
++    },
++    "insights.dialIn.notAnalysable": {
++      "english": "Not enough pressurised flow to analyse this shot.",
++      "translation": "No hubo suficiente flujo a presión para analizar esta extracción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.clean": {
++      "english": "No sudden resistance drops or stalled flow found.",
++      "translation": "No se detectaron caídas bruscas de resistencia ni flujo atascado.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.drop.title": {
++      "english": "Possible channel at {time}",
++      "translation": "Posible canalización a los {time}",
++      "kind": "contextual"
++    },
++    "insights.dialIn.drop.detail": {
++      "english": "Puck resistance fell {pct}% in about a second, at {pressure} bar and {flow} ml/s.",
++      "translation": "La resistencia de la pastilla cayó un {pct}% en un segundo aproximadamente, a {pressure} bar y {flow} ml/s.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.drop.early": {
++      "english": "Early in the shot, this usually points to distribution or tamping.",
++      "translation": "Al principio de la extracción, esto suele indicar un problema de distribución o de prensado.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.drop.late": {
++      "english": "Late in the shot, this can be the puck eroding under high pressure.",
++      "translation": "Al final de la extracción, puede ser la pastilla erosionándose bajo alta presión.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.choked.title": {
++      "english": "Flow stalled at {time}",
++      "translation": "Flujo atascado a los {time}",
++      "kind": "contextual"
++    },
++    "insights.dialIn.choked.detail": {
++      "english": "{pressure} bar pushed only {flow} ml/s for {seconds} s.",
++      "translation": "{pressure} bar solo empujaron {flow} ml/s durante {seconds} s.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.metric.firstDrops": {
++      "english": "First drops",
++      "translation": "Primeras gotas",
++      "kind": "contextual"
++    },
++    "insights.dialIn.metric.peakResistance": {
++      "english": "Peak resistance",
++      "translation": "Resistencia máxima",
++      "kind": "contextual"
++    },
++    "insights.dialIn.metric.resistanceFell": {
++      "english": "Peak-to-end drop",
++      "translation": "Caída pico → final",
++      "kind": "contextual"
++    },
++    "insights.dialIn.metric.breakdown": {
++      "english": "Breakdown",
++      "translation": "Desgaste",
++      "kind": "contextual"
++    },
++    "insights.dialIn.metric.ratio": {
++      "english": "Ratio",
++      "translation": "Proporción",
++      "kind": "contextual"
++    },
++    "insights.dialIn.breakdown.steady": {
++      "english": "Steady",
++      "translation": "Constante",
++      "kind": "contextual"
++    },
++    "insights.dialIn.breakdown.mixed": {
++      "english": "Mixed",
++      "translation": "Mixto",
++      "kind": "contextual"
++    },
++    "insights.dialIn.breakdown.uneven": {
++      "english": "Uneven",
++      "translation": "Irregular",
++      "kind": "contextual"
++    },
++    "insights.dialIn.method": {
++      "english": "Resistance = pressure ÷ flow², Decent’s convention. Thresholds aren’t calibrated to your machine yet.",
++      "translation": "Resistencia = presión ÷ flujo², la convención de Decent. Los umbrales aún no están calibrados para tu máquina.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.tasteHeading": {
++      "english": "How did it taste?",
++      "translation": "¿Qué tal sabía?",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.sour": {
++      "english": "Sour",
++      "translation": "Ácido",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.balanced": {
++      "english": "Balanced",
++      "translation": "Equilibrado",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.bitter": {
++      "english": "Bitter",
++      "translation": "Amargo",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.weak": {
++      "english": "Weak",
++      "translation": "Flojo",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.strong": {
++      "english": "Strong",
++      "translation": "Intenso",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.extractionAxis": {
++      "english": "Extraction",
++      "translation": "Extracción",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.strengthAxis": {
++      "english": "Strength",
++      "translation": "Intensidad",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.cellAriaLabel": {
++      "english": "{extraction}, {strength}",
++      "translation": "{extraction}, {strength}",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.drying": {
++      "english": "Drying or harsh finish",
++      "translation": "Final seco o áspero",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.saved": {
++      "english": "Saved on this tablet",
++      "translation": "Guardado en esta tableta",
++      "kind": "contextual"
++    },
++    "insights.dialIn.taste.prompt": {
++      "english": "Tap the cell that matches the cup.",
++      "translation": "Toca la casilla que describe la taza.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.nextHeading": {
++      "english": "Next shot",
++      "translation": "Próxima extracción",
++      "kind": "contextual"
++    },
++    "insights.dialIn.then": {
++      "english": "Then",
++      "translation": "Después",
++      "kind": "contextual"
++    },
++    "insights.dialIn.why": {
++      "english": "Why",
++      "translation": "Por qué",
++      "kind": "contextual"
++    },
++    "insights.dialIn.basis.both": {
++      "english": "Based on your tasting and the shot data.",
++      "translation": "Basado en tu cata y en los datos de la extracción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.basis.taste": {
++      "english": "Based on your tasting.",
++      "translation": "Basado en tu cata.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.keep": {
++      "english": "Keep everything the same and note this recipe.",
++      "translation": "Mantén todo igual y anota esta receta.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.puckPrep": {
++      "english": "Fix puck prep first: distribute thoroughly (WDT), tamp level, and check the basket and puck screen. Keep grind and ratio the same.",
++      "translation": "Primero corrige la preparación: distribuye bien (WDT), prensa a nivel y revisa el filtro y la pantalla de pastilla. Mantén la molienda y la proporción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.lowerPeakPressure": {
++      "english": "Lower the peak pressure to {to} bar.",
++      "translation": "Baja la presión máxima a {to} bar.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.lowerPeakPressureFrom": {
++      "english": "Lower the peak pressure from {from} to {to} bar.",
++      "translation": "Baja la presión máxima de {from} a {to} bar.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.grindFiner": {
++      "english": "Grind one step finer.",
++      "translation": "Muele un punto más fino.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.grindFinerFrom": {
++      "english": "Grind one step finer than {setting}.",
++      "translation": "Muele un punto más fino que {setting}.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.grindCoarser": {
++      "english": "Grind one step coarser.",
++      "translation": "Muele un punto más grueso.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.grindCoarserFrom": {
++      "english": "Grind one step coarser than {setting}.",
++      "translation": "Muele un punto más grueso que {setting}.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.longerYield": {
++      "english": "Pull a longer shot, about 10% more yield.",
++      "translation": "Haz una extracción más larga, alrededor de un 10% más de peso en taza.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.longerYieldTo": {
++      "english": "Stop at {to} g instead of {from} g.",
++      "translation": "Detén a {to} g en lugar de {from} g.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.shorterYield": {
++      "english": "Pull a shorter shot, about 10% less yield.",
++      "translation": "Haz una extracción más corta, alrededor de un 10% menos de peso en taza.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.shorterYieldTo": {
++      "english": "Stop at {to} g instead of {from} g.",
++      "translation": "Detén a {to} g en lugar de {from} g.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.moreDose": {
++      "english": "Add about 1 g of coffee at the same ratio.",
++      "translation": "Añade alrededor de 1 g de café con la misma proporción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.moreDoseTo": {
++      "english": "Dose {to} g instead of {from} g, and stop at {yield} g to keep the same ratio.",
++      "translation": "Dosifica {to} g en lugar de {from} g y detén a {yield} g para mantener la proporción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.lessDose": {
++      "english": "Use about 1 g less coffee at the same ratio.",
++      "translation": "Usa alrededor de 1 g menos de café con la misma proporción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.step.lessDoseTo": {
++      "english": "Dose {to} g instead of {from} g, and stop at {yield} g to keep the same ratio.",
++      "translation": "Dosifica {to} g en lugar de {from} g y detén a {yield} g para mantener la proporción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.chokedFlow": {
++      "english": "Flow stalled at high pressure. A stalled bed extracts unevenly, and grinding finer past this point can lower extraction (Cameron et al., 2020).",
++      "translation": "El flujo se atascó a alta presión. Una pastilla atascada extrae de forma desigual, y moler más fino a partir de aquí puede reducir la extracción (Cameron et al., 2020).",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.puckDrop": {
++      "english": "Resistance dropped suddenly, which often means water found a channel. Changing grind or ratio won’t fix uneven flow.",
++      "translation": "La resistencia cayó de golpe, lo que a menudo significa que el agua encontró un canal. Cambiar la molienda o la proporción no corrige un flujo desigual.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.drying": {
++      "english": "A drying finish usually means uneven extraction. Lower pressure made shots more repeatable in Cameron et al. (2020).",
++      "translation": "Un final seco suele indicar una extracción desigual. En Cameron et al. (2020), una presión más baja hizo las extracciones más repetibles.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.sourStrong": {
++      "english": "Sour and strong: more water raises extraction and lowers strength. Total yield is the biggest lever on what ends up in the cup (Schmieder et al., 2023).",
++      "translation": "Ácido e intenso: más agua aumenta la extracción y reduce la intensidad. El peso total en taza es la palanca que más influye en lo que acaba en la taza (Schmieder et al., 2023).",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.sourBalanced": {
++      "english": "Sour: a longer yield raises extraction. Total yield is the biggest lever on what ends up in the cup (Schmieder et al., 2023).",
++      "translation": "Ácido: una extracción más larga aumenta la extracción. El peso total en taza es la palanca que más influye en lo que acaba en la taza (Schmieder et al., 2023).",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.sourWeak": {
++      "english": "Sour and weak: grinding finer raises extraction and strength together.",
++      "translation": "Ácido y flojo: moler más fino aumenta a la vez la extracción y la intensidad.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.bitterWeak": {
++      "english": "Bitter and weak: a shorter yield lowers extraction and raises strength.",
++      "translation": "Amargo y flojo: una extracción más corta reduce la extracción y aumenta la intensidad.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.bitterBalanced": {
++      "english": "Bitter: a shorter yield lowers extraction.",
++      "translation": "Amargo: una extracción más corta reduce la extracción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.bitterStrong": {
++      "english": "Bitter and strong: grinding coarser lowers extraction and strength together.",
++      "translation": "Amargo e intenso: moler más grueso reduce a la vez la extracción y la intensidad.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.balancedWeak": {
++      "english": "Balanced but weak: more coffee at the same ratio adds strength without changing extraction much.",
++      "translation": "Equilibrado pero flojo: más café con la misma proporción da más cuerpo sin cambiar mucho la extracción.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.balancedStrong": {
++      "english": "Balanced but strong: less coffee at the same ratio softens it.",
++      "translation": "Equilibrado pero intenso: menos café con la misma proporción lo suaviza.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.balanced": {
++      "english": "This cup is where you want it.",
++      "translation": "Esta taza está donde la quieres.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.ratioAlreadyLong": {
++      "english": "Sour, but the ratio is already {ratio}. More water would mostly thin the cup, so grind finer instead.",
++      "translation": "Ácido, pero la proporción ya es {ratio}. Más agua solo aguaría la taza, así que muele más fino.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.reason.ratioAlreadyShort": {
++      "english": "Bitter, but the ratio is already {ratio}. Coarsen the grind instead of shortening further.",
++      "translation": "Amargo, pero la proporción ya es {ratio}. Muele más grueso en lugar de acortar más.",
++      "kind": "contextual"
++    },
++    "insights.dialIn.ratioValue": {
++      "english": "1:{ratio}",
++      "translation": "1:{ratio}",
++      "kind": "contextual"
++    },
++    "insights.dialIn.chartMarker.drop": {
++      "english": "Possible channel",
++      "translation": "Posible canalización",
++      "kind": "contextual"
++    },
++    "insights.dialIn.chartMarker.choked": {
++      "english": "Flow stalled",
++      "translation": "Flujo atascado",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.calmView": {
++      "english": "Calm",
++      "translation": "Calma",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.chartView": {
++      "english": "Chart",
++      "translation": "Gráfico",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.calmViewAriaLabel": {
++      "english": "Switch to the calm view",
++      "translation": "Cambiar a la vista tranquila",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.chartViewAriaLabel": {
++      "english": "Switch to the chart view",
++      "translation": "Cambiar a la vista de gráfico",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.calmRingAriaLabel": {
++      "english": "{weight} of {target} grams",
++      "translation": "{weight} de {target} gramos",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.calmRingTimeAriaLabel": {
++      "english": "{seconds} seconds elapsed",
++      "translation": "{seconds} segundos transcurridos",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.calmTarget": {
++      "english": "of {target} g",
++      "translation": "de {target} g",
++      "kind": "contextual"
++    },
++    "brew.liveScreen.calmStage": {
++      "english": "Stage",
++      "translation": "Etapa",
++      "kind": "contextual"
++    },
++    "insights.dialIn.thenAfterPrep": {
++      "english": "If it’s still off once flow is even",
++      "translation": "Si sigue sin convencerte cuando el flujo sea uniforme",
++      "kind": "contextual"
+     }
+   }
+ }
+diff --git a/docs/shot-analysis-and-dial-in.md b/docs/shot-analysis-and-dial-in.md
+new file mode 100644
+index 0000000..f21f2ce
+--- /dev/null
++++ b/docs/shot-analysis-and-dial-in.md
+@@ -0,0 +1,133 @@
++# Shot analysis and taste-first dial-in
++
++Status: first cut, display-only. No profile, workflow or machine command is
++changed by anything in this feature. Thresholds are uncalibrated against real
++shots until the calibration step below has been run on a physical machine.
++
++## Product point of view
++
++Help someone decide **one** thing to change on the next shot, with the evidence
++visible. Machines don't taste espresso, so the cup gets the final say:
++telemetry can rule a lever in or out, but it never overrides what the person
++tasted. This follows the same standard as `brewing-insights-v1.md`: transparent,
++deterministic rules, sample evidence on every claim, and no score.
++
++What this feature does **not** do: score shots, label a shot as "good", change
++profiles automatically, infer taste from telemetry, or claim a channel happened.
++Telemetry findings are worded as observations ("resistance fell 48% in 0.8 s"),
++with "possible" where cause is inferred.
++
++## 1. Puck resistance (domain: `src/domain/shotAnalysis.ts`)
++
++Resistance follows Decent's published convention, `R = pressure / flow²`
++(bar per (ml/s)²). Decent's Insight blog tracks the *change* in resistance as
++the signal for when puck integrity falls apart. Gemini's earlier prototype used
++`flow / pressure`, which doesn't match DSx or Visualizer values.
++
++Resistance is only computed where it means something:
++
++- flow ≥ 0.5 ml/s and pressure ≥ 1 bar (filling, blooms and pump pauses are excluded);
++- after the puck is first pressurised (pressure ≥ 2 bar), so headspace filling is ignored.
++  The DE1's flow reading is pump-side, and early flow fills the headspace rather than
++  passing through the puck.
++
++Values are smoothed with a time-based median (±0.6 s), so the result does not
++depend on Decaid's sample rate.
++
++### Findings
++
++| Finding | Rule (all in `ANALYSIS_THRESHOLDS`) | Wording |
++| --- | --- | --- |
++| Sudden resistance drop | Smoothed R falls ≥ 35% versus the median of the preceding 0.5–1.5 s, confirmed by the next sample, not within 1 s of a stage change, and no target pressure/flow change > 15% in that window. Merged within 2 s. Ignored in the last 2 s. | "Possible channel" with time, size of drop, and early/late phase. |
++| Choked flow | Pressure ≥ 7 bar with flow ≤ 0.7 ml/s (and yield flow ≤ 0.6 g/s if a scale is connected) for ≥ 5 s after pressurisation. | "Flow stalled at high pressure". |
++| First drops | First sample with yield ≥ 1 g. | Time only (descriptive). |
++| Resistance shape | Peak smoothed R, its time, and how much it declined by the end. Steadiness is the R² of a linear fit after the peak (≥ 6 s, ≥ 5 samples). | "Declined steadily" or "unevenly" (descriptive, not used for advice). |
++
++Why relative, not absolute: at espresso pressures flow is not proportional to
++pressure (Waszkiewicz et al., *Physics of Fluids*, 2026, poroelastic
++compaction), so absolute resistance falls on any declining-pressure profile.
++Only an abrupt relative fall that the profile did not command counts.
++
++## 2. Taste-first dial-in (`src/features/insights/dialIn.ts`)
++
++Input: the espresso compass, a 3 × 3 grid (sour / balanced / bitter ×
++weak / balanced / strong), plus an optional "drying or harsh finish" flag.
++
++Lever effects used by the rules:
++
++| Lever | Extraction | Strength |
++| --- | --- | --- |
++| Yield ↑ (longer ratio) | ↑ | ↓ |
++| Yield ↓ | ↓ | ↑ |
++| Dose ↑ at same ratio | ≈ | ↑ |
++| Grind finer | ↑ (until flow becomes uneven) | ↑ slightly |
++| Grind coarser | ↓ | ↓ slightly |
++
++Priority order (first match wins; one primary step, at most one secondary):
++
++1. **Choked flow** → coarsen grind first. A stalled bed extracts unevenly, and
++   per Cameron et al. (2020) grinding finer past this point lowers extraction.
++2. **Sudden resistance drop** with any off-balance cup or a drying finish →
++   fix puck prep first (distribution, level tamp, basket/puck-screen check) and
++   keep grind and ratio. The taste-based lever becomes the secondary step.
++3. **Drying finish without a puck finding** → check prep, and consider a lower
++   peak pressure (6–7 bar), since Cameron et al. found lower pressure improved
++   reproducibility.
++4. **Taste compass**:
++   - sour + strong, sour + balanced → longer yield by ~10% (at ratio ≥ 1:2.6
++     already, grind finer one step instead);
++   - sour + weak → grind finer one step;
++   - bitter + weak, bitter + balanced → shorter yield by ~10% (at ratio
++     ≤ 1:1.8 already, grind coarser instead);
++   - bitter + strong → grind coarser one step;
++   - balanced + weak → dose +1 g at the same ratio;
++   - balanced + strong → dose −1 g at the same ratio;
++   - balanced + balanced → keep everything and note the settings.
++
++Yield is the first lever for extraction because Schmieder et al. (*Foods*,
++2023) found that flow rate, grind and temperature effects on the compounds in
++the cup were minor compared with the total mass extracted.
++
++Yield steps use the shot's actual yield and dose: 10% of yield, rounded to whole
++grams, minimum 2 g. Grind advice is relative ("one step"), because grinder units
++differ. The current grinder setting is quoted when it is known.
++
++Taste notes are stored on the device per gateway and shot ID
++(`bestpresso-taste-notes-v1:<gateway>`, capped at 1,000 shots), like the stage
++evidence journal. They are not written to Decaid's shot annotations yet: writing
++Decaid annotations needs a confirmed API contract.
++
++## 3. Calm live view
++
++A preference (`liveView`: `chart` | `calm`) toggled from the live header. Calm
++shows one ring for yield versus target (or elapsed time when no target is set),
++plus the timer, flow rate and active stage. The chart, stage strip and Stop
++control stay one tap away, and Stop is always visible. The default stays
++`chart`, so existing users see no change.
++
++## 4. Calibration before trusting advice
++
++`scripts/analyze-shots.ts` reads the latest N shots from a Decaid gateway and
++prints each shot's findings, plus a CSV, so thresholds can be compared with
++shots the barista remembers:
++
++```sh
++node --experimental-strip-types scripts/analyze-shots.ts --gateway 192.168.1.50 --limit 100 --csv shots.csv
++```
++
++Acceptance before relying on the "possible channel" finding: on at least 50 of
++your own shots, it should flag the shots you remember as gushing/spurting, and
++stay quiet on most shots you remember as clean. Tune `ANALYSIS_THRESHOLDS` and
++record the change here.
++
++## References
++
++- Decent Espresso, "An Insight about different espresso recipes": puck resistance = pressure / flow².
++- Cameron, M. I. et al. (2020). Systematically improving espresso: insights from mathematical modeling and experiment. *Matter* 2(3).
++- Schmieder, B. K. L. et al. (2023). Influence of flow rate, particle size, and temperature on espresso extraction kinetics. *Foods* 12(15), 2871.
++- Waszkiewicz, R. et al. (2026). Under pressure: poroelastic regulation of flow in espresso brewing. *Physics of Fluids*. doi:10.1063/5.0319611.
++- Barista Hustle, "The Espresso Compass": taste-axis dial-in model.
++
++## Review
++
++`/review/dial-in/index.html` (development server) shows the production live, finished and history components with a labelled 5 Hz sample shot whose flow surges at 17 s. Use it to check the calm view, the chart marker, the dial-in sheet, light mode and phone width. It sends no machine commands. Automated tests and UI review do not replace real-machine validation.
+diff --git a/review/dial-in/index.html b/review/dial-in/index.html
+new file mode 100644
+index 0000000..e39f4c6
+--- /dev/null
++++ b/review/dial-in/index.html
+@@ -0,0 +1 @@
++<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Bestpresso — Dial-in review</title></head><body><div id="root"></div><script type="module" src="./preview.tsx"></script></body></html>
+diff --git a/review/dial-in/preview.css b/review/dial-in/preview.css
+new file mode 100644
+index 0000000..3d398e7
+--- /dev/null
++++ b/review/dial-in/preview.css
+@@ -0,0 +1,5 @@
++.stage-review-nav { height:40px; display:flex; align-items:center; gap:10px; padding:0 16px; color:#aaa; background:#171717; font:12px system-ui; }
++.stage-review-nav span { margin-right:auto; }
++.stage-review-nav button { border:1px solid #555; border-radius:20px; padding:5px 12px; color:#eee; background:#333; font:inherit; }
++.stage-review-body { height:calc(100dvh - 40px); overflow:hidden; }
++.stage-review-body>.live-brew-screen,.stage-review-body>.history-browser-screen { height:100%; }
+diff --git a/review/dial-in/preview.tsx b/review/dial-in/preview.tsx
+new file mode 100644
+index 0000000..bcf6ad3
+--- /dev/null
++++ b/review/dial-in/preview.tsx
+@@ -0,0 +1,47 @@
++import { useState } from 'react'
++import { createRoot } from 'react-dom/client'
++import { LiveBrewingScreen } from '../../src/features/brew/LiveBrewingScreen'
++import { PreviousShotScreen } from '../../src/features/history/PreviousShotScreen'
++import { writeBestpressoPreferences } from '../../src/features/settings/bestpressoPreferences'
++import { brewingFixture } from '../../src/fixtures/brewingFixture'
++import type { LiveBrewState, LiveShotPoint, PreviousShot } from '../../src/domain/brewing'
++import '../../src/styles/index.css'
++import '../../src/styles/cardSurfaces.css'
++import '../../src/styles/lightMode.css'
++import './preview.css'
++
++// Labelled sample data: a 9 bar pressure-profiled shot sampled at 5 Hz whose
++// flow surges at 17 s (a deliberate channel), so the analysis has something to show.
++const origin = Date.parse('2026-10-24T07:00:00Z')
++let weight = 0
++const points: LiveShotPoint[] = Array.from({ length: 151 }, (_, i) => {
++  const seconds = i / 5
++  const stageIndex = seconds < 7 ? 0 : seconds < 26 ? 1 : 2
++  const pressure = seconds < 7 ? seconds * 1.3 : stageIndex === 1 ? 9 : 9 - (seconds - 26) * 0.9
++  const flow = seconds < 7 ? 3.6 - seconds * 0.2 : seconds < 17 ? 1.5 + (seconds - 7) * 0.05 : 2.9
++  if (seconds > 6) weight += flow * 0.2 * 0.7
++  return { elapsedMs: i * 200, stageIndex, stageName: ['Fill', 'Extraction', 'Decline'][stageIndex], pressure, flow, targetPressure: stageIndex === 2 ? pressure : 9, targetFlow: 0, temperature: 92.5 + Math.sin(i / 9) * 0.2, weight, weightFlow: seconds > 6 ? flow * 0.92 : 0 }
++})
++const profile = { ...brewingFixture.profiles[0], dose: '18', targetYield: '42', grindSetting: '11' }
++const model = { ...brewingFixture, profiles: [profile, ...brewingFixture.profiles.slice(1)], activeProfileId: profile.id }
++const base: LiveBrewState = { active: true, visible: true, startedAt: origin, telemetryStartedAt: origin, elapsedMs: 30_000, points, profileName: 'Dial-in review · sample shot', targetYield: 42, kind: 'espresso' }
++const shot: PreviousShot = { id: 'dial-in-review', timestamp: new Date(origin).toISOString(), profileName: base.profileName!, totalTime: '30', totalYield: weight.toFixed(1), dose: 18, grindSetting: '11', points, stopReason: 'targetWeight' }
++
++function Review() {
++  const [view, setView] = useState<'calm' | 'finished' | 'history'>('calm')
++  const [light, setLight] = useState(false)
++  const show = (next: typeof view) => { if (next === 'calm') writeBestpressoPreferences({ liveView: 'calm' }); setView(next) }
++  const progress = { ...base, elapsedMs: 18_400, points: points.slice(0, 93) }
++  return <>
++    <nav className="stage-review-nav" aria-label="Review controls">
++      <span>Sample data · no machine commands</span>
++      <button onClick={() => show('calm')}>Live (calm)</button><button onClick={() => show('finished')}>Finished pull</button><button onClick={() => show('history')}>History</button>
++      <button onClick={() => { document.documentElement.dataset.theme = light ? 'dark' : 'light'; setLight(!light) }}>{light ? 'Dark' : 'Light'} mode</button>
++    </nav>
++    <div className="stage-review-body">{view === 'history'
++      ? <PreviousShotScreen shots={[shot]} initialShot={shot} status="loaded" layout="detail" onSelectShot={async () => shot} onDismiss={() => setView('calm')} />
++      : <LiveBrewingScreen model={model} liveBrew={view === 'calm' ? progress : { ...base, active: false }} stopPending={false} skipPending={false} actionError={null} onStop={() => setView('finished')} onSkipStage={async () => false} onDismiss={() => setView('history')} />}
++    </div>
++  </>
++}
++createRoot(document.getElementById('root')!).render(<Review />)
+diff --git a/scripts/analyze-shots.ts b/scripts/analyze-shots.ts
+new file mode 100644
+index 0000000..fd95ab6
+--- /dev/null
++++ b/scripts/analyze-shots.ts
+@@ -0,0 +1,74 @@
++/**
++ * Calibration helper: run the shot analyser over recent shots saved in Decaid.
++ *
++ *   node --experimental-strip-types scripts/analyze-shots.ts --gateway 192.168.1.50 [--limit 50] [--csv shots.csv]
++ *
++ * Read-only: it only issues GET requests to /shots. Compare the findings with
++ * the shots you remember before trusting the dial-in advice, then tune
++ * ANALYSIS_THRESHOLDS in src/domain/shotAnalysis.ts.
++ */
++import { writeFileSync } from 'node:fs'
++import { shotToDomain } from '../src/api/decaid/adapters.ts'
++import type { PaginatedShots, ShotRecord } from '../src/api/decaid/types.ts'
++import { analyseShot, type ShotFinding } from '../src/domain/shotAnalysis.ts'
++
++const argument = (name: string) => {
++  const index = process.argv.indexOf(`--${name}`)
++  return index > 0 ? process.argv[index + 1] : undefined
++}
++
++const gateway = argument('gateway')
++if (!gateway) {
++  console.error('Usage: node --experimental-strip-types scripts/analyze-shots.ts --gateway <decaid-host[:port]> [--limit 50] [--csv out.csv]')
++  process.exit(1)
++}
++const limit = Math.max(1, Math.min(1000, Number(argument('limit') ?? 50) || 50))
++const csvPath = argument('csv')
++const base = `http://${gateway.includes(':') ? gateway : `${gateway}:8080`}/api/v1`
++
++async function getJson<T>(path: string): Promise<T> {
++  const response = await fetch(`${base}${path}`, { signal: AbortSignal.timeout(15_000) })
++  if (!response.ok) throw new Error(`${path} returned ${response.status}`)
++  return await response.json() as T
++}
++
++const describe = (finding: ShotFinding) => finding.kind === 'chokedFlow'
++  ? `stalled @${(finding.atMs / 1000).toFixed(1)}s for ${(finding.durationMs / 1000).toFixed(0)}s (${finding.meanPressure.toFixed(1)} bar, ${finding.meanFlow.toFixed(2)} ml/s)`
++  : `drop ${Math.round(finding.dropFraction * 100)}% @${(finding.atMs / 1000).toFixed(1)}s (${finding.severity}, ${finding.phase})`
++
++const csvCell = (value: unknown) => {
++  const text = value === undefined || value === null ? '' : String(value)
++  return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text
++}
++
++const summaries: ShotRecord[] = []
++for (let offset = 0; summaries.length < limit; offset += 100) {
++  const page = await getJson<PaginatedShots>(`/shots?limit=${Math.min(100, limit - summaries.length)}&offset=${offset}&orderBy=timestamp&order=desc`)
++  summaries.push(...page.items)
++  if (!page.items.length || summaries.length >= page.total) break
++}
++
++const rows: Array<Record<string, unknown>> = []
++for (const summary of summaries) {
++  if (!summary.id) continue
++  const detail = await getJson<ShotRecord>(`/shots/${encodeURIComponent(summary.id)}`)
++  const shot = shotToDomain(detail)
++  if (shot.beverageType && shot.beverageType.toLowerCase() !== 'espresso') continue
++  const analysis = analyseShot(shot.points ?? [])
++  const findings = analysis.findings.map(describe).join('; ')
++  rows.push({
++    id: shot.id, timestamp: shot.timestamp, profile: shot.profileName, dose: shot.dose, yield: shot.totalYield, seconds: shot.totalTime,
++    analysable: analysis.analysable, firstDropsS: analysis.firstDropsMs === undefined ? '' : (analysis.firstDropsMs / 1000).toFixed(1),
++    peakResistance: analysis.peakResistance?.toFixed(2), resistanceFellPct: analysis.resistanceDecline === undefined ? '' : Math.round(analysis.resistanceDecline * 100),
++    breakdown: analysis.breakdown ?? '', findings,
++  })
++  console.log(`${shot.timestamp ?? '?'}  ${String(shot.profileName).padEnd(28).slice(0, 28)}  ${String(shot.totalYield).padStart(5)} g  ${String(shot.totalTime).padStart(3)} s  ${analysis.analysable ? findings || 'clean' : 'not analysable'}`)
++}
++
++const flagged = rows.filter(row => row.findings).length
++console.log(`\n${rows.length} espresso shots analysed · ${flagged} with findings`)
++if (csvPath) {
++  const header = Object.keys(rows[0] ?? { id: '' })
++  writeFileSync(csvPath, [header.join(','), ...rows.map(row => header.map(key => csvCell(row[key])).join(','))].join('\n') + '\n')
++  console.log(`CSV written to ${csvPath}`)
++}
+diff --git a/src/api/decaid/adapters.ts b/src/api/decaid/adapters.ts
+index b6e2307..dff48b6 100644
+--- a/src/api/decaid/adapters.ts
++++ b/src/api/decaid/adapters.ts
+@@ -215,6 +215,9 @@ export function shotToDomain(shot: ShotRecord): PreviousShot {
+     }]
+   }) : []
+   const shotProfileTitle = textValue(shot.workflow?.profile?.title, shot.workflow?.name)
++  const dose = [shot.annotations?.actualDoseWeight, shot.workflow?.context?.targetDoseWeight, shot.workflow?.profile?.dose_weight].map(finiteNumber).find(value => value !== undefined && value > 0)
++  const rawGrind: unknown = shot.workflow?.context?.grinderSetting
++  const grindSetting = textValue(rawGrind) ?? (finiteNumber(rawGrind) !== undefined ? String(rawGrind) : undefined)
+   return reconcileStageReasons({
+     profileSteps: shot.workflow?.profile?.steps,
+     telemetryStartedAt: Number.isFinite(startedAt) ? startedAt : undefined,
+@@ -227,6 +230,8 @@ export function shotToDomain(shot: ShotRecord): PreviousShot {
+     totalYield: numberString(shot.annotations?.actualYield ?? lastWeight, '—'),
+     totalTime: numberString(duration, '—'),
+     targetYield: profileTargetYield(shot.workflow?.profile),
++    ...(dose !== undefined ? { dose } : {}),
++    ...(grindSetting ? { grindSetting } : {}),
+     points,
+   })
+ }
+diff --git a/src/domain/brewing.ts b/src/domain/brewing.ts
+index 6204e05..55090a3 100644
+--- a/src/domain/brewing.ts
++++ b/src/domain/brewing.ts
+@@ -100,6 +100,10 @@ export interface PreviousShot {
+   totalYield: string
+   totalTime: string
+   targetYield?: number
++  /** Shot-time dose (measured annotation, else the workflow target). */
++  dose?: number
++  /** Shot-time grinder setting from the saved workflow context. */
++  grindSetting?: string
+   points?: LiveShotPoint[]
+ }
+ 
+diff --git a/src/domain/shotAnalysis.ts b/src/domain/shotAnalysis.ts
+new file mode 100644
+index 0000000..7821364
+--- /dev/null
++++ b/src/domain/shotAnalysis.ts
+@@ -0,0 +1,239 @@
++import type { LiveShotPoint } from './brewing.ts'
++
++/**
++ * Puck-resistance analysis for one recorded espresso extraction.
++ *
++ * Display-only and deterministic. Every finding carries the sample evidence it
++ * was derived from. Resistance follows Decent's published convention,
++ * R = pressure / flow² (bar per (ml/s)²). See docs/shot-analysis-and-dial-in.md.
++ */
++
++export const ANALYSIS_THRESHOLDS = {
++  /** Below this flow the pump is filling, blooming or paused: resistance is undefined. */
++  minFlowMlPerSecond: 0.5,
++  minPressureBar: 1,
++  /** First pressure at which the puck counts as pressurised (headspace full). */
++  pressurisedBar: 2,
++  /** Ignore this long after pressurisation while the bed settles. */
++  settleMs: 1_000,
++  smoothingHalfWindowMs: 600,
++  /** Reference window before each sample: [t - referenceFromMs, t - referenceToMs]. */
++  referenceFromMs: 1_500,
++  referenceToMs: 500,
++  suddenDropFraction: 0.35,
++  /** The following sample must still be this far below the reference (fraction of suddenDropFraction). */
++  confirmationShare: 0.7,
++  confirmationWithinMs: 1_500,
++  stageTransitionGuardMs: 1_000,
++  commandedChangeFraction: 0.15,
++  mergeWithinMs: 2_000,
++  tailIgnoreMs: 2_000,
++  strongDropFraction: 0.5,
++  chokedPressureBar: 7,
++  chokedFlowMlPerSecond: 0.7,
++  chokedWeightFlowGramsPerSecond: 0.6,
++  chokedMinimumMs: 5_000,
++  firstDropsGrams: 1,
++  steadinessMinimumMs: 6_000,
++  steadinessMinimumSamples: 5,
++  steadyRSquared: 0.8,
++  unevenRSquared: 0.5,
++} as const
++
++export type ShotFinding =
++  | {
++    kind: 'suddenResistanceDrop'
++    atMs: number
++    /** Fraction by which smoothed resistance fell versus the preceding reference window (0–1). */
++    dropFraction: number
++    fromResistance: number
++    toResistance: number
++    pressure?: number
++    flow?: number
++    severity: 'moderate' | 'strong'
++    /** Early = in the first third of the pressurised extraction. */
++    phase: 'early' | 'late'
++  }
++  | {
++    kind: 'chokedFlow'
++    atMs: number
++    durationMs: number
++    meanPressure: number
++    meanFlow: number
++  }
++
++export interface ResistanceSample { elapsedMs: number; resistance: number; smoothed: number }
++
++export interface ShotAnalysis {
++  /** False when there was not enough pressurised flow to say anything. */
++  analysable: boolean
++  findings: ShotFinding[]
++  firstDropsMs?: number
++  pressurisedAtMs?: number
++  peakResistance?: number
++  peakResistanceAtMs?: number
++  finalResistance?: number
++  /** 1 - final / peak: how much the puck's resistance fell after its peak. */
++  resistanceDecline?: number
++  breakdown?: 'steady' | 'uneven' | 'mixed'
++  resistance: ResistanceSample[]
++}
++
++type Thresholds = { -readonly [Key in keyof typeof ANALYSIS_THRESHOLDS]: number }
++
++const finite = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
++
++const median = (values: number[]) => {
++  if (!values.length) return undefined
++  const sorted = [...values].sort((left, right) => left - right)
++  const middle = Math.floor(sorted.length / 2)
++  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2
++}
++
++const mean = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length)
++
++export function puckResistance(point: Pick<LiveShotPoint, 'pressure' | 'flow'>, thresholds: Pick<Thresholds, 'minFlowMlPerSecond' | 'minPressureBar'> = ANALYSIS_THRESHOLDS) {
++  if (!finite(point.pressure) || !finite(point.flow)) return undefined
++  if (point.flow < thresholds.minFlowMlPerSecond || point.pressure < thresholds.minPressureBar) return undefined
++  return point.pressure / (point.flow * point.flow)
++}
++
++function linearFitRSquared(samples: Array<{ x: number; y: number }>) {
++  const meanX = mean(samples.map(sample => sample.x))
++  const meanY = mean(samples.map(sample => sample.y))
++  let covariance = 0, varianceX = 0, varianceY = 0
++  for (const { x, y } of samples) {
++    covariance += (x - meanX) * (y - meanY)
++    varianceX += (x - meanX) ** 2
++    varianceY += (y - meanY) ** 2
++  }
++  if (varianceX === 0 || varianceY === 0) return 1
++  return covariance ** 2 / (varianceX * varianceY)
++}
++
++const relativeChange = (from: number | undefined, to: number | undefined) => {
++  if (!finite(from) || !finite(to)) return 0
++  const base = Math.max(Math.abs(from), 0.1)
++  return Math.abs(to - from) / base
++}
++
++export function analyseShot(points: LiveShotPoint[], overrides: Partial<Thresholds> = {}): ShotAnalysis {
++  const limits: Thresholds = { ...ANALYSIS_THRESHOLDS, ...overrides }
++  const ordered = points.filter(point => finite(point.elapsedMs)).sort((left, right) => left.elapsedMs - right.elapsedMs)
++  const firstDropsMs = ordered.find(point => finite(point.weight) && point.weight >= limits.firstDropsGrams)?.elapsedMs
++  const pressurisedAtMs = ordered.find(point => finite(point.pressure) && point.pressure >= limits.pressurisedBar)?.elapsedMs
++  const empty: ShotAnalysis = { analysable: false, findings: [], firstDropsMs, pressurisedAtMs, resistance: [] }
++  if (pressurisedAtMs === undefined) return empty
++
++  const raw = ordered.flatMap(point => {
++    if (point.elapsedMs < pressurisedAtMs + limits.settleMs) return []
++    const resistance = puckResistance(point, limits)
++    return resistance === undefined ? [] : [{ point, elapsedMs: point.elapsedMs, resistance }]
++  })
++  if (raw.length < 3) return empty
++
++  const resistance: ResistanceSample[] = raw.map(sample => ({
++    elapsedMs: sample.elapsedMs,
++    resistance: sample.resistance,
++    smoothed: median(raw.filter(other => Math.abs(other.elapsedMs - sample.elapsedMs) <= limits.smoothingHalfWindowMs).map(other => other.resistance))!,
++  }))
++
++  const extractionEndMs = ordered.at(-1)!.elapsedMs
++  const pressurisedDurationMs = Math.max(1, extractionEndMs - pressurisedAtMs)
++  const stageChanges = ordered.flatMap((point, index) => index > 0 && point.stageIndex !== ordered[index - 1].stageIndex ? [point.elapsedMs] : [])
++  const nearStageChange = (fromMs: number, toMs: number) => stageChanges.some(change => change >= fromMs - limits.stageTransitionGuardMs && change <= toMs + limits.stageTransitionGuardMs)
++  const pointsBetween = (fromMs: number, toMs: number) => ordered.filter(point => point.elapsedMs >= fromMs && point.elapsedMs <= toMs)
++  const commandedChange = (fromMs: number, toMs: number) => {
++    const window = pointsBetween(fromMs, toMs)
++    if (window.length < 2) return false
++    const first = window[0], last = window.at(-1)!
++    return relativeChange(first.targetPressure, last.targetPressure) > limits.commandedChangeFraction
++      || relativeChange(first.targetFlow, last.targetFlow) > limits.commandedChangeFraction
++  }
++
++  const referenceFor = (sampleMs: number) => median(resistance
++    .filter(other => other.elapsedMs >= sampleMs - limits.referenceFromMs && other.elapsedMs <= sampleMs - limits.referenceToMs)
++    .map(other => other.smoothed))
++
++  const drops: Extract<ShotFinding, { kind: 'suddenResistanceDrop' }>[] = []
++  resistance.forEach((sample, index) => {
++    if (sample.elapsedMs > extractionEndMs - limits.tailIgnoreMs) return
++    const reference = referenceFor(sample.elapsedMs)
++    if (reference === undefined || reference <= 0) return
++    const dropFraction = 1 - sample.smoothed / reference
++    if (dropFraction < limits.suddenDropFraction) return
++    const next = resistance[index + 1]
++    if (!next || next.elapsedMs - sample.elapsedMs > limits.confirmationWithinMs) return
++    if (1 - next.smoothed / reference < limits.suddenDropFraction * limits.confirmationShare) return
++    const windowStart = sample.elapsedMs - limits.referenceFromMs
++    if (nearStageChange(windowStart, sample.elapsedMs)) return
++    if (commandedChange(windowStart, sample.elapsedMs)) return
++    const source = raw[index].point
++    const finding = {
++      kind: 'suddenResistanceDrop' as const,
++      atMs: sample.elapsedMs,
++      dropFraction,
++      fromResistance: reference,
++      toResistance: sample.smoothed,
++      pressure: source.pressure,
++      flow: source.flow,
++      severity: dropFraction >= limits.strongDropFraction ? 'strong' as const : 'moderate' as const,
++      phase: sample.elapsedMs - pressurisedAtMs <= pressurisedDurationMs / 3 ? 'early' as const : 'late' as const,
++    }
++    const previous = drops.at(-1)
++    if (previous && sample.elapsedMs - previous.atMs <= limits.mergeWithinMs) {
++      if (finding.dropFraction > previous.dropFraction) drops[drops.length - 1] = { ...finding, atMs: previous.atMs, phase: previous.phase }
++      return
++    }
++    drops.push(finding)
++  })
++
++  const choked: Extract<ShotFinding, { kind: 'chokedFlow' }>[] = []
++  let run: LiveShotPoint[] = []
++  const closeRun = () => {
++    if (run.length >= 2) {
++      const durationMs = run.at(-1)!.elapsedMs - run[0].elapsedMs
++      if (durationMs >= limits.chokedMinimumMs) choked.push({
++        kind: 'chokedFlow', atMs: run[0].elapsedMs, durationMs,
++        meanPressure: mean(run.map(point => point.pressure!)), meanFlow: mean(run.map(point => point.flow!)),
++      })
++    }
++    run = []
++  }
++  for (const point of ordered) {
++    if (point.elapsedMs < pressurisedAtMs + limits.settleMs) continue
++    const stalled = finite(point.pressure) && finite(point.flow)
++      && point.pressure >= limits.chokedPressureBar && point.flow <= limits.chokedFlowMlPerSecond
++      && (!finite(point.weightFlow) || point.weightFlow <= limits.chokedWeightFlowGramsPerSecond)
++    if (stalled) run.push(point)
++    else closeRun()
++  }
++  closeRun()
++
++  const peak = resistance.reduce((best, sample) => sample.smoothed > best.smoothed ? sample : best, resistance[0])
++  const tailStart = resistance.at(-1)!.elapsedMs - Math.max(2_000, (resistance.at(-1)!.elapsedMs - peak.elapsedMs) * 0.2)
++  const finalResistance = median(resistance.filter(sample => sample.elapsedMs >= tailStart).map(sample => sample.smoothed))
++  const afterPeak = resistance.filter(sample => sample.elapsedMs >= peak.elapsedMs)
++  let breakdown: ShotAnalysis['breakdown']
++  if (afterPeak.length >= limits.steadinessMinimumSamples && afterPeak.at(-1)!.elapsedMs - peak.elapsedMs >= limits.steadinessMinimumMs) {
++    const rSquared = linearFitRSquared(afterPeak.map(sample => ({ x: sample.elapsedMs, y: sample.smoothed })))
++    breakdown = rSquared >= limits.steadyRSquared ? 'steady' : rSquared < limits.unevenRSquared ? 'uneven' : 'mixed'
++    // An abrupt fall after the peak is, by definition, not a steady breakdown.
++    if (drops.some(drop => drop.atMs >= peak.elapsedMs)) breakdown = 'uneven'
++  }
++
++  return {
++    analysable: true,
++    findings: [...choked, ...drops].sort((left, right) => left.atMs - right.atMs),
++    firstDropsMs,
++    pressurisedAtMs,
++    peakResistance: peak.smoothed,
++    peakResistanceAtMs: peak.elapsedMs,
++    finalResistance,
++    resistanceDecline: finalResistance === undefined || peak.smoothed <= 0 ? undefined : Math.max(0, 1 - finalResistance / peak.smoothed),
++    breakdown,
++    resistance,
++  }
++}
++
++export const hasFinding = (analysis: Pick<ShotAnalysis, 'findings'>, kind: ShotFinding['kind']) => analysis.findings.some(finding => finding.kind === kind)
+diff --git a/src/features/brew/CalmLiveView.tsx b/src/features/brew/CalmLiveView.tsx
+new file mode 100644
+index 0000000..181baae
+--- /dev/null
++++ b/src/features/brew/CalmLiveView.tsx
+@@ -0,0 +1,42 @@
++import { formatDecimal, t } from '../../i18n/index.ts'
++import { calmRingProgress } from './calmRing.ts'
++
++interface CalmLiveViewProps {
++  weight?: number
++  targetYield?: number
++  elapsedMs: number
++  stageName?: string
++  ariaLabel: string
++}
++
++const RADIUS = 46
++const CIRCUMFERENCE = 2 * Math.PI * RADIUS
++
++const clock = (milliseconds: number) => {
++  const seconds = Math.max(0, Math.floor(milliseconds / 1000))
++  return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
++}
++
++/** The "don't make me think" pull: one ring, the yield, and nothing else competing for attention. */
++export function CalmLiveView({ weight, targetYield, elapsedMs, stageName, ariaLabel }: CalmLiveViewProps) {
++  const hasTarget = targetYield !== undefined && targetYield > 0
++  const progress = calmRingProgress(weight, targetYield, elapsedMs)
++  const ringLabel = hasTarget
++    ? t('brew.liveScreen.calmRingAriaLabel', { weight: formatDecimal(weight ?? 0, 1), target: formatDecimal(targetYield, Number.isInteger(targetYield) ? 0 : 1) })
++    : t('brew.liveScreen.calmRingTimeAriaLabel', { seconds: Math.floor(elapsedMs / 1000) })
++  return <section className="live-calm" aria-label={ariaLabel}>
++    <div className="live-calm__ring" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)} aria-valuetext={ringLabel}>
++      <svg viewBox="0 0 100 100" aria-hidden="true">
++        <circle className="live-calm__track" cx="50" cy="50" r={RADIUS} />
++        <circle className="live-calm__progress" cx="50" cy="50" r={RADIUS} strokeDasharray={CIRCUMFERENCE} strokeDashoffset={CIRCUMFERENCE * (1 - progress)} />
++      </svg>
++      <div className="live-calm__reading">
++        {hasTarget || weight !== undefined
++          ? <strong>{weight !== undefined ? formatDecimal(weight, 1) : '—'}<small>g</small></strong>
++          : <strong>{clock(elapsedMs)}</strong>}
++        {hasTarget && <span>{t('brew.liveScreen.calmTarget', { target: formatDecimal(targetYield, Number.isInteger(targetYield) ? 0 : 1) })}</span>}
++        {stageName && <em className="live-calm__stage" aria-label={`${t('brew.liveScreen.calmStage')}: ${stageName}`}>{stageName}</em>}
++      </div>
++    </div>
++  </section>
++}
+diff --git a/src/features/brew/LiveBrewingScreen.tsx b/src/features/brew/LiveBrewingScreen.tsx
+index 38ca8fc..d882fa5 100644
+--- a/src/features/brew/LiveBrewingScreen.tsx
++++ b/src/features/brew/LiveBrewingScreen.tsx
+@@ -1,6 +1,6 @@
+ import { useMemo, useState } from 'react'
+ import { formatDecimal, t } from '../../i18n/index.ts'
+-import { displayedShotName } from '../../i18n/dataLabels.ts'
++import { displayedShotName, displayedStageName } from '../../i18n/dataLabels.ts'
+ import { analyseStageMoveOn } from './stageMoveOn'
+ import { liveShotFlowRate, liveShotYield, type BrewingScreenModel, type LiveBrewState } from '../../domain/brewing'
+ import type { BrewStageSelection } from './LiveBrewStages'
+@@ -9,6 +9,10 @@ import { toggleDimmedChartSeries } from './chartSeries'
+ import { stageFocusedChartView } from './chartFocus'
+ import { LiveBrewStages } from './LiveBrewStages'
+ import { LiveShotChart } from './LiveShotChart'
++import { analyseShot } from '../../domain/shotAnalysis'
++import { ShotDialInPanel } from '../insights/ShotDialInPanel'
++import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
++import { CalmLiveView } from './CalmLiveView'
+ 
+ interface LiveBrewingScreenProps {
+   model: BrewingScreenModel
+@@ -32,6 +36,9 @@ export function LiveBrewingScreen({ model, liveBrew, stopPending, skipPending, a
+   }), [liveBrew.points, liveBrew.profileSteps, liveBrew.active, liveBrew.stageEvidence, liveBrew.telemetryStartedAt, liveBrew.stopReason])
+   const [dimmedSeries, setDimmedSeries] = useState<ChartSeries[]>([])
+   const [stageSelection, setStageSelection] = useState<{ shotStartedAt: number | undefined; stage: BrewStageSelection } | null>(null)
++  const { preferences, updatePreferences } = useBestpressoPreferences()
++  const [dialInStartedAt, setDialInStartedAt] = useState<number | null>(null)
++  const analysis = useMemo(() => liveBrew.active || liveBrew.kind === 'cleaning' ? undefined : analyseShot(liveBrew.points), [liveBrew.active, liveBrew.kind, liveBrew.points])
+   const profile = model.profiles.find((candidate) => candidate.id === model.activeProfileId) ?? model.profiles[0]
+   if (!profile && !liveBrew.profileName) return null
+ 
+@@ -49,6 +56,15 @@ export function LiveBrewingScreen({ model, liveBrew, stopPending, skipPending, a
+     : liveBrew.points.at(-1)?.elapsedMs ?? liveBrew.elapsedMs
+   const selectedStage = !liveBrew.active && stageSelection && stageSelection.shotStartedAt === liveBrew.startedAt ? stageSelection.stage : null
+   const chartView = stageFocusedChartView(displayPoints, chartElapsedMs, liveBrew.active ? null : selectedStage)
++  const calm = preferences.liveView === 'calm' && liveBrew.active && !isCleaning
++  const dialInAvailable = !liveBrew.active && !isCleaning && liveBrew.points.length > 0
++  const dialInOpen = dialInAvailable && dialInStartedAt === (liveBrew.startedAt ?? 0)
++  // The recorded shot this pull became: local `live:` ID first, Decaid's ID once persisted.
++  const previous = model.previousShot
++  const previousMatchesPull = previous && (previous.id === `live:${liveBrew.startedAt}` || (previous.telemetryStartedAt !== undefined && previous.telemetryStartedAt === liveBrew.telemetryStartedAt))
++  const recordedShotId = previousMatchesPull ? previous.id : undefined
++  const profileDose = Number(profile?.dose)
++  const toggleView = () => updatePreferences({ liveView: preferences.liveView === 'calm' ? 'chart' : 'calm' })
+ 
+   return <main className="live-brew-screen">
+     {actionError && <div className="system-messages"><div className="system-message system-message--error" role="alert">{actionError}</div></div>}
+@@ -65,15 +81,20 @@ export function LiveBrewingScreen({ model, liveBrew, stopPending, skipPending, a
+           </>}
+         </div>
+         <div className="live-pull-header__actions">
++          {liveBrew.active && !isCleaning && <button className="live-pull-action live-pull-action--view" type="button" aria-label={preferences.liveView === 'calm' ? t('brew.liveScreen.chartViewAriaLabel') : t('brew.liveScreen.calmViewAriaLabel')} onClick={toggleView}>{preferences.liveView === 'calm' ? t('brew.liveScreen.chartView') : t('brew.liveScreen.calmView')}</button>}
++          {dialInAvailable && <button className="live-pull-action live-pull-action--dial" type="button" aria-label={t('insights.dialIn.openAriaLabel')} onClick={() => setDialInStartedAt(liveBrew.startedAt ?? 0)}>{t('insights.dialIn.open')}</button>}
+           {liveBrew.active
+             ? <button className="live-pull-action live-pull-action--stop" type="button" disabled={stopPending} onClick={onStop}>{stopPending ? t('brew.liveScreen.stopping') : t('brew.liveScreen.stop')}</button>
+             : <button className="live-pull-action live-pull-action--close" type="button" onClick={onDismiss} aria-label={t('brew.liveScreen.closeAriaLabel')}>{t('brew.liveScreen.close')}</button>}
+         </div>
+       </div>
+     </header>
++    {calm ? <CalmLiveView weight={weight} targetYield={targetYield} elapsedMs={liveBrew.elapsedMs} stageName={liveBrew.points.length ? displayedStageName(liveBrew.points.at(-1)!) : undefined} ariaLabel={t('brew.liveScreen.runningAriaLabel', { name: profileName })} /> : <>
+     <section className="live-pull-chart-panel" aria-label={t('brew.liveScreen.runningAriaLabel', { name: profileName })}>
+-      <LiveShotChart points={chartView.points} contextPoints={chartView.contextPoints} elapsedMs={chartView.elapsedMs} startMs={chartView.startMs} fitDuration={!liveBrew.active} showWeight={!isCleaning} legendFilterEnabled={!liveBrew.active} dimmedSeries={dimmedSeries} onToggleSeries={(series) => setDimmedSeries((current) => toggleDimmedChartSeries(current, series))} />
++      <LiveShotChart points={chartView.points} contextPoints={chartView.contextPoints} elapsedMs={chartView.elapsedMs} startMs={chartView.startMs} fitDuration={!liveBrew.active} showWeight={!isCleaning} legendFilterEnabled={!liveBrew.active} dimmedSeries={dimmedSeries} onToggleSeries={(series) => setDimmedSeries((current) => toggleDimmedChartSeries(current, series))} findings={analysis?.findings} />
+     </section>
+     <LiveBrewStages key={liveBrew.startedAt ?? 'pending'} reasons={reasons} points={displayPoints} elapsedMs={liveBrew.elapsedMs} active={liveBrew.active} finalYield={weight} showYield={!isCleaning} skipPending={skipPending} selectedStageKey={selectedStage?.key} onStageSelect={liveBrew.active ? undefined : (stage) => setStageSelection(stage ? { shotStartedAt: liveBrew.startedAt, stage } : null)} onSkipStage={onSkipStage} />
++    </>}
++    {dialInOpen && <ShotDialInPanel points={liveBrew.points} shotId={recordedShotId} dose={Number.isFinite(profileDose) && profileDose > 0 ? profileDose : undefined} yieldGrams={weight} grindSetting={profile?.grindSetting} onClose={() => setDialInStartedAt(null)} />}
+   </main>
+ }
+diff --git a/src/features/brew/LiveShotChart.tsx b/src/features/brew/LiveShotChart.tsx
+index b0be0c5..ee33245 100644
+--- a/src/features/brew/LiveShotChart.tsx
++++ b/src/features/brew/LiveShotChart.tsx
+@@ -2,6 +2,7 @@ import { displayedStageName } from '../../i18n/dataLabels.ts'
+ import { useEffect, useId, useRef, useState } from 'react'
+ import { formatDecimal, t } from '../../i18n/index.ts'
+ import type { LiveShotPoint } from '../../domain/brewing'
++import type { ShotFinding } from '../../domain/shotAnalysis'
+ import { formatTemperatureValue, temperatureUnitLabel } from '../../domain/temperature'
+ import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+ import { ChartLegend } from './ChartLegend'
+@@ -26,6 +27,8 @@ interface LiveShotChartProps {
+   legendFilterEnabled?: boolean
+   dimmedSeries?: ChartSeries[]
+   onToggleSeries?: (series: ChartSeries) => void
++  /** Completed-shot analysis findings, drawn as dashed markers. */
++  findings?: ShotFinding[]
+ }
+ 
+ const VIEW_WIDTH = 1000
+@@ -139,7 +142,7 @@ const useAnimatedChartFocus = (target: ChartFocusTransform) => {
+   return current
+ }
+ 
+-export function LiveShotChart({ points, elapsedMs, startMs = 0, fitDuration = false, contextPoints, showWeight = true, legendFilterEnabled = false, dimmedSeries = [], onToggleSeries }: LiveShotChartProps) {
++export function LiveShotChart({ points, elapsedMs, startMs = 0, fitDuration = false, contextPoints, showWeight = true, legendFilterEnabled = false, dimmedSeries = [], onToggleSeries, findings = [] }: LiveShotChartProps) {
+   const { preferences } = useBestpressoPreferences()
+   const gradientId = useId().replaceAll(':', '')
+   const svgRef = useRef<SVGSVGElement>(null)
+@@ -317,11 +320,18 @@ export function LiveShotChart({ points, elapsedMs, startMs = 0, fitDuration = fa
+           <path className={`chart-line chart-line--flow${lineClass(chartSeriesForLine.flow)}`} d={linePath(displayFocusPoints, 'flow', xForElapsedMs, 0, 12)} />
+           {showWeight && <path className={`chart-line chart-line--weight${lineClass(chartSeriesForLine.weightFlow)}`} d={linePath(focusPoints, 'weightFlow', xForElapsedMs, 0, 12)} />}
+         </g>}
++        {findings.map((finding) => {
++          const x = xForElapsedMs(finding.atMs)
++          return <g key={`finding-${finding.kind}-${finding.atMs}`} className={`chart-finding-marker chart-finding-marker--${finding.kind === 'chokedFlow' ? 'choked' : finding.severity}`} aria-hidden="true"><line x1={x} x2={x} y1={PLOT.top} y2={PLOT.bottom} /></g>
++        })}
+         {inspection && inspectionX !== null && <g className="chart-inspection-cursor" aria-hidden="true">
+           <line x1={inspectionX} x2={inspectionX} y1={PLOT.top} y2={PLOT.bottom} />
+         </g>}
+       </g>
+     </svg>
++    {findings.length > 0 && <div className="chart-finding-flags">
++      {findings.map((finding) => <i key={`flag-${finding.kind}-${finding.atMs}`} role="img" aria-label={finding.kind === 'chokedFlow' ? t('insights.dialIn.chartMarker.choked') : t('insights.dialIn.chartMarker.drop')} className={`chart-finding-flag chart-finding-flag--${finding.kind === 'chokedFlow' ? 'choked' : finding.severity}`} style={{ left: `${xForElapsedMs(finding.atMs) / VIEW_WIDTH * 100}%` }} />)}
++    </div>}
+     {inspection && inspectionX !== null && <div className="chart-inspection-points" aria-hidden="true">
+       {inspectionPressureY !== null && <i className="chart-inspection-point chart-inspection-point--pressure" style={{ left: `${inspectionX / VIEW_WIDTH * 100}%`, top: `${inspectionPressureY / VIEW_HEIGHT * 100}%` }} />}
+       {inspectionFlowY !== null && <i className="chart-inspection-point chart-inspection-point--flow" style={{ left: `${inspectionX / VIEW_WIDTH * 100}%`, top: `${inspectionFlowY / VIEW_HEIGHT * 100}%` }} />}
+diff --git a/src/features/brew/calmRing.ts b/src/features/brew/calmRing.ts
+new file mode 100644
+index 0000000..cfd7eda
+--- /dev/null
++++ b/src/features/brew/calmRing.ts
+@@ -0,0 +1,7 @@
++/** Without a yield target the calm ring tracks time, completing one turn per 30 s. */
++export const CALM_TIME_RING_MS = 30_000
++
++export function calmRingProgress(weight: number | undefined, targetYield: number | undefined, elapsedMs: number) {
++  if (targetYield !== undefined && targetYield > 0) return Math.max(0, Math.min(1, (weight ?? 0) / targetYield))
++  return Math.max(0, Math.min(1, elapsedMs / CALM_TIME_RING_MS))
++}
+diff --git a/src/features/history/PreviousShotScreen.tsx b/src/features/history/PreviousShotScreen.tsx
+index 9da6cc1..efab3b3 100644
+--- a/src/features/history/PreviousShotScreen.tsx
++++ b/src/features/history/PreviousShotScreen.tsx
+@@ -1,5 +1,5 @@
+ import { displayedShotName } from '../../i18n/dataLabels.ts'
+-import { useState } from 'react'
++import { useMemo, useState } from 'react'
+ import { reconcileStageReasons } from '../brew/stageMoveOn'
+ import { clockOptions, type ClockFormat } from '../sleep/deviceTime'
+ import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+@@ -11,6 +11,8 @@ import type { ChartSeries } from '../brew/chartSeries'
+ import { toggleDimmedChartSeries } from '../brew/chartSeries'
+ import { stageFocusedChartView } from '../brew/chartFocus'
+ import { LiveShotChart } from '../brew/LiveShotChart'
++import { analyseShot, type ShotFinding } from '../../domain/shotAnalysis'
++import { ShotDialInPanel } from '../insights/ShotDialInPanel'
+ 
+ interface PreviousShotScreenProps {
+   shots: PreviousShot[]
+@@ -30,10 +32,10 @@ interface HistoryChartView {
+   showWeight: boolean
+ }
+ 
+-function AnimatedHistoryShotChart({ view }: { view: HistoryChartView }) {
++function AnimatedHistoryShotChart({ view, findings }: { view: HistoryChartView; findings?: ShotFinding[] }) {
+   const [dimmedSeries, setDimmedSeries] = useState<ChartSeries[]>([])
+ 
+-  return <LiveShotChart points={view.points} contextPoints={view.contextPoints} elapsedMs={view.elapsedMs} fitDuration={view.fitDuration} startMs={view.startMs} showWeight={view.showWeight} legendFilterEnabled dimmedSeries={dimmedSeries} onToggleSeries={(series) => setDimmedSeries((current) => toggleDimmedChartSeries(current, series))} />
++  return <LiveShotChart points={view.points} contextPoints={view.contextPoints} elapsedMs={view.elapsedMs} fitDuration={view.fitDuration} startMs={view.startMs} showWeight={view.showWeight} legendFilterEnabled dimmedSeries={dimmedSeries} onToggleSeries={(series) => setDimmedSeries((current) => toggleDimmedChartSeries(current, series))} findings={findings} />
+ }
+ 
+ const pullTime = (timestamp: string | undefined, clockFormat: ClockFormat) => {
+@@ -56,6 +58,7 @@ export function PreviousShotScreen({ shots, initialShot, status, onSelectShot, o
+   const [loadingId, setLoadingId] = useState<string | null>(null)
+   const [loadError, setLoadError] = useState(false)
+   const [stageSelection, setStageSelection] = useState<{ shotId: string | undefined; stage: BrewStageSelection } | null>(null)
++  const [dialInShotId, setDialInShotId] = useState<string | null>(null)
+ 
+   const activeId = selectedId && shots.some((shot) => shot.id === selectedId) ? selectedId : firstShot?.id
+   const refreshedShot = initialShot?.id === activeId ? initialShot : shots.find((shot) => shot.id === activeId)
+@@ -90,6 +93,10 @@ export function PreviousShotScreen({ shots, initialShot, status, onSelectShot, o
+   }
+ 
+   const points = activeShot?.points ?? []
++  const activePoints = activeShot?.points
++  const analysis = useMemo(() => isCleaning || !activePoints?.length ? undefined : analyseShot(activePoints), [activePoints, isCleaning])
++  const dialInOpen = Boolean(activeShot) && dialInShotId === (activeShot?.id ?? '')
++  const shotYield = Number(activeShot?.totalYield)
+   const reasons = activeShot ? reconcileStageReasons(activeShot).stageReasons : undefined
+   const elapsedMs = points.at(-1)?.elapsedMs ?? (Number(activeShot?.totalTime) || 0) * 1000
+ 
+@@ -127,16 +134,18 @@ export function PreviousShotScreen({ shots, initialShot, status, onSelectShot, o
+             {!isCleaning && <><i aria-hidden="true" /><div><span>{t('insights.common.yield')}</span><strong>{localizeDecimalText(activeShot?.totalYield ?? '—')}{activeShot?.totalYield !== '—' && <small>g</small>}</strong></div></>}
+           </div>
+           <div className="live-pull-header__actions">
++            {activeShot && !isCleaning && points.length > 0 && <button className="live-pull-action live-pull-action--dial" type="button" aria-label={t('insights.dialIn.openAriaLabel')} onClick={() => setDialInShotId(activeShot.id ?? '')}>{t('insights.dialIn.open')}</button>}
+             <button className="live-pull-action live-pull-action--close" type="button" onClick={onDismiss}>{t('insights.common.close')}</button>
+           </div>
+         </div>
+       </header>
+ 
+       <section className={`live-pull-chart-panel history-pull-chart${loadingId ? ' history-pull-chart--loading' : ''}`} aria-label={activeShot ? t('insights.previousShot.chartAriaLabelWeight', { profile: displayedShotName(activeShot) }) : t('insights.previousShot.chartAriaLabelGeneric')}>
+-        {activeShot && <AnimatedHistoryShotChart view={chartView} />}
++        {activeShot && <AnimatedHistoryShotChart view={chartView} findings={analysis?.findings} />}
+         {loadError && <p className="history-pull-error">{t('insights.previousShot.loadError')}</p>}
+       </section>
+       <LiveBrewStages reasons={reasons} points={points} elapsedMs={elapsedMs} finalYield={activeShot?.totalYield} showYield={!isCleaning} selectedStageKey={selectedStage?.key} onStageSelect={(stage) => setStageSelection(stage ? { shotId: activeId, stage } : null)} />
++      {dialInOpen && activeShot && <ShotDialInPanel points={points} shotId={activeShot.id} dose={activeShot.dose} yieldGrams={Number.isFinite(shotYield) && shotYield > 0 ? shotYield : undefined} grindSetting={activeShot.grindSetting} onClose={() => setDialInShotId(null)} />}
+     </section>
+   </main>
+ }
+diff --git a/src/features/insights/ShotDialInPanel.tsx b/src/features/insights/ShotDialInPanel.tsx
+new file mode 100644
+index 0000000..e349d92
+--- /dev/null
++++ b/src/features/insights/ShotDialInPanel.tsx
+@@ -0,0 +1,150 @@
++import { useEffect, useMemo, useRef, useState } from 'react'
++import { getDecaidEndpoints } from '../../api/decaid/config'
++import type { LiveShotPoint } from '../../domain/brewing'
++import { analyseShot, type ShotAnalysis, type ShotFinding } from '../../domain/shotAnalysis'
++import { formatDecimal, t } from '../../i18n/index.ts'
++import { recommendNextShot, type DialInStep, type ExtractionTaste, type StrengthTaste, type TasteNote } from './dialIn'
++import { readTasteNote, saveTasteNote } from './tasteNotesStorage'
++import './shotDialIn.css'
++
++export interface ShotDialInPanelProps {
++  points: LiveShotPoint[]
++  shotId?: string
++  dose?: number
++  yieldGrams?: number
++  grindSetting?: string
++  onClose: () => void
++}
++
++const seconds = (milliseconds: number) => `${formatDecimal(milliseconds / 1000, 1)} s`
++const percent = (fraction: number) => String(Math.round(fraction * 100))
++const reading = (value: number | undefined, digits = 1) => value === undefined || !Number.isFinite(value) ? '—' : formatDecimal(value, digits)
++
++function stepText(step: DialInStep) {
++  switch (step.kind) {
++    case 'keep': return t('insights.dialIn.step.keep')
++    case 'puckPrep': return t('insights.dialIn.step.puckPrep')
++    case 'lowerPeakPressure': return step.fromBar === undefined
++      ? t('insights.dialIn.step.lowerPeakPressure', { to: formatDecimal(step.toBar, 1) })
++      : t('insights.dialIn.step.lowerPeakPressureFrom', { from: formatDecimal(step.fromBar, 1), to: formatDecimal(step.toBar, 1) })
++    case 'grindFiner': return step.grindSetting ? t('insights.dialIn.step.grindFinerFrom', { setting: step.grindSetting }) : t('insights.dialIn.step.grindFiner')
++    case 'grindCoarser': return step.grindSetting ? t('insights.dialIn.step.grindCoarserFrom', { setting: step.grindSetting }) : t('insights.dialIn.step.grindCoarser')
++    case 'longerYield': return step.toGrams === undefined ? t('insights.dialIn.step.longerYield') : t('insights.dialIn.step.longerYieldTo', { from: step.fromGrams ?? '—', to: step.toGrams })
++    case 'shorterYield': return step.toGrams === undefined ? t('insights.dialIn.step.shorterYield') : t('insights.dialIn.step.shorterYieldTo', { from: step.fromGrams ?? '—', to: step.toGrams })
++    case 'moreDose': return step.toGrams === undefined || step.toYieldGrams === undefined ? t('insights.dialIn.step.moreDose') : t('insights.dialIn.step.moreDoseTo', { from: formatDecimal(step.fromGrams ?? 0, 1), to: formatDecimal(step.toGrams, 1), yield: step.toYieldGrams })
++    case 'lessDose': return step.toGrams === undefined || step.toYieldGrams === undefined ? t('insights.dialIn.step.lessDose') : t('insights.dialIn.step.lessDoseTo', { from: formatDecimal(step.fromGrams ?? 0, 1), to: formatDecimal(step.toGrams, 1), yield: step.toYieldGrams })
++  }
++}
++
++function FindingRow({ finding }: { finding: ShotFinding }) {
++  if (finding.kind === 'chokedFlow') return <li className="dial-in-finding dial-in-finding--choked">
++    <strong>{t('insights.dialIn.choked.title', { time: seconds(finding.atMs) })}</strong>
++    <span>{t('insights.dialIn.choked.detail', { pressure: reading(finding.meanPressure), flow: reading(finding.meanFlow), seconds: Math.round(finding.durationMs / 1000) })}</span>
++  </li>
++  return <li className={`dial-in-finding dial-in-finding--drop dial-in-finding--${finding.severity}`}>
++    <strong>{t('insights.dialIn.drop.title', { time: seconds(finding.atMs) })}</strong>
++    <span>{t('insights.dialIn.drop.detail', { pct: percent(finding.dropFraction), pressure: reading(finding.pressure), flow: reading(finding.flow) })}</span>
++    <span className="dial-in-finding__hint">{finding.phase === 'early' ? t('insights.dialIn.drop.early') : t('insights.dialIn.drop.late')}</span>
++  </li>
++}
++
++function PuckSummary({ analysis, ratio }: { analysis: ShotAnalysis; ratio?: number }) {
++  const metrics: Array<{ label: string; value: string }> = []
++  if (analysis.firstDropsMs !== undefined) metrics.push({ label: t('insights.dialIn.metric.firstDrops'), value: seconds(analysis.firstDropsMs) })
++  if (ratio !== undefined) metrics.push({ label: t('insights.dialIn.metric.ratio'), value: t('insights.dialIn.ratioValue', { ratio: formatDecimal(ratio, 1) }) })
++  if (analysis.peakResistance !== undefined) metrics.push({ label: t('insights.dialIn.metric.peakResistance'), value: reading(analysis.peakResistance, 2) })
++  if (analysis.resistanceDecline !== undefined) metrics.push({ label: t('insights.dialIn.metric.resistanceFell'), value: `${percent(analysis.resistanceDecline)}%` })
++  if (analysis.breakdown) metrics.push({ label: t('insights.dialIn.metric.breakdown'), value: t(`insights.dialIn.breakdown.${analysis.breakdown}`) })
++  return <>
++    {!analysis.analysable && <p className="dial-in-panel__muted">{t('insights.dialIn.notAnalysable')}</p>}
++    {analysis.analysable && analysis.findings.length === 0 && <p className="dial-in-clean">{t('insights.dialIn.clean')}</p>}
++    {analysis.findings.length > 0 && <ul className="dial-in-findings">{analysis.findings.map(finding => <FindingRow key={`${finding.kind}:${finding.atMs}`} finding={finding} />)}</ul>}
++    {metrics.length > 0 && <dl className="dial-in-metrics">{metrics.map(metric => <div key={metric.label}><dt>{metric.label}</dt><dd>{metric.value}</dd></div>)}</dl>}
++    {analysis.analysable && <p className="dial-in-panel__method">{t('insights.dialIn.method')}</p>}
++  </>
++}
++
++const extractions: ExtractionTaste[] = ['sour', 'balanced', 'bitter']
++const strengths: StrengthTaste[] = ['strong', 'balanced', 'weak']
++
++function TasteCompass({ value, onChange }: { value: TasteNote | undefined; onChange: (note: TasteNote) => void }) {
++  const label = (taste: ExtractionTaste | StrengthTaste) => t(`insights.dialIn.taste.${taste}`)
++  return <div className="dial-in-compass">
++    <div className="dial-in-compass__grid" role="radiogroup" aria-label={t('insights.dialIn.tasteHeading')}>
++      <div className="dial-in-compass__columns dial-in-compass__columns--head" aria-hidden="true"><span className="dial-in-compass__axis">{t('insights.dialIn.taste.strengthAxis')}</span></div>
++      {strengths.map(strength => <div className="dial-in-compass__row" key={strength}>
++        <span className="dial-in-compass__row-label" aria-hidden="true">{label(strength)}</span>
++        {extractions.map(extraction => {
++          const selected = value?.extraction === extraction && value.strength === strength
++          return <button key={extraction} type="button" role="radio" aria-checked={selected}
++            className={`dial-in-compass__cell dial-in-compass__cell--${extraction}-${strength}${selected ? ' dial-in-compass__cell--selected' : ''}`}
++            aria-label={t('insights.dialIn.taste.cellAriaLabel', { extraction: label(extraction), strength: label(strength) })}
++            onClick={() => onChange({ extraction, strength, drying: value?.drying ?? false })}><i aria-hidden="true" /></button>
++        })}
++      </div>)}
++      <div className="dial-in-compass__columns" aria-hidden="true"><span />{extractions.map(extraction => <span key={extraction}>{label(extraction)}</span>)}</div>
++      <span className="dial-in-compass__axis dial-in-compass__axis--extraction" aria-hidden="true">{t('insights.dialIn.taste.extractionAxis')}</span>
++    </div>
++    <label className="dial-in-toggle">
++      <input type="checkbox" checked={value?.drying ?? false} disabled={!value} onChange={(event) => value && onChange({ ...value, drying: event.target.checked })} />
++      <span>{t('insights.dialIn.taste.drying')}</span>
++    </label>
++  </div>
++}
++
++export function ShotDialInPanel({ points, shotId, dose, yieldGrams, grindSetting, onClose }: ShotDialInPanelProps) {
++  const source = getDecaidEndpoints().apiBase
++  const analysis = useMemo(() => analyseShot(points), [points])
++  const peakPressure = useMemo(() => points.reduce<number | undefined>((peak, point) => typeof point.pressure === 'number' && Number.isFinite(point.pressure) ? Math.max(peak ?? 0, point.pressure) : peak, undefined), [points])
++  const [taste, setTaste] = useState<TasteNote | undefined>(() => readTasteNote(source, shotId))
++  const [chosen, setChosen] = useState(false)
++  // A just-finished live pull carries a local `live:` ID until Decaid persists it.
++  const persistableId = shotId && !shotId.startsWith('live:') ? shotId : undefined
++  const saved = chosen && taste !== undefined && persistableId !== undefined
++  const closeRef = useRef<HTMLButtonElement>(null)
++  useEffect(() => { closeRef.current?.focus() }, [])
++  useEffect(() => {
++    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose() }
++    window.addEventListener('keydown', onKey)
++    return () => window.removeEventListener('keydown', onKey)
++  }, [onClose])
++
++  // Persist the barista's choice, including once a live pull receives its Decaid ID.
++  useEffect(() => {
++    if (chosen && taste && persistableId) saveTasteNote(source, persistableId, taste)
++  }, [chosen, taste, persistableId, source])
++
++  const context = { dose, yield: yieldGrams, grindSetting }
++  const advice = taste ? recommendNextShot(taste, analysis, context, peakPressure) : undefined
++  const ratio = dose && yieldGrams ? yieldGrams / dose : undefined
++  const chooseTaste = (note: TasteNote) => {
++    setTaste(note)
++    setChosen(true)
++  }
++
++  return <div className="dial-in-backdrop" role="presentation" onPointerDown={(event) => { if (event.target === event.currentTarget) onClose() }}>
++    <aside className="dial-in-panel" role="dialog" aria-modal="true" aria-labelledby="dial-in-title">
++      <header className="dial-in-panel__header">
++        <div><h2 id="dial-in-title">{t('insights.dialIn.title')}</h2><p>{t('insights.dialIn.subtitle')}</p></div>
++        <button ref={closeRef} className="live-pull-action live-pull-action--close" type="button" onClick={onClose}>{t('insights.dialIn.close')}</button>
++      </header>
++      <section className="dial-in-panel__section" aria-labelledby="dial-in-puck">
++        <h3 id="dial-in-puck">{t('insights.dialIn.puckHeading')}</h3>
++        <PuckSummary analysis={analysis} ratio={ratio} />
++      </section>
++      <section className="dial-in-panel__section" aria-labelledby="dial-in-taste">
++        <h3 id="dial-in-taste">{t('insights.dialIn.tasteHeading')}</h3>
++        {!taste && <p className="dial-in-panel__muted">{t('insights.dialIn.taste.prompt')}</p>}
++        <TasteCompass value={taste} onChange={chooseTaste} />
++        {saved && <p className="dial-in-panel__saved" role="status">{t('insights.dialIn.taste.saved')}</p>}
++      </section>
++      {advice && <section className="dial-in-panel__section dial-in-next" aria-labelledby="dial-in-next" aria-live="polite">
++        <h3 id="dial-in-next">{t('insights.dialIn.nextHeading')}</h3>
++        <p className="dial-in-next__primary">{stepText(advice.primary)}</p>
++        {advice.secondary && <p className="dial-in-next__secondary"><span>{advice.primary.kind === 'puckPrep' ? t('insights.dialIn.thenAfterPrep') : t('insights.dialIn.then')}</span>{stepText(advice.secondary)}</p>}
++        <p className="dial-in-next__why"><span>{t('insights.dialIn.why')}</span>{t(`insights.dialIn.reason.${advice.reason}`, { ratio: advice.ratio === undefined ? '—' : t('insights.dialIn.ratioValue', { ratio: formatDecimal(advice.ratio, 1) }) })}</p>
++        <p className="dial-in-panel__method">{advice.basis === 'both' ? t('insights.dialIn.basis.both') : t('insights.dialIn.basis.taste')}</p>
++      </section>}
++    </aside>
++  </div>
++}
+diff --git a/src/features/insights/dialIn.ts b/src/features/insights/dialIn.ts
+new file mode 100644
+index 0000000..03ae814
+--- /dev/null
++++ b/src/features/insights/dialIn.ts
+@@ -0,0 +1,130 @@
++import type { ShotAnalysis } from '../../domain/shotAnalysis.ts'
++import { hasFinding } from '../../domain/shotAnalysis.ts'
++
++/**
++ * Taste-first dial-in: one next step from the espresso compass plus puck
++ * evidence. Deterministic; see docs/shot-analysis-and-dial-in.md for the rules.
++ * Telemetry can only rule levers in or out. It never overrides the taste input.
++ */
++
++export type ExtractionTaste = 'sour' | 'balanced' | 'bitter'
++export type StrengthTaste = 'weak' | 'balanced' | 'strong'
++
++export interface TasteNote {
++  extraction: ExtractionTaste
++  strength: StrengthTaste
++  /** Drying, harsh or astringent finish. Often uneven extraction. */
++  drying?: boolean
++}
++
++export interface ShotContext {
++  /** Dose in grams, when known. */
++  dose?: number
++  /** Final beverage mass in grams, when known. */
++  yield?: number
++  grindSetting?: string
++}
++
++export type DialInStep =
++  | { kind: 'keep' }
++  | { kind: 'puckPrep' }
++  | { kind: 'lowerPeakPressure'; fromBar?: number; toBar: number }
++  | { kind: 'grindFiner'; grindSetting?: string }
++  | { kind: 'grindCoarser'; grindSetting?: string }
++  | { kind: 'longerYield'; fromGrams?: number; toGrams?: number }
++  | { kind: 'shorterYield'; fromGrams?: number; toGrams?: number }
++  | { kind: 'moreDose'; fromGrams?: number; toGrams?: number; toYieldGrams?: number }
++  | { kind: 'lessDose'; fromGrams?: number; toGrams?: number; toYieldGrams?: number }
++
++export type DialInReason =
++  | 'chokedFlow'
++  | 'puckDrop'
++  | 'drying'
++  | 'sourStrong' | 'sourBalanced' | 'sourWeak'
++  | 'bitterWeak' | 'bitterBalanced' | 'bitterStrong'
++  | 'balancedWeak' | 'balancedStrong'
++  | 'balanced'
++  | 'ratioAlreadyLong' | 'ratioAlreadyShort'
++
++export interface DialInAdvice {
++  primary: DialInStep
++  secondary?: DialInStep
++  reason: DialInReason
++  /** Whether the advice leaned on telemetry, the cup, or both. */
++  basis: 'taste' | 'telemetry' | 'both'
++  ratio?: number
++}
++
++export const DIAL_IN_LIMITS = {
++  yieldStepShare: 0.1,
++  minimumYieldStepGrams: 2,
++  doseStepGrams: 1,
++  longRatio: 2.6,
++  shortRatio: 1.8,
++  lowerPeakPressureBar: 6.5,
++} as const
++
++const finitePositive = (value: number | undefined): value is number => typeof value === 'number' && Number.isFinite(value) && value > 0
++
++export function brewRatio(context: ShotContext) {
++  return finitePositive(context.dose) && finitePositive(context.yield) ? context.yield / context.dose : undefined
++}
++
++function yieldStep(context: ShotContext, direction: 1 | -1): DialInStep {
++  if (!finitePositive(context.yield)) return { kind: direction > 0 ? 'longerYield' : 'shorterYield' }
++  const step = Math.max(DIAL_IN_LIMITS.minimumYieldStepGrams, Math.round(context.yield * DIAL_IN_LIMITS.yieldStepShare))
++  const fromGrams = Math.round(context.yield)
++  return { kind: direction > 0 ? 'longerYield' : 'shorterYield', fromGrams, toGrams: Math.max(1, fromGrams + direction * step) }
++}
++
++function doseStep(context: ShotContext, direction: 1 | -1): DialInStep {
++  const kind = direction > 0 ? 'moreDose' as const : 'lessDose' as const
++  if (!finitePositive(context.dose)) return { kind }
++  const toGrams = Math.max(1, context.dose + direction * DIAL_IN_LIMITS.doseStepGrams)
++  const ratio = brewRatio(context)
++  return { kind, fromGrams: context.dose, toGrams, toYieldGrams: ratio === undefined ? undefined : Math.round(toGrams * ratio) }
++}
++
++const grind = (kind: 'grindFiner' | 'grindCoarser', context: ShotContext): DialInStep => ({ kind, ...(context.grindSetting?.trim() && context.grindSetting !== '—' ? { grindSetting: context.grindSetting.trim() } : {}) })
++
++/** The taste-only step for a compass cell, honouring ratio limits. */
++function tasteStep(taste: TasteNote, context: ShotContext): { step: DialInStep; reason: DialInReason } {
++  const ratio = brewRatio(context)
++  const { extraction, strength } = taste
++  if (extraction === 'sour') {
++    if (strength === 'weak') return { step: grind('grindFiner', context), reason: 'sourWeak' }
++    if (ratio !== undefined && ratio >= DIAL_IN_LIMITS.longRatio) return { step: grind('grindFiner', context), reason: 'ratioAlreadyLong' }
++    return { step: yieldStep(context, 1), reason: strength === 'strong' ? 'sourStrong' : 'sourBalanced' }
++  }
++  if (extraction === 'bitter') {
++    if (strength === 'strong') return { step: grind('grindCoarser', context), reason: 'bitterStrong' }
++    if (ratio !== undefined && ratio <= DIAL_IN_LIMITS.shortRatio) return { step: grind('grindCoarser', context), reason: 'ratioAlreadyShort' }
++    return { step: yieldStep(context, -1), reason: strength === 'weak' ? 'bitterWeak' : 'bitterBalanced' }
++  }
++  if (strength === 'weak') return { step: doseStep(context, 1), reason: 'balancedWeak' }
++  if (strength === 'strong') return { step: doseStep(context, -1), reason: 'balancedStrong' }
++  return { step: { kind: 'keep' }, reason: 'balanced' }
++}
++
++export function recommendNextShot(taste: TasteNote, analysis: Pick<ShotAnalysis, 'analysable' | 'findings'> | undefined, context: ShotContext = {}, peakPressureBar?: number): DialInAdvice {
++  const ratio = brewRatio(context)
++  const offBalance = taste.extraction !== 'balanced' || taste.strength !== 'balanced' || taste.drying === true
++  const fromTaste = tasteStep(taste, context)
++  const secondaryTaste = fromTaste.step.kind === 'keep' ? undefined : fromTaste.step
++
++  if (analysis && hasFinding(analysis, 'chokedFlow') && offBalance) {
++    // Never pair "coarser" with a contradictory or duplicate grind step.
++    const secondary = secondaryTaste && secondaryTaste.kind !== 'grindFiner' && secondaryTaste.kind !== 'grindCoarser' ? secondaryTaste : undefined
++    return { primary: grind('grindCoarser', context), ...(secondary ? { secondary } : {}), reason: 'chokedFlow', basis: 'both', ratio }
++  }
++  if (analysis && hasFinding(analysis, 'suddenResistanceDrop') && offBalance) {
++    return { primary: { kind: 'puckPrep' }, ...(secondaryTaste ? { secondary: secondaryTaste } : {}), reason: 'puckDrop', basis: 'both', ratio }
++  }
++  if (taste.drying) {
++    const lowerPressure: DialInStep = { kind: 'lowerPeakPressure', ...(peakPressureBar !== undefined && Number.isFinite(peakPressureBar) ? { fromBar: Math.round(peakPressureBar * 10) / 10 } : {}), toBar: DIAL_IN_LIMITS.lowerPeakPressureBar }
++    const pressureAlreadyLow = peakPressureBar !== undefined && peakPressureBar <= DIAL_IN_LIMITS.lowerPeakPressureBar + 0.3
++    const secondary = pressureAlreadyLow ? secondaryTaste : lowerPressure
++    return { primary: { kind: 'puckPrep' }, ...(secondary ? { secondary } : {}), reason: 'drying', basis: 'taste', ratio }
++  }
++  return { primary: fromTaste.step, reason: fromTaste.reason, basis: 'taste', ratio }
++}
+diff --git a/src/features/insights/shotDialIn.css b/src/features/insights/shotDialIn.css
+new file mode 100644
+index 0000000..caed914
+--- /dev/null
++++ b/src/features/insights/shotDialIn.css
+@@ -0,0 +1,99 @@
++/* Taste-first dial-in sheet. Shares Bestpresso's charcoal surfaces and green accent. */
++.dial-in-backdrop { position:fixed; inset:0; z-index:60; display:flex; justify-content:flex-end; background:rgba(8,8,8,.55); animation:dial-in-fade .18s ease-out; }
++.dial-in-panel { --dial-accent:#42c599; --dial-label:#878787; --dial-value:#f5f5f5; --dial-surface:rgba(255,255,255,.045); --dial-outline:rgba(255,255,255,.09);
++  box-sizing:border-box; width:min(560px,100%); height:100%; overflow-y:auto; overscroll-behavior:contain; padding:24px 26px 32px; display:flex; flex-direction:column; gap:18px;
++  color:var(--dial-value); background:linear-gradient(160deg,#1d1d1d 0%,#232120 60%,#2d2622 100%); border-left:1px solid var(--dial-outline); box-shadow:-18px 0 48px rgba(0,0,0,.35);
++  animation:dial-in-slide .24s cubic-bezier(.2,.8,.2,1); font-variant-numeric:tabular-nums; }
++.dial-in-panel * { box-sizing:border-box; }
++.dial-in-panel__header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
++.dial-in-panel__header h2 { margin:0; font-size:26px; line-height:1.15; font-weight:700; color:var(--dial-value); }
++.dial-in-panel__header p { margin:6px 0 0; font-size:14px; color:var(--dial-label); }
++.dial-in-panel__header .live-pull-action { min-width:84px; height:48px; font-size:16px; }
++.dial-in-panel__section { padding:18px 20px; border-radius:20px; background:var(--dial-surface); border:1px solid var(--dial-outline); display:flex; flex-direction:column; gap:12px; }
++.dial-in-panel__section h3 { margin:0; font-size:13px; letter-spacing:.08em; text-transform:uppercase; font-weight:650; color:var(--dial-label); }
++.dial-in-panel__muted, .dial-in-panel__method, .dial-in-panel__saved { margin:0; font-size:13px; line-height:1.45; color:var(--dial-label); }
++.dial-in-panel__saved { color:var(--dial-accent); }
++.dial-in-clean { margin:0; font-size:16px; line-height:1.4; color:var(--dial-value); padding-left:22px; position:relative; }
++.dial-in-clean::before { content:''; position:absolute; left:0; top:.45em; width:10px; height:10px; border-radius:50%; background:var(--dial-accent); }
++.dial-in-findings { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
++.dial-in-finding { display:flex; flex-direction:column; gap:4px; padding:12px 14px 12px 16px; border-radius:14px; border-left:3px solid #e0a35b; background:rgba(224,163,91,.08); }
++.dial-in-finding--strong { border-left-color:#de6161; background:rgba(222,97,97,.09); }
++.dial-in-finding--choked { border-left-color:#4286c5; background:rgba(66,134,197,.1); }
++.dial-in-finding strong { font-size:16px; font-weight:650; color:var(--dial-value); }
++.dial-in-finding span { font-size:14px; line-height:1.45; color:#c9c9c9; }
++.dial-in-finding__hint { color:var(--dial-label) !important; }
++.dial-in-metrics { margin:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:12px 16px; }
++.dial-in-metrics div { display:flex; flex-direction:column; gap:3px; }
++.dial-in-metrics dt { font-size:12px; color:var(--dial-label); }
++.dial-in-metrics dd { margin:0; font-size:20px; font-weight:600; color:var(--dial-value); }
++
++/* Espresso compass: 3 × 3 grid, sour → bitter across, strong → weak down. */
++.dial-in-compass { display:flex; flex-direction:column; gap:14px; }
++.dial-in-compass__grid { position:relative; display:flex; flex-direction:column; gap:8px; }
++.dial-in-compass__row { display:grid; grid-template-columns:76px repeat(3,minmax(0,1fr)); gap:8px; align-items:center; }
++.dial-in-compass__row-label, .dial-in-compass__columns span { font-size:13px; color:#bdbdbd; }
++.dial-in-compass__columns { display:grid; grid-template-columns:76px repeat(3,minmax(0,1fr)); gap:8px; text-align:center; }
++.dial-in-compass__axis { font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--dial-label); }
++.dial-in-compass__columns--head { text-align:left; margin-bottom:-2px; }
++.dial-in-compass__axis--extraction { text-align:center; padding-left:84px; }
++.dial-in-compass__cell { height:56px; min-height:44px; border-radius:14px; border:1px solid var(--dial-outline); background:rgba(255,255,255,.04); cursor:pointer; display:grid; place-items:center; transition:background .16s ease,border-color .16s ease,transform .12s ease; -webkit-tap-highlight-color:transparent; }
++.dial-in-compass__cell i { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,.18); transition:transform .16s ease,background .16s ease; }
++.dial-in-compass__cell:active { transform:scale(.96); }
++.dial-in-compass__cell:focus-visible { outline:2px solid var(--dial-accent); outline-offset:2px; }
++.dial-in-compass__cell--balanced-balanced { border-color:rgba(66,197,153,.35); }
++.dial-in-compass__cell--selected { border-color:var(--dial-accent); background:rgba(66,197,153,.16); }
++.dial-in-compass__cell--selected i { transform:scale(1.4); background:var(--dial-accent); }
++.dial-in-toggle { display:flex; align-items:center; gap:12px; min-height:44px; font-size:15px; color:#d6d6d6; cursor:pointer; }
++.dial-in-toggle input { width:22px; height:22px; accent-color:var(--dial-accent); }
++.dial-in-toggle:has(input:disabled) { opacity:.45; cursor:default; }
++
++.dial-in-next { border-color:rgba(66,197,153,.4); background:linear-gradient(150deg,rgba(66,197,153,.12),rgba(66,197,153,.03)); }
++.dial-in-next__primary { margin:0; font-size:20px; line-height:1.35; font-weight:650; color:var(--dial-value); }
++.dial-in-next__secondary, .dial-in-next__why { margin:0; font-size:15px; line-height:1.5; color:#d0d0d0; }
++.dial-in-next__secondary span, .dial-in-next__why span { display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--dial-label); margin-bottom:2px; }
++
++/* Header button shared by the live and history screens. */
++.live-pull-action--dial { border-color:#42c599; color:#7fe0bd; background:radial-gradient(circle at 84% 112%,rgba(66,197,153,.4),transparent 56%),rgba(70,70,70,.78); }
++.live-pull-action--dial:hover { background:radial-gradient(circle at 84% 112%,rgba(66,197,153,.55),transparent 56%),rgba(94,94,94,.9); }
++.live-pull-action--view { border-color:#777; color:#d0d0d0; background:rgba(70,70,70,.5); min-width:84px; }
++
++/* Finding markers drawn over the shot chart. */
++.chart-finding-marker line { stroke:#e0a35b; stroke-width:1.5; stroke-dasharray:4 4; vector-effect:non-scaling-stroke; }
++.chart-finding-marker--strong line { stroke:#de6161; }
++.chart-finding-marker--choked line { stroke:#72aef5; }
++.chart-finding-flags { position:absolute; inset:0; pointer-events:none; }
++.chart-finding-flag { position:absolute; top:calc(64 / 376 * 100%); transform:translate(-50%,-140%); width:12px; height:12px; border-radius:50%; background:#e0a35b; box-shadow:0 0 0 3px rgba(0,0,0,.35); }
++.chart-finding-flag--strong { background:#de6161; }
++.chart-finding-flag--choked { background:#72aef5; }
++
++@keyframes dial-in-fade { from { opacity:0 } to { opacity:1 } }
++@keyframes dial-in-slide { from { transform:translateX(24px); opacity:.4 } to { transform:none; opacity:1 } }
++@media (prefers-reduced-motion: reduce) { .dial-in-backdrop, .dial-in-panel { animation:none; } }
++[data-animations="off"] :is(.dial-in-backdrop,.dial-in-panel) { animation:none; }
++@media (max-width:600px) { .dial-in-panel { padding:18px 16px 28px; } .dial-in-compass__row, .dial-in-compass__columns { grid-template-columns:60px repeat(3,minmax(0,1fr)); } .dial-in-compass__axis--extraction { padding-left:68px; } }
++
++[data-theme="light"] .dial-in-backdrop { background:rgba(35,56,45,.22); }
++[data-theme="light"] .dial-in-panel { --dial-accent:#246e47; --dial-label:#6a746c; --dial-value:#23382d; --dial-surface:#ffffff; --dial-outline:rgba(37,65,49,.14); background:linear-gradient(160deg,#fbfcf8,#f1efe8); box-shadow:-18px 0 48px rgba(42,53,42,.12); }
++[data-theme="light"] .dial-in-finding span, [data-theme="light"] .dial-in-next__secondary, [data-theme="light"] .dial-in-next__why, [data-theme="light"] .dial-in-toggle, [data-theme="light"] .dial-in-compass__row-label, [data-theme="light"] .dial-in-compass__columns span { color:#3d4d43; }
++[data-theme="light"] .dial-in-compass__cell { background:#f4f6f1; }
++[data-theme="light"] .dial-in-compass__cell i { background:rgba(35,56,45,.2); }
++[data-theme="light"] .dial-in-compass__cell--selected { background:#cbe3d1; }
++[data-theme="light"] .dial-in-next { background:linear-gradient(150deg,#e3f1e7,#ffffff); }
++[data-theme="light"] .live-pull-action--dial { color:#246e47; border-color:#246e47; background:#e4efe7; }
++
++/* Calm live view: replaces the chart and stage strip while a shot runs. */
++.live-calm { grid-row:2 / span 2; min-height:0; display:grid; place-items:center; padding:clamp(8px,2vh,24px) 16px; border-radius:24px; background:radial-gradient(circle at 50% 50%,rgba(66,197,153,.08),transparent 55%); }
++.live-calm__ring { position:relative; height:min(100%,560px); max-width:100%; aspect-ratio:1; min-height:0; display:grid; place-items:center; }
++.live-calm__ring svg { position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); }
++.live-calm__track { fill:none; stroke:rgba(255,255,255,.08); stroke-width:3.2; }
++.live-calm__progress { fill:none; stroke:#42c599; stroke-width:3.2; stroke-linecap:round; transition:stroke-dashoffset .12s linear; filter:drop-shadow(0 0 6px rgba(66,197,153,.35)); }
++.live-calm__reading { position:relative; display:flex; flex-direction:column; align-items:center; gap:8px; font-variant-numeric:tabular-nums; }
++.live-calm__reading strong { font-size:clamp(56px,9vw,112px); line-height:1; font-weight:300; letter-spacing:-.03em; color:#f5f5f5; }
++.live-calm__reading strong small { font-size:.36em; margin-left:6px; font-weight:400; color:#9a9a9a; letter-spacing:0; }
++.live-calm__reading span { font-size:clamp(16px,1.8vw,22px); color:#8f8f8f; }
++.live-calm__stage { margin-top:10px; padding:6px 14px; border-radius:999px; border:1px solid rgba(66,197,153,.35); font-style:normal; font-size:15px; color:#7fe0bd; max-width:22ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
++@media (max-width:760px) { .live-calm__ring { height:auto; width:min(82vw,420px); } }
++[data-theme="light"] .live-calm__track { stroke:rgba(35,56,45,.1); }
++[data-theme="light"] .live-calm__progress { stroke:#209a74; filter:none; }
++[data-theme="light"] .live-calm__reading strong { color:#23382d; }
++[data-theme="light"] .live-calm__stage { color:#246e47; border-color:rgba(36,110,71,.35); }
+diff --git a/src/features/insights/tasteNotesStorage.ts b/src/features/insights/tasteNotesStorage.ts
+new file mode 100644
+index 0000000..5464582
+--- /dev/null
++++ b/src/features/insights/tasteNotesStorage.ts
+@@ -0,0 +1,50 @@
++import type { ExtractionTaste, StrengthTaste, TasteNote } from './dialIn.ts'
++
++/**
++ * Device-local taste journal, scoped per Decaid gateway and keyed by shot ID.
++ * Mirrors stageEvidenceStorage: bounded, tolerant of unavailable storage, and
++ * never written to Decaid until a shot-annotation contract is confirmed.
++ */
++export interface SavedTasteNote extends TasteNote { recordedAt: string }
++
++const MAX_NOTES = 1_000
++const keyFor = (source: string) => `bestpresso-taste-notes-v1:${source}`
++const memory = new Map<string, Record<string, SavedTasteNote>>()
++const extractions: ExtractionTaste[] = ['sour', 'balanced', 'bitter']
++const strengths: StrengthTaste[] = ['weak', 'balanced', 'strong']
++
++function read(source: string): Record<string, SavedTasteNote> {
++  try {
++    const stored = localStorage.getItem(keyFor(source))
++    if (stored) {
++      const value = JSON.parse(stored)
++      if (value && typeof value === 'object' && !Array.isArray(value)) return value
++    }
++  } catch { /* fall back to memory when storage is unavailable */ }
++  return memory.get(source) ?? {}
++}
++
++export function normalizeTasteNote(value: unknown): SavedTasteNote | undefined {
++  if (!value || typeof value !== 'object') return undefined
++  const candidate = value as Partial<SavedTasteNote>
++  if (!extractions.includes(candidate.extraction as ExtractionTaste) || !strengths.includes(candidate.strength as StrengthTaste)) return undefined
++  return {
++    extraction: candidate.extraction as ExtractionTaste,
++    strength: candidate.strength as StrengthTaste,
++    drying: candidate.drying === true,
++    recordedAt: typeof candidate.recordedAt === 'string' ? candidate.recordedAt : new Date(0).toISOString(),
++  }
++}
++
++export function readTasteNote(source: string, shotId?: string) {
++  return shotId ? normalizeTasteNote(read(source)[shotId]) : undefined
++}
++
++export function saveTasteNote(source: string, shotId: string, note: TasteNote, now = new Date()) {
++  const entries = Object.entries(read(source)).filter(([id]) => id !== shotId).slice(-(MAX_NOTES - 1))
++  const saved: SavedTasteNote = { extraction: note.extraction, strength: note.strength, drying: note.drying === true, recordedAt: now.toISOString() }
++  const next = Object.fromEntries([...entries, [shotId, saved]])
++  memory.set(source, next)
++  try { localStorage.setItem(keyFor(source), JSON.stringify(next)) } catch { /* preserved in memory */ }
++  return saved
++}
+diff --git a/src/features/settings/bestpressoPreferences.ts b/src/features/settings/bestpressoPreferences.ts
+index 5436744..9d2638e 100644
+--- a/src/features/settings/bestpressoPreferences.ts
++++ b/src/features/settings/bestpressoPreferences.ts
+@@ -4,6 +4,8 @@ import { isLanguage, resolveLanguage, setActiveLanguage, type LanguagePreference
+ import type { ClockFormat } from '../sleep/deviceTime'
+ 
+ export type ChartLineWeight = 'fine' | 'standard' | 'bold'
++/** Live-pull layout: full telemetry chart, or the calm yield ring. */
++export type LiveView = 'chart' | 'calm'
+ 
+ export interface BestpressoPreferences {
+   theme: 'dark' | 'light'
+@@ -17,6 +19,7 @@ export interface BestpressoPreferences {
+   screensaverBrightness: number
+   screensaverScreenOffDelaySeconds: number
+   language: LanguagePreference
++  liveView: LiveView
+ }
+ 
+ export const BESTPRESSO_PREFERENCES_KEY = 'bestpresso.preferences.v1'
+@@ -34,6 +37,7 @@ export const DEFAULT_BESTPRESSO_PREFERENCES: BestpressoPreferences = {
+   screensaverBrightness: 7,
+   screensaverScreenOffDelaySeconds: 0,
+   language: 'auto',
++  liveView: 'chart',
+ }
+ 
+ const finiteRange = (value: unknown, fallback: number) => {
+@@ -66,6 +70,7 @@ export function normalizeBestpressoPreferences(value: unknown): BestpressoPrefer
+     temperatureUnit,
+     clockFormat: candidate.clockFormat === '12h' || candidate.clockFormat === '24h' ? candidate.clockFormat : 'device',
+     language: isLanguage(candidate.language) ? candidate.language : 'auto',
++    liveView: candidate.liveView === 'calm' ? 'calm' : 'chart',
+   }
+ }
+ 
+diff --git a/src/i18n/en/brew.ts b/src/i18n/en/brew.ts
+index 5891a33..6f9bb41 100644
+--- a/src/i18n/en/brew.ts
++++ b/src/i18n/en/brew.ts
+@@ -150,4 +150,13 @@ export const brewEn = {
+   'brew.data.feedback.profileSyncFailed': '{name} could not be synchronized with Decaid.',
+   'brew.data.feedback.profileSelectFailed': '{name} could not be selected.',
+   'brew.data.feedback.scaleConnectFailed': 'Could not connect to {name}.',
++  // Calm live view
++  'brew.liveScreen.calmView': 'Calm',
++  'brew.liveScreen.chartView': 'Chart',
++  'brew.liveScreen.calmViewAriaLabel': 'Switch to the calm view',
++  'brew.liveScreen.chartViewAriaLabel': 'Switch to the chart view',
++  'brew.liveScreen.calmRingAriaLabel': '{weight} of {target} grams',
++  'brew.liveScreen.calmRingTimeAriaLabel': '{seconds} seconds elapsed',
++  'brew.liveScreen.calmTarget': 'of {target} g',
++  'brew.liveScreen.calmStage': 'Stage',
+ } as const
+diff --git a/src/i18n/en/insights.ts b/src/i18n/en/insights.ts
+index 72cd30d..005f78e 100644
+--- a/src/i18n/en/insights.ts
++++ b/src/i18n/en/insights.ts
+@@ -178,4 +178,79 @@ export const insightsEn = {
+   'insights.chart.loading': 'Loading chart…',
+   'insights.period.dayMonth': '{day} {month}',
+   'insights.period.dayOnly': '{day}',
++  // Shot analysis + taste-first dial-in (docs/shot-analysis-and-dial-in.md)
++  'insights.dialIn.open': 'Dial in',
++  'insights.dialIn.openAriaLabel': 'Dial in the next shot',
++  'insights.dialIn.title': 'Dial in',
++  'insights.dialIn.subtitle': 'Display only. Nothing changes on the machine.',
++  'insights.dialIn.close': 'Close',
++  'insights.dialIn.puckHeading': 'What the puck did',
++  'insights.dialIn.notAnalysable': 'Not enough pressurised flow to analyse this shot.',
++  'insights.dialIn.clean': 'No sudden resistance drops or stalled flow found.',
++  'insights.dialIn.drop.title': 'Possible channel at {time}',
++  'insights.dialIn.drop.detail': 'Puck resistance fell {pct}% in about a second, at {pressure} bar and {flow} ml/s.',
++  'insights.dialIn.drop.early': 'Early in the shot, this usually points to distribution or tamping.',
++  'insights.dialIn.drop.late': 'Late in the shot, this can be the puck eroding under high pressure.',
++  'insights.dialIn.choked.title': 'Flow stalled at {time}',
++  'insights.dialIn.choked.detail': '{pressure} bar pushed only {flow} ml/s for {seconds} s.',
++  'insights.dialIn.metric.firstDrops': 'First drops',
++  'insights.dialIn.metric.peakResistance': 'Peak resistance',
++  'insights.dialIn.metric.resistanceFell': 'Peak-to-end drop',
++  'insights.dialIn.metric.breakdown': 'Breakdown',
++  'insights.dialIn.metric.ratio': 'Ratio',
++  'insights.dialIn.breakdown.steady': 'Steady',
++  'insights.dialIn.breakdown.mixed': 'Mixed',
++  'insights.dialIn.breakdown.uneven': 'Uneven',
++  'insights.dialIn.method': 'Resistance = pressure ÷ flow², Decent’s convention. Thresholds aren’t calibrated to your machine yet.',
++  'insights.dialIn.tasteHeading': 'How did it taste?',
++  'insights.dialIn.taste.sour': 'Sour',
++  'insights.dialIn.taste.balanced': 'Balanced',
++  'insights.dialIn.taste.bitter': 'Bitter',
++  'insights.dialIn.taste.weak': 'Weak',
++  'insights.dialIn.taste.strong': 'Strong',
++  'insights.dialIn.taste.extractionAxis': 'Extraction',
++  'insights.dialIn.taste.strengthAxis': 'Strength',
++  'insights.dialIn.taste.cellAriaLabel': '{extraction}, {strength}',
++  'insights.dialIn.taste.drying': 'Drying or harsh finish',
++  'insights.dialIn.taste.saved': 'Saved on this tablet',
++  'insights.dialIn.taste.prompt': 'Tap the cell that matches the cup.',
++  'insights.dialIn.nextHeading': 'Next shot',
++  'insights.dialIn.then': 'Then',
++  'insights.dialIn.why': 'Why',
++  'insights.dialIn.basis.both': 'Based on your tasting and the shot data.',
++  'insights.dialIn.basis.taste': 'Based on your tasting.',
++  'insights.dialIn.step.keep': 'Keep everything the same and note this recipe.',
++  'insights.dialIn.step.puckPrep': 'Fix puck prep first: distribute thoroughly (WDT), tamp level, and check the basket and puck screen. Keep grind and ratio the same.',
++  'insights.dialIn.step.lowerPeakPressure': 'Lower the peak pressure to {to} bar.',
++  'insights.dialIn.step.lowerPeakPressureFrom': 'Lower the peak pressure from {from} to {to} bar.',
++  'insights.dialIn.step.grindFiner': 'Grind one step finer.',
++  'insights.dialIn.step.grindFinerFrom': 'Grind one step finer than {setting}.',
++  'insights.dialIn.step.grindCoarser': 'Grind one step coarser.',
++  'insights.dialIn.step.grindCoarserFrom': 'Grind one step coarser than {setting}.',
++  'insights.dialIn.step.longerYield': 'Pull a longer shot, about 10% more yield.',
++  'insights.dialIn.step.longerYieldTo': 'Stop at {to} g instead of {from} g.',
++  'insights.dialIn.step.shorterYield': 'Pull a shorter shot, about 10% less yield.',
++  'insights.dialIn.step.shorterYieldTo': 'Stop at {to} g instead of {from} g.',
++  'insights.dialIn.step.moreDose': 'Add about 1 g of coffee at the same ratio.',
++  'insights.dialIn.step.moreDoseTo': 'Dose {to} g instead of {from} g, and stop at {yield} g to keep the same ratio.',
++  'insights.dialIn.step.lessDose': 'Use about 1 g less coffee at the same ratio.',
++  'insights.dialIn.step.lessDoseTo': 'Dose {to} g instead of {from} g, and stop at {yield} g to keep the same ratio.',
++  'insights.dialIn.reason.chokedFlow': 'Flow stalled at high pressure. A stalled bed extracts unevenly, and grinding finer past this point can lower extraction (Cameron et al., 2020).',
++  'insights.dialIn.reason.puckDrop': 'Resistance dropped suddenly, which often means water found a channel. Changing grind or ratio won’t fix uneven flow.',
++  'insights.dialIn.reason.drying': 'A drying finish usually means uneven extraction. Lower pressure made shots more repeatable in Cameron et al. (2020).',
++  'insights.dialIn.reason.sourStrong': 'Sour and strong: more water raises extraction and lowers strength. Total yield is the biggest lever on what ends up in the cup (Schmieder et al., 2023).',
++  'insights.dialIn.reason.sourBalanced': 'Sour: a longer yield raises extraction. Total yield is the biggest lever on what ends up in the cup (Schmieder et al., 2023).',
++  'insights.dialIn.reason.sourWeak': 'Sour and weak: grinding finer raises extraction and strength together.',
++  'insights.dialIn.reason.bitterWeak': 'Bitter and weak: a shorter yield lowers extraction and raises strength.',
++  'insights.dialIn.reason.bitterBalanced': 'Bitter: a shorter yield lowers extraction.',
++  'insights.dialIn.reason.bitterStrong': 'Bitter and strong: grinding coarser lowers extraction and strength together.',
++  'insights.dialIn.reason.balancedWeak': 'Balanced but weak: more coffee at the same ratio adds strength without changing extraction much.',
++  'insights.dialIn.reason.balancedStrong': 'Balanced but strong: less coffee at the same ratio softens it.',
++  'insights.dialIn.reason.balanced': 'This cup is where you want it.',
++  'insights.dialIn.reason.ratioAlreadyLong': 'Sour, but the ratio is already {ratio}. More water would mostly thin the cup, so grind finer instead.',
++  'insights.dialIn.reason.ratioAlreadyShort': 'Bitter, but the ratio is already {ratio}. Coarsen the grind instead of shortening further.',
++  'insights.dialIn.ratioValue': '1:{ratio}',
++  'insights.dialIn.chartMarker.drop': 'Possible channel',
++  'insights.dialIn.chartMarker.choked': 'Flow stalled',
++  'insights.dialIn.thenAfterPrep': 'If it’s still off once flow is even',
+ } as const
+diff --git a/src/i18n/es/brew.ts b/src/i18n/es/brew.ts
+index 0b73ba5..fd3f591 100644
+--- a/src/i18n/es/brew.ts
++++ b/src/i18n/es/brew.ts
+@@ -129,5 +129,13 @@ export const brew = {
+   "brew.data.feedback.profileSavedNotApplied": "Se guardó {name}, pero no se pudo aplicar a la máquina.",
+   "brew.data.feedback.profileSyncFailed": "No se pudo sincronizar {name} con Decaid.",
+   "brew.data.feedback.profileSelectFailed": "No se pudo seleccionar {name}.",
+-  "brew.data.feedback.scaleConnectFailed": "No se pudo conectar con {name}."
++  "brew.data.feedback.scaleConnectFailed": "No se pudo conectar con {name}.",
++  "brew.liveScreen.calmView": "Calma",
++  "brew.liveScreen.chartView": "Gráfico",
++  "brew.liveScreen.calmViewAriaLabel": "Cambiar a la vista tranquila",
++  "brew.liveScreen.chartViewAriaLabel": "Cambiar a la vista de gráfico",
++  "brew.liveScreen.calmRingAriaLabel": "{weight} de {target} gramos",
++  "brew.liveScreen.calmRingTimeAriaLabel": "{seconds} segundos transcurridos",
++  "brew.liveScreen.calmTarget": "de {target} g",
++  "brew.liveScreen.calmStage": "Etapa"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/es/insights.ts b/src/i18n/es/insights.ts
+index 7cd815d..99cd934 100644
+--- a/src/i18n/es/insights.ts
++++ b/src/i18n/es/insights.ts
+@@ -147,5 +147,79 @@ export const insights = {
+   "insights.chart.unavailableRetrying": "Gráfico no disponible · reintentando automáticamente",
+   "insights.chart.retrying": "Reintentando cargar el gráfico…",
+   "insights.chart.empty": "No se registró un gráfico para esta extracción",
+-  "insights.chart.loading": "Cargando gráfico…"
++  "insights.chart.loading": "Cargando gráfico…",
++  "insights.dialIn.open": "Ajustar",
++  "insights.dialIn.openAriaLabel": "Ajustar la próxima extracción",
++  "insights.dialIn.title": "Ajustar",
++  "insights.dialIn.subtitle": "Solo informativo. No cambia nada en la máquina.",
++  "insights.dialIn.close": "Cerrar",
++  "insights.dialIn.puckHeading": "Qué hizo la pastilla",
++  "insights.dialIn.notAnalysable": "No hubo suficiente flujo a presión para analizar esta extracción.",
++  "insights.dialIn.clean": "No se detectaron caídas bruscas de resistencia ni flujo atascado.",
++  "insights.dialIn.drop.title": "Posible canalización a los {time}",
++  "insights.dialIn.drop.detail": "La resistencia de la pastilla cayó un {pct}% en un segundo aproximadamente, a {pressure} bar y {flow} ml/s.",
++  "insights.dialIn.drop.early": "Al principio de la extracción, esto suele indicar un problema de distribución o de prensado.",
++  "insights.dialIn.drop.late": "Al final de la extracción, puede ser la pastilla erosionándose bajo alta presión.",
++  "insights.dialIn.choked.title": "Flujo atascado a los {time}",
++  "insights.dialIn.choked.detail": "{pressure} bar solo empujaron {flow} ml/s durante {seconds} s.",
++  "insights.dialIn.metric.firstDrops": "Primeras gotas",
++  "insights.dialIn.metric.peakResistance": "Resistencia máxima",
++  "insights.dialIn.metric.resistanceFell": "Caída pico → final",
++  "insights.dialIn.metric.breakdown": "Desgaste",
++  "insights.dialIn.metric.ratio": "Proporción",
++  "insights.dialIn.breakdown.steady": "Constante",
++  "insights.dialIn.breakdown.mixed": "Mixto",
++  "insights.dialIn.breakdown.uneven": "Irregular",
++  "insights.dialIn.method": "Resistencia = presión ÷ flujo², la convención de Decent. Los umbrales aún no están calibrados para tu máquina.",
++  "insights.dialIn.tasteHeading": "¿Qué tal sabía?",
++  "insights.dialIn.taste.sour": "Ácido",
++  "insights.dialIn.taste.balanced": "Equilibrado",
++  "insights.dialIn.taste.bitter": "Amargo",
++  "insights.dialIn.taste.weak": "Flojo",
++  "insights.dialIn.taste.strong": "Intenso",
++  "insights.dialIn.taste.extractionAxis": "Extracción",
++  "insights.dialIn.taste.strengthAxis": "Intensidad",
++  "insights.dialIn.taste.cellAriaLabel": "{extraction}, {strength}",
++  "insights.dialIn.taste.drying": "Final seco o áspero",
++  "insights.dialIn.taste.saved": "Guardado en esta tableta",
++  "insights.dialIn.taste.prompt": "Toca la casilla que describe la taza.",
++  "insights.dialIn.nextHeading": "Próxima extracción",
++  "insights.dialIn.then": "Después",
++  "insights.dialIn.why": "Por qué",
++  "insights.dialIn.basis.both": "Basado en tu cata y en los datos de la extracción.",
++  "insights.dialIn.basis.taste": "Basado en tu cata.",
++  "insights.dialIn.step.keep": "Mantén todo igual y anota esta receta.",
++  "insights.dialIn.step.puckPrep": "Primero corrige la preparación: distribuye bien (WDT), prensa a nivel y revisa el filtro y la pantalla de pastilla. Mantén la molienda y la proporción.",
++  "insights.dialIn.step.lowerPeakPressure": "Baja la presión máxima a {to} bar.",
++  "insights.dialIn.step.lowerPeakPressureFrom": "Baja la presión máxima de {from} a {to} bar.",
++  "insights.dialIn.step.grindFiner": "Muele un punto más fino.",
++  "insights.dialIn.step.grindFinerFrom": "Muele un punto más fino que {setting}.",
++  "insights.dialIn.step.grindCoarser": "Muele un punto más grueso.",
++  "insights.dialIn.step.grindCoarserFrom": "Muele un punto más grueso que {setting}.",
++  "insights.dialIn.step.longerYield": "Haz una extracción más larga, alrededor de un 10% más de peso en taza.",
++  "insights.dialIn.step.longerYieldTo": "Detén a {to} g en lugar de {from} g.",
++  "insights.dialIn.step.shorterYield": "Haz una extracción más corta, alrededor de un 10% menos de peso en taza.",
++  "insights.dialIn.step.shorterYieldTo": "Detén a {to} g en lugar de {from} g.",
++  "insights.dialIn.step.moreDose": "Añade alrededor de 1 g de café con la misma proporción.",
++  "insights.dialIn.step.moreDoseTo": "Dosifica {to} g en lugar de {from} g y detén a {yield} g para mantener la proporción.",
++  "insights.dialIn.step.lessDose": "Usa alrededor de 1 g menos de café con la misma proporción.",
++  "insights.dialIn.step.lessDoseTo": "Dosifica {to} g en lugar de {from} g y detén a {yield} g para mantener la proporción.",
++  "insights.dialIn.reason.chokedFlow": "El flujo se atascó a alta presión. Una pastilla atascada extrae de forma desigual, y moler más fino a partir de aquí puede reducir la extracción (Cameron et al., 2020).",
++  "insights.dialIn.reason.puckDrop": "La resistencia cayó de golpe, lo que a menudo significa que el agua encontró un canal. Cambiar la molienda o la proporción no corrige un flujo desigual.",
++  "insights.dialIn.reason.drying": "Un final seco suele indicar una extracción desigual. En Cameron et al. (2020), una presión más baja hizo las extracciones más repetibles.",
++  "insights.dialIn.reason.sourStrong": "Ácido e intenso: más agua aumenta la extracción y reduce la intensidad. El peso total en taza es la palanca que más influye en lo que acaba en la taza (Schmieder et al., 2023).",
++  "insights.dialIn.reason.sourBalanced": "Ácido: una extracción más larga aumenta la extracción. El peso total en taza es la palanca que más influye en lo que acaba en la taza (Schmieder et al., 2023).",
++  "insights.dialIn.reason.sourWeak": "Ácido y flojo: moler más fino aumenta a la vez la extracción y la intensidad.",
++  "insights.dialIn.reason.bitterWeak": "Amargo y flojo: una extracción más corta reduce la extracción y aumenta la intensidad.",
++  "insights.dialIn.reason.bitterBalanced": "Amargo: una extracción más corta reduce la extracción.",
++  "insights.dialIn.reason.bitterStrong": "Amargo e intenso: moler más grueso reduce a la vez la extracción y la intensidad.",
++  "insights.dialIn.reason.balancedWeak": "Equilibrado pero flojo: más café con la misma proporción da más cuerpo sin cambiar mucho la extracción.",
++  "insights.dialIn.reason.balancedStrong": "Equilibrado pero intenso: menos café con la misma proporción lo suaviza.",
++  "insights.dialIn.reason.balanced": "Esta taza está donde la quieres.",
++  "insights.dialIn.reason.ratioAlreadyLong": "Ácido, pero la proporción ya es {ratio}. Más agua solo aguaría la taza, así que muele más fino.",
++  "insights.dialIn.reason.ratioAlreadyShort": "Amargo, pero la proporción ya es {ratio}. Muele más grueso en lugar de acortar más.",
++  "insights.dialIn.ratioValue": "1:{ratio}",
++  "insights.dialIn.chartMarker.drop": "Posible canalización",
++  "insights.dialIn.chartMarker.choked": "Flujo atascado",
++  "insights.dialIn.thenAfterPrep": "Si sigue sin convencerte cuando el flujo sea uniforme"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/fr/brew.ts b/src/i18n/fr/brew.ts
+index 834811f..860710f 100644
+--- a/src/i18n/fr/brew.ts
++++ b/src/i18n/fr/brew.ts
+@@ -129,5 +129,13 @@ export const brew = {
+   "brew.data.feedback.profileSavedNotApplied": "{name} a été enregistré, mais n’a pas pu être appliqué à la machine.",
+   "brew.data.feedback.profileSyncFailed": "Impossible de synchroniser {name} avec Decaid.",
+   "brew.data.feedback.profileSelectFailed": "Impossible de sélectionner {name}.",
+-  "brew.data.feedback.scaleConnectFailed": "Impossible de se connecter à {name}."
++  "brew.data.feedback.scaleConnectFailed": "Impossible de se connecter à {name}.",
++  "brew.liveScreen.calmView": "Calme",
++  "brew.liveScreen.chartView": "Graphique",
++  "brew.liveScreen.calmViewAriaLabel": "Passer à la vue calme",
++  "brew.liveScreen.chartViewAriaLabel": "Passer à la vue graphique",
++  "brew.liveScreen.calmRingAriaLabel": "{weight} sur {target} grammes",
++  "brew.liveScreen.calmRingTimeAriaLabel": "{seconds} secondes écoulées",
++  "brew.liveScreen.calmTarget": "sur {target} g",
++  "brew.liveScreen.calmStage": "Étape"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/fr/insights.ts b/src/i18n/fr/insights.ts
+index 09a3014..e34c3b9 100644
+--- a/src/i18n/fr/insights.ts
++++ b/src/i18n/fr/insights.ts
+@@ -147,5 +147,79 @@ export const insights = {
+   "insights.chart.unavailableRetrying": "Graphique indisponible · nouvelle tentative automatique",
+   "insights.chart.retrying": "Nouvelle tentative de chargement du graphique…",
+   "insights.chart.empty": "Aucun graphique enregistré pour cette extraction",
+-  "insights.chart.loading": "Chargement du graphique…"
++  "insights.chart.loading": "Chargement du graphique…",
++  "insights.dialIn.open": "Réglage",
++  "insights.dialIn.openAriaLabel": "Régler le prochain espresso",
++  "insights.dialIn.title": "Réglage",
++  "insights.dialIn.subtitle": "Affichage uniquement. Rien ne change sur la machine.",
++  "insights.dialIn.close": "Fermer",
++  "insights.dialIn.puckHeading": "Comportement de la galette",
++  "insights.dialIn.notAnalysable": "Pas assez de débit sous pression pour analyser cet espresso.",
++  "insights.dialIn.clean": "Aucune chute brutale de résistance ni débit bloqué détecté.",
++  "insights.dialIn.drop.title": "Canalisation possible à {time}",
++  "insights.dialIn.drop.detail": "La résistance de la galette a chuté de {pct} % en une seconde environ, à {pressure} bar et {flow} ml/s.",
++  "insights.dialIn.drop.early": "En début d'extraction, cela indique généralement un problème de distribution ou de tassage.",
++  "insights.dialIn.drop.late": "En fin d'extraction, cela peut être la galette qui s'érode sous une pression élevée.",
++  "insights.dialIn.choked.title": "Débit bloqué à {time}",
++  "insights.dialIn.choked.detail": "{pressure} bar n'ont poussé que {flow} ml/s pendant {seconds} s.",
++  "insights.dialIn.metric.firstDrops": "Premières gouttes",
++  "insights.dialIn.metric.peakResistance": "Résistance maximale",
++  "insights.dialIn.metric.resistanceFell": "Baisse pic → fin",
++  "insights.dialIn.metric.breakdown": "Érosion",
++  "insights.dialIn.metric.ratio": "Ratio",
++  "insights.dialIn.breakdown.steady": "Régulière",
++  "insights.dialIn.breakdown.mixed": "Mitigée",
++  "insights.dialIn.breakdown.uneven": "Irrégulière",
++  "insights.dialIn.method": "Résistance = pression ÷ débit², convention de Decent. Les seuils ne sont pas encore calibrés pour votre machine.",
++  "insights.dialIn.tasteHeading": "C'était comment ?",
++  "insights.dialIn.taste.sour": "Acide",
++  "insights.dialIn.taste.balanced": "Équilibré",
++  "insights.dialIn.taste.bitter": "Amer",
++  "insights.dialIn.taste.weak": "Léger",
++  "insights.dialIn.taste.strong": "Corsé",
++  "insights.dialIn.taste.extractionAxis": "Extraction",
++  "insights.dialIn.taste.strengthAxis": "Intensité",
++  "insights.dialIn.taste.cellAriaLabel": "{extraction}, {strength}",
++  "insights.dialIn.taste.drying": "Finale sèche ou âpre",
++  "insights.dialIn.taste.saved": "Enregistré sur cette tablette",
++  "insights.dialIn.taste.prompt": "Touchez la case qui correspond à la tasse.",
++  "insights.dialIn.nextHeading": "Prochain espresso",
++  "insights.dialIn.then": "Ensuite",
++  "insights.dialIn.why": "Pourquoi",
++  "insights.dialIn.basis.both": "D'après votre dégustation et les données de l'extraction.",
++  "insights.dialIn.basis.taste": "D'après votre dégustation.",
++  "insights.dialIn.step.keep": "Ne changez rien et notez cette recette.",
++  "insights.dialIn.step.puckPrep": "Corrigez d'abord la préparation : distribuez soigneusement (WDT), tassez bien à plat, et vérifiez le panier et le filtre de galette. Gardez la mouture et le ratio.",
++  "insights.dialIn.step.lowerPeakPressure": "Baissez la pression maximale à {to} bar.",
++  "insights.dialIn.step.lowerPeakPressureFrom": "Baissez la pression maximale de {from} à {to} bar.",
++  "insights.dialIn.step.grindFiner": "Moulez un cran plus fin.",
++  "insights.dialIn.step.grindFinerFrom": "Moulez un cran plus fin que {setting}.",
++  "insights.dialIn.step.grindCoarser": "Moulez un cran plus gros.",
++  "insights.dialIn.step.grindCoarserFrom": "Moulez un cran plus gros que {setting}.",
++  "insights.dialIn.step.longerYield": "Faites un espresso plus long, environ 10 % de rendement en plus.",
++  "insights.dialIn.step.longerYieldTo": "Arrêtez à {to} g au lieu de {from} g.",
++  "insights.dialIn.step.shorterYield": "Faites un espresso plus court, environ 10 % de rendement en moins.",
++  "insights.dialIn.step.shorterYieldTo": "Arrêtez à {to} g au lieu de {from} g.",
++  "insights.dialIn.step.moreDose": "Ajoutez environ 1 g de café, au même ratio.",
++  "insights.dialIn.step.moreDoseTo": "Dosez {to} g au lieu de {from} g, et arrêtez à {yield} g pour garder le même ratio.",
++  "insights.dialIn.step.lessDose": "Utilisez environ 1 g de café en moins, au même ratio.",
++  "insights.dialIn.step.lessDoseTo": "Dosez {to} g au lieu de {from} g, et arrêtez à {yield} g pour garder le même ratio.",
++  "insights.dialIn.reason.chokedFlow": "Le débit s'est bloqué sous haute pression. Une galette bloquée extrait de façon inégale, et moudre plus fin au-delà de ce point peut réduire l'extraction (Cameron et al., 2020).",
++  "insights.dialIn.reason.puckDrop": "La résistance a chuté brutalement, ce qui signifie souvent que l'eau a trouvé un canal. Changer la mouture ou le ratio ne corrige pas un débit inégal.",
++  "insights.dialIn.reason.drying": "Une finale sèche indique généralement une extraction inégale. Dans Cameron et al. (2020), une pression plus basse a rendu les extractions plus reproductibles.",
++  "insights.dialIn.reason.sourStrong": "Acide et corsé : plus d'eau augmente l'extraction et réduit l'intensité. Le rendement total est le levier qui influence le plus ce qui finit dans la tasse (Schmieder et al., 2023).",
++  "insights.dialIn.reason.sourBalanced": "Acide : un rendement plus long augmente l'extraction. Le rendement total est le levier qui influence le plus ce qui finit dans la tasse (Schmieder et al., 2023).",
++  "insights.dialIn.reason.sourWeak": "Acide et léger : moudre plus fin augmente à la fois l'extraction et l'intensité.",
++  "insights.dialIn.reason.bitterWeak": "Amer et léger : un rendement plus court réduit l'extraction et augmente l'intensité.",
++  "insights.dialIn.reason.bitterBalanced": "Amer : un rendement plus court réduit l'extraction.",
++  "insights.dialIn.reason.bitterStrong": "Amer et corsé : moudre plus gros réduit à la fois l'extraction et l'intensité.",
++  "insights.dialIn.reason.balancedWeak": "Équilibré mais léger : plus de café au même ratio apporte de l'intensité sans beaucoup changer l'extraction.",
++  "insights.dialIn.reason.balancedStrong": "Équilibré mais corsé : moins de café au même ratio l'adoucit.",
++  "insights.dialIn.reason.balanced": "Cette tasse est exactement là où vous la voulez.",
++  "insights.dialIn.reason.ratioAlreadyLong": "Acide, mais le ratio est déjà de {ratio}. Plus d'eau diluerait surtout la tasse : moulez plus fin.",
++  "insights.dialIn.reason.ratioAlreadyShort": "Amer, mais le ratio est déjà de {ratio}. Moulez plus gros plutôt que de raccourcir encore.",
++  "insights.dialIn.ratioValue": "1:{ratio}",
++  "insights.dialIn.chartMarker.drop": "Canalisation possible",
++  "insights.dialIn.chartMarker.choked": "Débit bloqué",
++  "insights.dialIn.thenAfterPrep": "Si ce n’est toujours pas ça une fois le débit régulier"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/interface-literals.json b/src/i18n/interface-literals.json
+index f0b1a00..e27e27d 100644
+--- a/src/i18n/interface-literals.json
++++ b/src/i18n/interface-literals.json
+@@ -2,28 +2,29 @@
+   "src/app/AppShell.tsx: Decent": "Product brand name.",
+   "src/components/Sidebar/SidebarNavigation.tsx: Decent": "Product brand name.",
+   "src/components/StatusPill/StatusPill.tsx: s": "Standard measurement unit, not prose.",
+-  "src/components/ValueAdjustment/ValueAdjustmentProvider.tsx: i": "Information icon glyph.",
+   "src/components/ValueAdjustment/ValueAdjustmentProvider.tsx: decent": "Product brand name.",
++  "src/components/ValueAdjustment/ValueAdjustmentProvider.tsx: i": "Information icon glyph.",
++  "src/features/brew/CalmLiveView.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/brew/LiveBrewStages.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/brew/LiveBrewingScreen.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/brew/LiveBrewingScreen.tsx: g/s": "Standard measurement unit, not prose.",
+   "src/features/brew/LiveShotChart.tsx: bar": "Standard measurement unit, not prose.",
+-  "src/features/brew/LiveShotChart.tsx: ml/s": "Standard measurement unit, not prose.",
+   "src/features/brew/LiveShotChart.tsx: g/s": "Standard mass-flow unit, not prose.",
++  "src/features/brew/LiveShotChart.tsx: ml/s": "Standard measurement unit, not prose.",
+   "src/features/history/HistoryPanel.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/history/HistoryPanel.tsx: s": "Standard measurement unit, not prose.",
+   "src/features/history/PreviousShotScreen.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/insights/InsightsHome.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/insights/InsightsScreen.tsx: g": "Standard measurement unit, not prose.",
+   "src/features/insights/InsightsScreen.tsx: s": "Standard measurement unit, not prose.",
+-  "src/features/machine/LiveUtilityOperationOverlay.tsx: s": "Standard measurement unit, not prose.",
+   "src/features/machine/LiveUtilityOperationOverlay.tsx: ml/s": "Standard measurement unit, not prose.",
+-  "src/features/profiles/ProfileBuilderScreen.tsx: bar / ml/s": "Standard measurement unit, not prose.",
++  "src/features/machine/LiveUtilityOperationOverlay.tsx: s": "Standard measurement unit, not prose.",
+   "src/features/profiles/ProfileBuilderScreen.tsx: &gt;": "Comparison symbol (HTML entity).",
+   "src/features/profiles/ProfileBuilderScreen.tsx: &lt;": "Comparison symbol (HTML entity).",
+-  "src/features/profiles/ProfileBuilderScreen.tsx: s": "Standard measurement unit, not prose.",
++  "src/features/profiles/ProfileBuilderScreen.tsx: bar / ml/s": "Standard measurement unit, not prose.",
+   "src/features/profiles/ProfileBuilderScreen.tsx: g": "Standard measurement unit, not prose.",
++  "src/features/profiles/ProfileBuilderScreen.tsx: s": "Standard measurement unit, not prose.",
+   "src/features/profiles/ProfilesPanel.tsx: g": "Standard measurement unit, not prose.",
+-  "src/features/settings/SettingsScreen.tsx: ml": "Standard measurement unit, not prose.",
+-  "src/features/settings/SettingsScreen.tsx: B": "Bestpresso brand monogram."
++  "src/features/settings/SettingsScreen.tsx: B": "Bestpresso brand monogram.",
++  "src/features/settings/SettingsScreen.tsx: ml": "Standard measurement unit, not prose."
+ }
+diff --git a/src/i18n/it/brew.ts b/src/i18n/it/brew.ts
+index 598fd6b..b1c822c 100644
+--- a/src/i18n/it/brew.ts
++++ b/src/i18n/it/brew.ts
+@@ -129,5 +129,13 @@ export const brew = {
+   "brew.data.feedback.profileSavedNotApplied": "{name} è stato salvato, ma non è stato possibile applicarlo alla macchina.",
+   "brew.data.feedback.profileSyncFailed": "Impossibile sincronizzare {name} con Decaid.",
+   "brew.data.feedback.profileSelectFailed": "Impossibile selezionare {name}.",
+-  "brew.data.feedback.scaleConnectFailed": "Impossibile connettersi a {name}."
++  "brew.data.feedback.scaleConnectFailed": "Impossibile connettersi a {name}.",
++  "brew.liveScreen.calmView": "Calma",
++  "brew.liveScreen.chartView": "Grafico",
++  "brew.liveScreen.calmViewAriaLabel": "Passa alla vista essenziale",
++  "brew.liveScreen.chartViewAriaLabel": "Passa alla vista grafico",
++  "brew.liveScreen.calmRingAriaLabel": "{weight} su {target} grammi",
++  "brew.liveScreen.calmRingTimeAriaLabel": "{seconds} secondi trascorsi",
++  "brew.liveScreen.calmTarget": "su {target} g",
++  "brew.liveScreen.calmStage": "Fase"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/it/insights.ts b/src/i18n/it/insights.ts
+index e6c2e74..ebb2935 100644
+--- a/src/i18n/it/insights.ts
++++ b/src/i18n/it/insights.ts
+@@ -147,5 +147,79 @@ export const insights = {
+   "insights.chart.unavailableRetrying": "Grafico non disponibile · nuovo tentativo automatico",
+   "insights.chart.retrying": "Nuovo tentativo di caricamento del grafico…",
+   "insights.chart.empty": "Nessun grafico registrato per questa estrazione",
+-  "insights.chart.loading": "Caricamento del grafico…"
++  "insights.chart.loading": "Caricamento del grafico…",
++  "insights.dialIn.open": "Regola",
++  "insights.dialIn.openAriaLabel": "Regola il prossimo espresso",
++  "insights.dialIn.title": "Regola",
++  "insights.dialIn.subtitle": "Solo visualizzazione. Nulla cambia sulla macchina.",
++  "insights.dialIn.close": "Chiudi",
++  "insights.dialIn.puckHeading": "Comportamento della pastiglia",
++  "insights.dialIn.notAnalysable": "Flusso in pressione insufficiente per analizzare questo espresso.",
++  "insights.dialIn.clean": "Nessun calo improvviso di resistenza né flusso bloccato rilevato.",
++  "insights.dialIn.drop.title": "Possibile canalizzazione a {time}",
++  "insights.dialIn.drop.detail": "La resistenza della pastiglia è scesa del {pct}% in circa un secondo, a {pressure} bar e {flow} ml/s.",
++  "insights.dialIn.drop.early": "All'inizio dell'estrazione, di solito indica un problema di distribuzione o di pressatura.",
++  "insights.dialIn.drop.late": "Verso la fine dell'estrazione, può essere la pastiglia che si erode sotto alta pressione.",
++  "insights.dialIn.choked.title": "Flusso bloccato a {time}",
++  "insights.dialIn.choked.detail": "{pressure} bar hanno spinto solo {flow} ml/s per {seconds} s.",
++  "insights.dialIn.metric.firstDrops": "Prime gocce",
++  "insights.dialIn.metric.peakResistance": "Resistenza massima",
++  "insights.dialIn.metric.resistanceFell": "Calo picco → fine",
++  "insights.dialIn.metric.breakdown": "Erosione",
++  "insights.dialIn.metric.ratio": "Rapporto",
++  "insights.dialIn.breakdown.steady": "Regolare",
++  "insights.dialIn.breakdown.mixed": "Mista",
++  "insights.dialIn.breakdown.uneven": "Irregolare",
++  "insights.dialIn.method": "Resistenza = pressione ÷ flusso², convenzione di Decent. Le soglie non sono ancora calibrate per la tua macchina.",
++  "insights.dialIn.tasteHeading": "Com'era il gusto?",
++  "insights.dialIn.taste.sour": "Acido",
++  "insights.dialIn.taste.balanced": "Equilibrato",
++  "insights.dialIn.taste.bitter": "Amaro",
++  "insights.dialIn.taste.weak": "Leggero",
++  "insights.dialIn.taste.strong": "Intenso",
++  "insights.dialIn.taste.extractionAxis": "Estrazione",
++  "insights.dialIn.taste.strengthAxis": "Intensità",
++  "insights.dialIn.taste.cellAriaLabel": "{extraction}, {strength}",
++  "insights.dialIn.taste.drying": "Finale secco o astringente",
++  "insights.dialIn.taste.saved": "Salvato su questo tablet",
++  "insights.dialIn.taste.prompt": "Tocca la casella che descrive la tazza.",
++  "insights.dialIn.nextHeading": "Prossimo espresso",
++  "insights.dialIn.then": "Poi",
++  "insights.dialIn.why": "Perché",
++  "insights.dialIn.basis.both": "In base al tuo assaggio e ai dati dell'estrazione.",
++  "insights.dialIn.basis.taste": "In base al tuo assaggio.",
++  "insights.dialIn.step.keep": "Non cambiare nulla e annota questa ricetta.",
++  "insights.dialIn.step.puckPrep": "Prima sistema la preparazione: distribuisci bene (WDT), pressa in piano e controlla il filtro e il puck screen. Mantieni macinatura e rapporto.",
++  "insights.dialIn.step.lowerPeakPressure": "Abbassa la pressione massima a {to} bar.",
++  "insights.dialIn.step.lowerPeakPressureFrom": "Abbassa la pressione massima da {from} a {to} bar.",
++  "insights.dialIn.step.grindFiner": "Macina un punto più fine.",
++  "insights.dialIn.step.grindFinerFrom": "Macina un punto più fine di {setting}.",
++  "insights.dialIn.step.grindCoarser": "Macina un punto più grosso.",
++  "insights.dialIn.step.grindCoarserFrom": "Macina un punto più grosso di {setting}.",
++  "insights.dialIn.step.longerYield": "Fai un espresso più lungo, circa il 10% di resa in più.",
++  "insights.dialIn.step.longerYieldTo": "Fermati a {to} g invece di {from} g.",
++  "insights.dialIn.step.shorterYield": "Fai un espresso più corto, circa il 10% di resa in meno.",
++  "insights.dialIn.step.shorterYieldTo": "Fermati a {to} g invece di {from} g.",
++  "insights.dialIn.step.moreDose": "Aggiungi circa 1 g di caffè, con lo stesso rapporto.",
++  "insights.dialIn.step.moreDoseTo": "Dosa {to} g invece di {from} g e fermati a {yield} g per mantenere lo stesso rapporto.",
++  "insights.dialIn.step.lessDose": "Usa circa 1 g di caffè in meno, con lo stesso rapporto.",
++  "insights.dialIn.step.lessDoseTo": "Dosa {to} g invece di {from} g e fermati a {yield} g per mantenere lo stesso rapporto.",
++  "insights.dialIn.reason.chokedFlow": "Il flusso si è bloccato ad alta pressione. Una pastiglia bloccata estrae in modo disomogeneo e macinare più fine oltre questo punto può ridurre l'estrazione (Cameron et al., 2020).",
++  "insights.dialIn.reason.puckDrop": "La resistenza è calata all'improvviso, il che spesso significa che l'acqua ha trovato un canale. Cambiare macinatura o rapporto non corregge un flusso disomogeneo.",
++  "insights.dialIn.reason.drying": "Un finale secco indica di solito un'estrazione disomogenea. In Cameron et al. (2020), una pressione più bassa ha reso le estrazioni più ripetibili.",
++  "insights.dialIn.reason.sourStrong": "Acido e intenso: più acqua aumenta l'estrazione e riduce l'intensità. La resa totale è la leva che più influisce su ciò che finisce in tazza (Schmieder et al., 2023).",
++  "insights.dialIn.reason.sourBalanced": "Acido: una resa più lunga aumenta l'estrazione. La resa totale è la leva che più influisce su ciò che finisce in tazza (Schmieder et al., 2023).",
++  "insights.dialIn.reason.sourWeak": "Acido e leggero: macinare più fine aumenta insieme estrazione e intensità.",
++  "insights.dialIn.reason.bitterWeak": "Amaro e leggero: una resa più corta riduce l'estrazione e aumenta l'intensità.",
++  "insights.dialIn.reason.bitterBalanced": "Amaro: una resa più corta riduce l'estrazione.",
++  "insights.dialIn.reason.bitterStrong": "Amaro e intenso: macinare più grosso riduce insieme estrazione e intensità.",
++  "insights.dialIn.reason.balancedWeak": "Equilibrato ma leggero: più caffè con lo stesso rapporto dà intensità senza cambiare molto l'estrazione.",
++  "insights.dialIn.reason.balancedStrong": "Equilibrato ma intenso: meno caffè con lo stesso rapporto lo ammorbidisce.",
++  "insights.dialIn.reason.balanced": "Questa tazza è esattamente dove la vuoi.",
++  "insights.dialIn.reason.ratioAlreadyLong": "Acido, ma il rapporto è già {ratio}. Più acqua diluirebbe soprattutto la tazza, quindi macina più fine.",
++  "insights.dialIn.reason.ratioAlreadyShort": "Amaro, ma il rapporto è già {ratio}. Macina più grosso invece di accorciare ancora.",
++  "insights.dialIn.ratioValue": "1:{ratio}",
++  "insights.dialIn.chartMarker.drop": "Possibile canalizzazione",
++  "insights.dialIn.chartMarker.choked": "Flusso bloccato",
++  "insights.dialIn.thenAfterPrep": "Se non va ancora bene quando il flusso è uniforme"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/zh-Hans/brew.ts b/src/i18n/zh-Hans/brew.ts
+index dd721d2..d0445a1 100644
+--- a/src/i18n/zh-Hans/brew.ts
++++ b/src/i18n/zh-Hans/brew.ts
+@@ -129,5 +129,13 @@ export const brew = {
+   "brew.data.feedback.profileSavedNotApplied": "{name} 已保存，但无法应用到机器。",
+   "brew.data.feedback.profileSyncFailed": "无法将 {name} 与 Decaid 同步。",
+   "brew.data.feedback.profileSelectFailed": "无法选择 {name}。",
+-  "brew.data.feedback.scaleConnectFailed": "无法连接到 {name}。"
++  "brew.data.feedback.scaleConnectFailed": "无法连接到 {name}。",
++  "brew.liveScreen.calmView": "简洁",
++  "brew.liveScreen.chartView": "图表",
++  "brew.liveScreen.calmViewAriaLabel": "切换到简洁视图",
++  "brew.liveScreen.chartViewAriaLabel": "切换到图表视图",
++  "brew.liveScreen.calmRingAriaLabel": "{weight} / {target} 克",
++  "brew.liveScreen.calmRingTimeAriaLabel": "已经过 {seconds} 秒",
++  "brew.liveScreen.calmTarget": "目标 {target} g",
++  "brew.liveScreen.calmStage": "阶段"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/zh-Hans/insights.ts b/src/i18n/zh-Hans/insights.ts
+index 5344687..abb0802 100644
+--- a/src/i18n/zh-Hans/insights.ts
++++ b/src/i18n/zh-Hans/insights.ts
+@@ -141,5 +141,79 @@ export const insights = {
+   "insights.chart.unavailableRetrying": "曲线不可用 · 将自动重试",
+   "insights.chart.retrying": "正在重新加载曲线…",
+   "insights.chart.empty": "此萃取没有曲线记录",
+-  "insights.chart.loading": "正在加载曲线…"
++  "insights.chart.loading": "正在加载曲线…",
++  "insights.dialIn.open": "调整",
++  "insights.dialIn.openAriaLabel": "调整下一杯萃取",
++  "insights.dialIn.title": "调整",
++  "insights.dialIn.subtitle": "仅供参考，不会更改咖啡机上的任何设置。",
++  "insights.dialIn.close": "关闭",
++  "insights.dialIn.puckHeading": "粉饼的表现",
++  "insights.dialIn.notAnalysable": "加压流量不足，无法分析这次萃取。",
++  "insights.dialIn.clean": "未发现阻力骤降或流量停滞。",
++  "insights.dialIn.drop.title": "{time} 可能出现通道效应",
++  "insights.dialIn.drop.detail": "粉饼阻力在约一秒内下降 {pct}%，当时压力 {pressure} bar、流量 {flow} ml/s。",
++  "insights.dialIn.drop.early": "在萃取初期，这通常与布粉或压粉有关。",
++  "insights.dialIn.drop.late": "在萃取后段，可能是粉饼在高压下逐渐崩解。",
++  "insights.dialIn.choked.title": "{time} 流量停滞",
++  "insights.dialIn.choked.detail": "{pressure} bar 的压力在 {seconds} 秒内只推动 {flow} ml/s。",
++  "insights.dialIn.metric.firstDrops": "首滴",
++  "insights.dialIn.metric.peakResistance": "最大阻力",
++  "insights.dialIn.metric.resistanceFell": "峰值至结束下降",
++  "insights.dialIn.metric.breakdown": "崩解",
++  "insights.dialIn.metric.ratio": "粉水比",
++  "insights.dialIn.breakdown.steady": "平稳",
++  "insights.dialIn.breakdown.mixed": "混合",
++  "insights.dialIn.breakdown.uneven": "不均匀",
++  "insights.dialIn.method": "阻力 = 压力 ÷ 流量²（Decent 的定义）。阈值尚未针对你的咖啡机校准。",
++  "insights.dialIn.tasteHeading": "味道如何？",
++  "insights.dialIn.taste.sour": "偏酸",
++  "insights.dialIn.taste.balanced": "平衡",
++  "insights.dialIn.taste.bitter": "偏苦",
++  "insights.dialIn.taste.weak": "偏淡",
++  "insights.dialIn.taste.strong": "偏浓",
++  "insights.dialIn.taste.extractionAxis": "萃取",
++  "insights.dialIn.taste.strengthAxis": "浓度",
++  "insights.dialIn.taste.cellAriaLabel": "{extraction}，{strength}",
++  "insights.dialIn.taste.drying": "尾韵干涩或粗糙",
++  "insights.dialIn.taste.saved": "已保存在这台平板",
++  "insights.dialIn.taste.prompt": "点选最符合这杯的格子。",
++  "insights.dialIn.nextHeading": "下一杯",
++  "insights.dialIn.then": "接着",
++  "insights.dialIn.why": "原因",
++  "insights.dialIn.basis.both": "依据你的品尝与萃取数据。",
++  "insights.dialIn.basis.taste": "依据你的品尝。",
++  "insights.dialIn.step.keep": "全部保持不变，并记下这份配方。",
++  "insights.dialIn.step.puckPrep": "先改善粉饼准备：充分布粉（WDT）、水平压粉，并检查粉碗与滤网。研磨度与粉水比保持不变。",
++  "insights.dialIn.step.lowerPeakPressure": "将最高压力降到 {to} bar。",
++  "insights.dialIn.step.lowerPeakPressureFrom": "将最高压力从 {from} 降到 {to} bar。",
++  "insights.dialIn.step.grindFiner": "研磨调细一格。",
++  "insights.dialIn.step.grindFinerFrom": "从 {setting} 调细一格。",
++  "insights.dialIn.step.grindCoarser": "研磨调粗一格。",
++  "insights.dialIn.step.grindCoarserFrom": "从 {setting} 调粗一格。",
++  "insights.dialIn.step.longerYield": "萃取得更长一些，出液量约增加 10%。",
++  "insights.dialIn.step.longerYieldTo": "在 {to} g 停止，而不是 {from} g。",
++  "insights.dialIn.step.shorterYield": "萃取得更短一些，出液量约减少 10%。",
++  "insights.dialIn.step.shorterYieldTo": "在 {to} g 停止，而不是 {from} g。",
++  "insights.dialIn.step.moreDose": "以相同粉水比，多加约 1 g 咖啡粉。",
++  "insights.dialIn.step.moreDoseTo": "粉量改为 {to} g（原本 {from} g），并在 {yield} g 停止以保持相同粉水比。",
++  "insights.dialIn.step.lessDose": "以相同粉水比，少用约 1 g 咖啡粉。",
++  "insights.dialIn.step.lessDoseTo": "粉量改为 {to} g（原本 {from} g），并在 {yield} g 停止以保持相同粉水比。",
++  "insights.dialIn.reason.chokedFlow": "高压下流量停滞。停滞的粉饼萃取不均，超过这个程度再磨细反而可能降低萃取率（Cameron et al., 2020）。",
++  "insights.dialIn.reason.puckDrop": "阻力突然下降，通常代表水找到了通道。调整研磨度或粉水比无法解决不均匀的流动。",
++  "insights.dialIn.reason.drying": "干涩的尾韵通常代表萃取不均。在 Cameron et al.（2020）的研究中，较低的压力让萃取更稳定可重复。",
++  "insights.dialIn.reason.sourStrong": "偏酸又偏浓：多一点水能提高萃取并降低浓度。总出液量是影响杯中成分最大的因素（Schmieder et al., 2023）。",
++  "insights.dialIn.reason.sourBalanced": "偏酸：增加出液量能提高萃取。总出液量是影响杯中成分最大的因素（Schmieder et al., 2023）。",
++  "insights.dialIn.reason.sourWeak": "偏酸又偏淡：磨细能同时提高萃取与浓度。",
++  "insights.dialIn.reason.bitterWeak": "偏苦又偏淡：减少出液量能降低萃取并提高浓度。",
++  "insights.dialIn.reason.bitterBalanced": "偏苦：减少出液量能降低萃取。",
++  "insights.dialIn.reason.bitterStrong": "偏苦又偏浓：磨粗能同时降低萃取与浓度。",
++  "insights.dialIn.reason.balancedWeak": "平衡但偏淡：以相同粉水比多用一点粉，能增加浓度而不太影响萃取。",
++  "insights.dialIn.reason.balancedStrong": "平衡但偏浓：以相同粉水比少用一点粉，能让口感柔和些。",
++  "insights.dialIn.reason.balanced": "这杯正是你想要的样子。",
++  "insights.dialIn.reason.ratioAlreadyLong": "偏酸，但粉水比已是 {ratio}。再加水只会让咖啡变稀，改为磨细。",
++  "insights.dialIn.reason.ratioAlreadyShort": "偏苦，但粉水比已是 {ratio}。改为磨粗，而不是再缩短萃取。",
++  "insights.dialIn.ratioValue": "1:{ratio}",
++  "insights.dialIn.chartMarker.drop": "可能的通道效应",
++  "insights.dialIn.chartMarker.choked": "流量停滞",
++  "insights.dialIn.thenAfterPrep": "流动均匀后若仍不理想"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/zh-Hant/brew.ts b/src/i18n/zh-Hant/brew.ts
+index 3f8621b..7564008 100644
+--- a/src/i18n/zh-Hant/brew.ts
++++ b/src/i18n/zh-Hant/brew.ts
+@@ -129,5 +129,13 @@ export const brew = {
+   "brew.data.feedback.profileSavedNotApplied": "{name} 已儲存，但無法套用至機器。",
+   "brew.data.feedback.profileSyncFailed": "無法將 {name} 與 Decaid 同步。",
+   "brew.data.feedback.profileSelectFailed": "無法選取 {name}。",
+-  "brew.data.feedback.scaleConnectFailed": "無法連線至 {name}。"
++  "brew.data.feedback.scaleConnectFailed": "無法連線至 {name}。",
++  "brew.liveScreen.calmView": "簡潔",
++  "brew.liveScreen.chartView": "圖表",
++  "brew.liveScreen.calmViewAriaLabel": "切換到簡潔檢視",
++  "brew.liveScreen.chartViewAriaLabel": "切換到圖表檢視",
++  "brew.liveScreen.calmRingAriaLabel": "{weight} / {target} 克",
++  "brew.liveScreen.calmRingTimeAriaLabel": "已經過 {seconds} 秒",
++  "brew.liveScreen.calmTarget": "目標 {target} g",
++  "brew.liveScreen.calmStage": "階段"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/src/i18n/zh-Hant/insights.ts b/src/i18n/zh-Hant/insights.ts
+index fecf1a3..724fa8f 100644
+--- a/src/i18n/zh-Hant/insights.ts
++++ b/src/i18n/zh-Hant/insights.ts
+@@ -141,5 +141,79 @@ export const insights = {
+   "insights.chart.unavailableRetrying": "曲線無法取得 · 將自動重試",
+   "insights.chart.retrying": "重新載入曲線中…",
+   "insights.chart.empty": "此萃取沒有曲線紀錄",
+-  "insights.chart.loading": "載入曲線中…"
++  "insights.chart.loading": "載入曲線中…",
++  "insights.dialIn.open": "調整",
++  "insights.dialIn.openAriaLabel": "調整下一杯萃取",
++  "insights.dialIn.title": "調整",
++  "insights.dialIn.subtitle": "僅供參考，不會更改咖啡機上的任何設定。",
++  "insights.dialIn.close": "關閉",
++  "insights.dialIn.puckHeading": "粉餅的表現",
++  "insights.dialIn.notAnalysable": "加壓流量不足，無法分析這次萃取。",
++  "insights.dialIn.clean": "未發現阻力驟降或流量停滯。",
++  "insights.dialIn.drop.title": "{time} 可能出現通道效應",
++  "insights.dialIn.drop.detail": "粉餅阻力在約一秒內下降 {pct}%，當時壓力 {pressure} bar、流量 {flow} ml/s。",
++  "insights.dialIn.drop.early": "在萃取初期，這通常與布粉或填壓有關。",
++  "insights.dialIn.drop.late": "在萃取後段，可能是粉餅在高壓下逐漸崩解。",
++  "insights.dialIn.choked.title": "{time} 流量停滯",
++  "insights.dialIn.choked.detail": "{pressure} bar 的壓力在 {seconds} 秒內只推動 {flow} ml/s。",
++  "insights.dialIn.metric.firstDrops": "首滴",
++  "insights.dialIn.metric.peakResistance": "最大阻力",
++  "insights.dialIn.metric.resistanceFell": "峰值至結束下降",
++  "insights.dialIn.metric.breakdown": "崩解",
++  "insights.dialIn.metric.ratio": "粉水比",
++  "insights.dialIn.breakdown.steady": "平穩",
++  "insights.dialIn.breakdown.mixed": "混合",
++  "insights.dialIn.breakdown.uneven": "不均勻",
++  "insights.dialIn.method": "阻力 = 壓力 ÷ 流量²（Decent 的定義）。門檻值尚未針對你的咖啡機校準。",
++  "insights.dialIn.tasteHeading": "味道如何？",
++  "insights.dialIn.taste.sour": "偏酸",
++  "insights.dialIn.taste.balanced": "平衡",
++  "insights.dialIn.taste.bitter": "偏苦",
++  "insights.dialIn.taste.weak": "偏淡",
++  "insights.dialIn.taste.strong": "偏濃",
++  "insights.dialIn.taste.extractionAxis": "萃取",
++  "insights.dialIn.taste.strengthAxis": "濃度",
++  "insights.dialIn.taste.cellAriaLabel": "{extraction}，{strength}",
++  "insights.dialIn.taste.drying": "尾韻乾澀或粗糙",
++  "insights.dialIn.taste.saved": "已儲存在這台平板",
++  "insights.dialIn.taste.prompt": "點選最符合這杯的格子。",
++  "insights.dialIn.nextHeading": "下一杯",
++  "insights.dialIn.then": "接著",
++  "insights.dialIn.why": "原因",
++  "insights.dialIn.basis.both": "依據你的品嚐與萃取數據。",
++  "insights.dialIn.basis.taste": "依據你的品嚐。",
++  "insights.dialIn.step.keep": "全部維持不變，並記下這份配方。",
++  "insights.dialIn.step.puckPrep": "先改善粉餅準備：充分布粉（WDT）、水平填壓，並檢查粉碗與濾網。研磨度與粉水比維持不變。",
++  "insights.dialIn.step.lowerPeakPressure": "將最高壓力降到 {to} bar。",
++  "insights.dialIn.step.lowerPeakPressureFrom": "將最高壓力從 {from} 降到 {to} bar。",
++  "insights.dialIn.step.grindFiner": "研磨調細一格。",
++  "insights.dialIn.step.grindFinerFrom": "從 {setting} 調細一格。",
++  "insights.dialIn.step.grindCoarser": "研磨調粗一格。",
++  "insights.dialIn.step.grindCoarserFrom": "從 {setting} 調粗一格。",
++  "insights.dialIn.step.longerYield": "萃取得更長一些，出液量約增加 10%。",
++  "insights.dialIn.step.longerYieldTo": "在 {to} g 停止，而不是 {from} g。",
++  "insights.dialIn.step.shorterYield": "萃取得更短一些，出液量約減少 10%。",
++  "insights.dialIn.step.shorterYieldTo": "在 {to} g 停止，而不是 {from} g。",
++  "insights.dialIn.step.moreDose": "以相同粉水比，多加約 1 g 咖啡粉。",
++  "insights.dialIn.step.moreDoseTo": "粉量改為 {to} g（原本 {from} g），並在 {yield} g 停止以維持相同粉水比。",
++  "insights.dialIn.step.lessDose": "以相同粉水比，少用約 1 g 咖啡粉。",
++  "insights.dialIn.step.lessDoseTo": "粉量改為 {to} g（原本 {from} g），並在 {yield} g 停止以維持相同粉水比。",
++  "insights.dialIn.reason.chokedFlow": "高壓下流量停滯。停滯的粉餅萃取不均，超過這個程度再磨細反而可能降低萃取率（Cameron et al., 2020）。",
++  "insights.dialIn.reason.puckDrop": "阻力突然下降，通常代表水找到了通道。調整研磨度或粉水比無法解決不均勻的流動。",
++  "insights.dialIn.reason.drying": "乾澀的尾韻通常代表萃取不均。在 Cameron et al.（2020）的研究中，較低的壓力讓萃取更穩定可重複。",
++  "insights.dialIn.reason.sourStrong": "偏酸又偏濃：多一點水能提高萃取並降低濃度。總出液量是影響杯中成分最大的因素（Schmieder et al., 2023）。",
++  "insights.dialIn.reason.sourBalanced": "偏酸：增加出液量能提高萃取。總出液量是影響杯中成分最大的因素（Schmieder et al., 2023）。",
++  "insights.dialIn.reason.sourWeak": "偏酸又偏淡：磨細能同時提高萃取與濃度。",
++  "insights.dialIn.reason.bitterWeak": "偏苦又偏淡：減少出液量能降低萃取並提高濃度。",
++  "insights.dialIn.reason.bitterBalanced": "偏苦：減少出液量能降低萃取。",
++  "insights.dialIn.reason.bitterStrong": "偏苦又偏濃：磨粗能同時降低萃取與濃度。",
++  "insights.dialIn.reason.balancedWeak": "平衡但偏淡：以相同粉水比多用一點粉，能增加濃度而不太影響萃取。",
++  "insights.dialIn.reason.balancedStrong": "平衡但偏濃：以相同粉水比少用一點粉，能讓口感柔和些。",
++  "insights.dialIn.reason.balanced": "這杯正是你想要的樣子。",
++  "insights.dialIn.reason.ratioAlreadyLong": "偏酸，但粉水比已是 {ratio}。再加水只會讓咖啡變稀，改為磨細。",
++  "insights.dialIn.reason.ratioAlreadyShort": "偏苦，但粉水比已是 {ratio}。改為磨粗，而不是再縮短萃取。",
++  "insights.dialIn.ratioValue": "1:{ratio}",
++  "insights.dialIn.chartMarker.drop": "可能的通道效應",
++  "insights.dialIn.chartMarker.choked": "流量停滯",
++  "insights.dialIn.thenAfterPrep": "流動均勻後若仍不理想"
+ } satisfies Translation<EnglishCatalog>
+diff --git a/test/bestpressoPreferences.test.ts b/test/bestpressoPreferences.test.ts
+index 87c039c..ca4505a 100644
+--- a/test/bestpressoPreferences.test.ts
++++ b/test/bestpressoPreferences.test.ts
+@@ -42,6 +42,7 @@ test('water warning preferences remain ordered and within the reservoir control
+     screensaverBrightness: 7,
+     screensaverScreenOffDelaySeconds: 0,
+     language: 'auto',
++    liveView: 'chart',
+   })
+   const maximum = normalizeBestpressoPreferences({ waterCriticalLevelMl: 9_000, waterWarningLevelMl: 9_000 })
+   assert.equal(maximum.waterCriticalLevelMl, 1_999)
+@@ -106,3 +107,9 @@ test('immediate settings actions preserve unrelated unsaved drafts', () => {
+   assert.match(state, /createWakeSchedule\(schedule\), refreshPresence/)
+   assert.match(state, /presence: \{\s*\.\.\.current\.presence,\s*schedules: presence\.schedules/s)
+ })
++
++test('the live view preference defaults to the chart and accepts only known layouts', () => {
++  assert.equal(DEFAULT_BESTPRESSO_PREFERENCES.liveView, 'chart')
++  assert.equal(normalizeBestpressoPreferences({ liveView: 'calm' }).liveView, 'calm')
++  assert.equal(normalizeBestpressoPreferences({ liveView: 'ring' }).liveView, 'chart')
++})
+diff --git a/test/calmRing.test.ts b/test/calmRing.test.ts
+new file mode 100644
+index 0000000..f77308d
+--- /dev/null
++++ b/test/calmRing.test.ts
+@@ -0,0 +1,14 @@
++import assert from 'node:assert/strict'
++import test from 'node:test'
++import { calmRingProgress } from '../src/features/brew/calmRing.ts'
++
++test('the calm ring follows yield against target and never overflows', () => {
++  assert.equal(calmRingProgress(18, 36, 10_000), 0.5)
++  assert.equal(calmRingProgress(40, 36, 30_000), 1)
++  assert.equal(calmRingProgress(undefined, 36, 5_000), 0)
++})
++
++test('without a yield target the calm ring tracks elapsed time', () => {
++  assert.equal(calmRingProgress(12, undefined, 15_000), 0.5)
++  assert.equal(calmRingProgress(undefined, 0, 45_000), 1)
++})
+diff --git a/test/dialIn.test.ts b/test/dialIn.test.ts
+new file mode 100644
+index 0000000..904810b
+--- /dev/null
++++ b/test/dialIn.test.ts
+@@ -0,0 +1,75 @@
++import assert from 'node:assert/strict'
++import test from 'node:test'
++import type { ShotAnalysis, ShotFinding } from '../src/domain/shotAnalysis.ts'
++import { recommendNextShot, type TasteNote } from '../src/features/insights/dialIn.ts'
++
++const clean: Pick<ShotAnalysis, 'analysable' | 'findings'> = { analysable: true, findings: [] }
++const drop: ShotFinding = { kind: 'suddenResistanceDrop', atMs: 12_000, dropFraction: 0.5, fromResistance: 2, toResistance: 1, severity: 'strong', phase: 'early' }
++const choke: ShotFinding = { kind: 'chokedFlow', atMs: 8_000, durationMs: 12_000, meanPressure: 9, meanFlow: 0.4 }
++const withFinding = (finding: ShotFinding) => ({ analysable: true, findings: [finding] })
++const context = { dose: 18, yield: 36, grindSetting: '12' }
++const taste = (extraction: TasteNote['extraction'], strength: TasteNote['strength'], drying = false): TasteNote => ({ extraction, strength, drying })
++
++test('sour cups lengthen the yield by about ten percent using the real shot numbers', () => {
++  const advice = recommendNextShot(taste('sour', 'balanced'), clean, context)
++  assert.deepEqual(advice.primary, { kind: 'longerYield', fromGrams: 36, toGrams: 40 })
++  assert.equal(advice.reason, 'sourBalanced')
++  assert.equal(advice.ratio, 2)
++})
++
++test('sour and already long ratios switch to a finer grind instead of more water', () => {
++  const advice = recommendNextShot(taste('sour', 'balanced'), clean, { dose: 15, yield: 40 })
++  assert.equal(advice.primary.kind, 'grindFiner')
++  assert.equal(advice.reason, 'ratioAlreadyLong')
++})
++
++test('sour and weak is the one cell where grinding finer moves both axes the right way', () => {
++  assert.deepEqual(recommendNextShot(taste('sour', 'weak'), clean, context).primary, { kind: 'grindFiner', grindSetting: '12' })
++})
++
++test('bitter cups shorten the yield, or coarsen when the ratio is already short', () => {
++  assert.deepEqual(recommendNextShot(taste('bitter', 'weak'), clean, context).primary, { kind: 'shorterYield', fromGrams: 36, toGrams: 32 })
++  assert.equal(recommendNextShot(taste('bitter', 'balanced'), clean, { dose: 20, yield: 34 }).primary.kind, 'grindCoarser')
++  assert.equal(recommendNextShot(taste('bitter', 'strong'), clean, context).primary.kind, 'grindCoarser')
++})
++
++test('balanced extraction adjusts dose at the same ratio for strength', () => {
++  assert.deepEqual(recommendNextShot(taste('balanced', 'weak'), clean, context).primary, { kind: 'moreDose', fromGrams: 18, toGrams: 19, toYieldGrams: 38 })
++  assert.deepEqual(recommendNextShot(taste('balanced', 'strong'), clean, context).primary, { kind: 'lessDose', fromGrams: 18, toGrams: 17, toYieldGrams: 34 })
++})
++
++test('a balanced cup keeps everything, even if telemetry had a finding', () => {
++  assert.equal(recommendNextShot(taste('balanced', 'balanced'), withFinding(drop), context).primary.kind, 'keep')
++  assert.equal(recommendNextShot(taste('balanced', 'balanced'), withFinding(choke), context).primary.kind, 'keep')
++})
++
++test('a puck finding with an off-balance cup puts prep first and keeps the taste step second', () => {
++  const advice = recommendNextShot(taste('sour', 'balanced'), withFinding(drop), context)
++  assert.equal(advice.primary.kind, 'puckPrep')
++  assert.equal(advice.secondary?.kind, 'longerYield')
++  assert.equal(advice.basis, 'both')
++})
++
++test('choked flow coarsens first and never pairs it with a contradictory grind step', () => {
++  const sourWeak = recommendNextShot(taste('sour', 'weak'), withFinding(choke), context)
++  assert.equal(sourWeak.primary.kind, 'grindCoarser')
++  assert.equal(sourWeak.secondary, undefined)
++  const bitterWeak = recommendNextShot(taste('bitter', 'weak'), withFinding(choke), context)
++  assert.equal(bitterWeak.primary.kind, 'grindCoarser')
++  assert.equal(bitterWeak.secondary?.kind, 'shorterYield')
++})
++
++test('a drying finish without a puck finding suggests prep and a lower peak pressure', () => {
++  const advice = recommendNextShot(taste('balanced', 'balanced', true), clean, context, 9.1)
++  assert.equal(advice.primary.kind, 'puckPrep')
++  assert.deepEqual(advice.secondary, { kind: 'lowerPeakPressure', fromBar: 9.1, toBar: 6.5 })
++  const turbo = recommendNextShot(taste('sour', 'balanced', true), clean, context, 6)
++  assert.equal(turbo.secondary?.kind, 'longerYield', 'pressure already low: fall back to the taste step')
++})
++
++test('advice still works without dose, yield, grind or telemetry', () => {
++  const advice = recommendNextShot(taste('sour', 'strong'), undefined)
++  assert.deepEqual(advice.primary, { kind: 'longerYield' })
++  assert.equal(advice.basis, 'taste')
++  assert.equal(recommendNextShot(taste('balanced', 'weak'), undefined).primary.kind, 'moreDose')
++})
+diff --git a/test/shotAnalysis.test.ts b/test/shotAnalysis.test.ts
+new file mode 100644
+index 0000000..e2bacf6
+--- /dev/null
++++ b/test/shotAnalysis.test.ts
+@@ -0,0 +1,123 @@
++import assert from 'node:assert/strict'
++import test from 'node:test'
++import type { LiveShotPoint } from '../src/domain/brewing.ts'
++import { analyseShot, puckResistance } from '../src/domain/shotAnalysis.ts'
++import { demoShotPoints } from '../src/fixtures/brewingFixture.ts'
++
++/** Builds a shot sampled every `stepMs`, using a per-time generator. */
++function shot(durationMs: number, stepMs: number, at: (seconds: number) => Partial<LiveShotPoint>): LiveShotPoint[] {
++  const points: LiveShotPoint[] = []
++  let weight = 0
++  for (let elapsedMs = 0; elapsedMs <= durationMs; elapsedMs += stepMs) {
++    const sample = at(elapsedMs / 1000)
++    const flow = sample.flow ?? 0
++    if (elapsedMs / 1000 > 6) weight += flow * stepMs / 1000 * 0.9
++    points.push({ elapsedMs, stageIndex: 0, weight, ...sample })
++  }
++  return points
++}
++
++/** A clean pressure-profiled 9 bar shot whose puck erodes gradually. */
++const cleanNineBar = (seconds: number): Partial<LiveShotPoint> => seconds < 6
++  ? { pressure: seconds * 1.5, flow: 3, targetPressure: 9, targetFlow: 0, stageIndex: 0 }
++  : { pressure: 9, flow: 1.6 + (seconds - 6) * 0.04, targetPressure: 9, targetFlow: 0, stageIndex: 1 }
++
++test('puck resistance follows Decent: pressure divided by flow squared', () => {
++  assert.equal(puckResistance({ pressure: 9, flow: 2 }), 2.25)
++  assert.equal(puckResistance({ pressure: 9, flow: 0.2 }), undefined, 'low-flow bloom samples are undefined')
++  assert.equal(puckResistance({ pressure: 0.5, flow: 3 }), undefined, 'unpressurised samples are undefined')
++})
++
++test('a clean, gradually eroding shot produces no findings and a steady breakdown', () => {
++  const analysis = analyseShot(shot(30_000, 200, cleanNineBar))
++  assert.equal(analysis.analysable, true)
++  assert.deepEqual(analysis.findings, [])
++  assert.equal(analysis.breakdown, 'steady')
++  assert.ok(analysis.resistanceDecline! > 0.3)
++})
++
++test('an abrupt flow surge at constant pressure is reported once as a strong resistance drop', () => {
++  const analysis = analyseShot(shot(32_000, 200, seconds => seconds < 16 ? cleanNineBar(seconds) : { ...cleanNineBar(seconds), flow: 3 }))
++  assert.equal(analysis.findings.length, 1)
++  const [finding] = analysis.findings
++  assert.equal(finding.kind, 'suddenResistanceDrop')
++  if (finding.kind !== 'suddenResistanceDrop') return
++  assert.equal(finding.severity, 'strong')
++  assert.ok(Math.abs(finding.atMs - 16_000) <= 800, `reported at ${finding.atMs}`)
++  assert.equal(finding.phase, 'late')
++  assert.equal(analysis.breakdown, 'uneven', 'a sudden drop is never reported as a steady breakdown')
++})
++
++test('detection does not depend on the telemetry sample rate', () => {
++  const surge = (seconds: number) => seconds < 12 ? cleanNineBar(seconds) : { ...cleanNineBar(seconds), flow: 3 }
++  for (const stepMs of [100, 250, 500]) {
++    const found = analyseShot(shot(30_000, stepMs, surge)).findings.filter(finding => finding.kind === 'suddenResistanceDrop')
++    assert.equal(found.length, 1, `step ${stepMs}ms`)
++  }
++})
++
++test('a single noisy sample is not reported without confirmation', () => {
++  const analysis = analyseShot(shot(30_000, 200, seconds => Math.abs(seconds - 15) < 0.1 ? { ...cleanNineBar(seconds), flow: 3.2 } : cleanNineBar(seconds)))
++  assert.deepEqual(analysis.findings, [])
++})
++
++test('profile-commanded pressure declines are not mistaken for channels', () => {
++  const analysis = analyseShot(shot(30_000, 200, seconds => {
++    const base = cleanNineBar(seconds)
++    if (seconds < 15) return base
++    const pressure = seconds < 16 ? 9 - (seconds - 15) * 3 : 6
++    return { ...base, pressure, targetPressure: pressure }
++  }))
++  assert.equal(analysis.findings.some(finding => finding.kind === 'suddenResistanceDrop'), false)
++})
++
++test('drops at a stage transition are ignored', () => {
++  const analysis = analyseShot(shot(30_000, 200, seconds => seconds < 15 ? cleanNineBar(seconds) : { ...cleanNineBar(seconds), flow: 3, stageIndex: 2 }))
++  assert.equal(analysis.findings.some(finding => finding.kind === 'suddenResistanceDrop'), false)
++})
++
++test('drops in the final two seconds are ignored as shot-end settling', () => {
++  const analysis = analyseShot(shot(30_000, 200, seconds => seconds < 29 ? cleanNineBar(seconds) : { ...cleanNineBar(seconds), flow: 3.5 }))
++  assert.deepEqual(analysis.findings, [])
++})
++
++test('sustained high pressure with almost no flow is reported as choked flow', () => {
++  const analysis = analyseShot(shot(30_000, 250, seconds => seconds < 6 ? cleanNineBar(seconds) : { pressure: 9.2, flow: 0.35, targetPressure: 9, targetFlow: 0, stageIndex: 1, weightFlow: 0.3 }))
++  const choked = analysis.findings.find(finding => finding.kind === 'chokedFlow')
++  assert.ok(choked)
++  if (choked?.kind === 'chokedFlow') assert.ok(choked.durationMs >= 20_000)
++})
++
++test('a bloom pause is not choked flow and creates no resistance samples', () => {
++  const analysis = analyseShot(shot(40_000, 250, seconds => {
++    if (seconds < 6) return { pressure: seconds * 0.6, flow: 4, targetFlow: 4, stageIndex: 0 }
++    if (seconds < 20) return { pressure: 2, flow: 0.1, targetFlow: 0, stageIndex: 1 }
++    return { pressure: 8, flow: 2.2, targetPressure: 8, stageIndex: 2 }
++  }))
++  assert.equal(analysis.findings.some(finding => finding.kind === 'chokedFlow'), false)
++  assert.equal(analysis.resistance.some(sample => sample.elapsedMs > 6_500 && sample.elapsedMs < 20_000), false)
++})
++
++test("the earlier Gemini prototype's simulated clean shot no longer raises false channel alarms", () => {
++  const points: LiveShotPoint[] = []
++  for (let elapsed = 0; elapsed < 25; elapsed += 0.1) {
++    points.push({
++      elapsedMs: Math.round(elapsed * 1000),
++      pressure: elapsed < 5 ? elapsed * 1.5 : elapsed < 15 ? 8 : 8 - (elapsed - 15) * 0.2,
++      flow: elapsed < 5 ? 0 : 2.0 + ((Math.round(elapsed * 10) * 7919) % 20) / 100,
++    })
++  }
++  assert.deepEqual(analyseShot(points).findings, [])
++})
++
++test('the bundled demo shot analyses without findings', () => {
++  const analysis = analyseShot(demoShotPoints)
++  assert.equal(analysis.analysable, true)
++  assert.deepEqual(analysis.findings, [])
++  assert.equal(analysis.firstDropsMs, 8_000)
++})
++
++test('shots without pressurised flow are not analysable', () => {
++  assert.equal(analyseShot([]).analysable, false)
++  assert.equal(analyseShot(shot(10_000, 250, () => ({ pressure: 0.5, flow: 4 }))).analysable, false)
++})
+-- 
+2.43.0
+

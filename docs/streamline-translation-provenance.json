@@ -1,0 +1,1573 @@
+{
+  "source": "https://github.com/decentespresso/streamline-js/blob/c47156be646168bd89587e69c9ec511867658a90/src/ui/de1%20gui%20translation%20-%20Sheet1.csv",
+  "revision": "c47156be646168bd89587e69c9ec511867658a90",
+  "permission": "Project owner confirmed permission to reuse on 2026-09-19. Upstream copyright: Decent Espresso and translation contributors. No change to Bestpresso licensing is implied.",
+  "entries": {
+    "common.metric.volume": {
+      "english": "Volume",
+      "row": 346,
+      "sourceEnglish": "Volume",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.metric.temperature": {
+      "english": "Temperature",
+      "row": 316,
+      "sourceEnglish": "Temperature",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.metric.current": {
+      "english": "Current",
+      "row": 608,
+      "sourceEnglish": "current",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.metric.target": {
+      "english": "Target",
+      "row": 527,
+      "sourceEnglish": "Target",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.metric.flow": {
+      "english": "Flow",
+      "row": 137,
+      "sourceEnglish": "Flow",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.metric.weight": {
+      "english": "Weight",
+      "row": 359,
+      "sourceEnglish": "Weight",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.utility.water": {
+      "english": "Hot water",
+      "row": 169,
+      "sourceEnglish": "Hot water",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.utility.steam": {
+      "english": "Steam",
+      "row": 302,
+      "sourceEnglish": "Steam",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.utility.scale": {
+      "english": "Scale",
+      "row": 274,
+      "sourceEnglish": "Scale",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "common.language.label": {
+      "english": "Language",
+      "row": 177,
+      "sourceEnglish": "Language",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.appShell.sleep": {
+      "english": "Sleep",
+      "row": 1359,
+      "sourceEnglish": "Sleep",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.appShell.cleaning": {
+      "english": "Cleaning",
+      "row": 420,
+      "sourceEnglish": "Cleaning",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "shell.appShell.settings": {
+      "english": "Settings",
+      "row": 703,
+      "sourceEnglish": "Settings",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.status.ready": {
+      "english": "ready",
+      "row": 1346,
+      "sourceEnglish": "Ready",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.status.heating": {
+      "english": "Heating",
+      "row": 163,
+      "sourceEnglish": "heating",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.status.disconnected": {
+      "english": "disconnected",
+      "row": 500,
+      "sourceEnglish": "Disconnected",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.status.connecting": {
+      "english": "connecting",
+      "row": 90,
+      "sourceEnglish": "Connecting",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.status.sourceMachine": {
+      "english": "Machine",
+      "row": 1699,
+      "sourceEnglish": "Machine",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.fullscreen.recommendedTitle": {
+      "english": "Fullscreen recommended",
+      "row": 1791,
+      "sourceEnglish": "Fullscreen Recommended",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.fullscreen.enter": {
+      "english": "Enter fullscreen",
+      "row": 1793,
+      "sourceEnglish": "Enter Fullscreen",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.adjust.grindSetting.title": {
+      "english": "Grind size",
+      "row": 1788,
+      "sourceEnglish": "Grind Size",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.adjust.dose.title": {
+      "english": "Dose",
+      "row": 1338,
+      "sourceEnglish": "Dose",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "shell.adjust.builderPressure.title": {
+      "english": "Pressure",
+      "row": 241,
+      "sourceEnglish": "Pressure",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.adjust.builderFlow.title": {
+      "english": "Flow",
+      "row": 137,
+      "sourceEnglish": "Flow",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.adjust.builderTemperature.title": {
+      "english": "Temperature",
+      "row": 316,
+      "sourceEnglish": "Temperature",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.adjust.builderDuration.title": {
+      "english": "Max time",
+      "row": 1524,
+      "sourceEnglish": "MAX TIME",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "shell.adjust.cancel": {
+      "english": "Cancel",
+      "row": 68,
+      "sourceEnglish": "Cancel",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.adjust.save": {
+      "english": "Save",
+      "row": 269,
+      "sourceEnglish": "Save",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.machine.steamTemperatureAria": {
+      "english": "Steam temperature",
+      "row": 501,
+      "sourceEnglish": "Steam temperature",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.machine.off": {
+      "english": "Off",
+      "row": 212,
+      "sourceEnglish": "off",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.machine.offLower": {
+      "english": "off",
+      "row": 212,
+      "sourceEnglish": "off",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.scale.search": {
+      "english": "Search",
+      "row": 279,
+      "sourceEnglish": "Search",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.liveOperation.steaming": {
+      "english": "Steaming",
+      "row": 303,
+      "sourceEnglish": "Steaming",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "shell.cleaning.title": {
+      "english": "Cleaning",
+      "row": 420,
+      "sourceEnglish": "Cleaning",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "shell.brewStage.extraction": {
+      "english": "Extraction",
+      "row": 899,
+      "sourceEnglish": "Extraction",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.metric.pressure": {
+      "english": "Pressure",
+      "row": 241,
+      "sourceEnglish": "Pressure",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.metric.flowRate": {
+      "english": "Flow rate",
+      "row": 141,
+      "sourceEnglish": "Flow rate",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.metric.grindSize": {
+      "english": "Grind size",
+      "row": 1788,
+      "sourceEnglish": "Grind Size",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.metric.dose": {
+      "english": "Dose",
+      "row": 1338,
+      "sourceEnglish": "Dose",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "brew.stage.extractionFallback": {
+      "english": "Extraction",
+      "row": 899,
+      "sourceEnglish": "Extraction",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.stage.cleaningFallbackName": {
+      "english": "Cleaning",
+      "row": 420,
+      "sourceEnglish": "Cleaning",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "brew.liveScreen.espressoFallbackName": {
+      "english": "Espresso",
+      "row": 123,
+      "sourceEnglish": "espresso",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.panel.doseSuggestion.espresso": {
+      "english": "Espresso",
+      "row": 123,
+      "sourceEnglish": "espresso",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.panel.carouselAriaLabel": {
+      "english": "Profiles",
+      "row": 249,
+      "sourceEnglish": "Profiles",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.liveScreen.stop": {
+      "english": "Stop",
+      "row": 667,
+      "sourceEnglish": "Stop",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.stage.reason.unknown": {
+      "english": "Unknown",
+      "row": 605,
+      "sourceEnglish": "unknown",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.data.scale.fallbackName": {
+      "english": "Scale",
+      "row": 274,
+      "sourceEnglish": "Scale",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "brew.data.label.steamTemperature": {
+      "english": "Steam temperature",
+      "row": 501,
+      "sourceEnglish": "Steam temperature",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "insights.common.retry": {
+      "english": "Retry",
+      "row": 1638,
+      "sourceEnglish": "Retry",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "insights.table.profile": {
+      "english": "Profile",
+      "row": 248,
+      "sourceEnglish": "PROFILE",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "insights.table.dose": {
+      "english": "Dose",
+      "row": 1338,
+      "sourceEnglish": "Dose",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "insights.nav.history": {
+      "english": "History",
+      "row": 1342,
+      "sourceEnglish": "HISTORY",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "insights.drink.espresso": {
+      "english": "Espresso",
+      "row": 123,
+      "sourceEnglish": "espresso",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "insights.previousShot.title": {
+      "english": "Shot history",
+      "row": 1326,
+      "sourceEnglish": "SHOT HISTORY",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.action.select": {
+      "english": "Select",
+      "row": 954,
+      "sourceEnglish": "Select",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.action.edit": {
+      "english": "Edit",
+      "row": 1340,
+      "sourceEnglish": "Edit",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.action.delete": {
+      "english": "Delete",
+      "row": 868,
+      "sourceEnglish": "Delete",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.action.cancel": {
+      "english": "Cancel",
+      "row": 68,
+      "sourceEnglish": "Cancel",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.aria.profilesSection": {
+      "english": "Profiles",
+      "row": 249,
+      "sourceEnglish": "Profiles",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.column.profile": {
+      "english": "Profile",
+      "row": 248,
+      "sourceEnglish": "PROFILE",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.metric.dose": {
+      "english": "Dose",
+      "row": 1338,
+      "sourceEnglish": "Dose",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "library.detail.category": {
+      "english": "Category",
+      "row": 1670,
+      "sourceEnglish": "Category",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.detail.type": {
+      "english": "Type",
+      "row": 333,
+      "sourceEnglish": "Type",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.detail.version": {
+      "english": "Version",
+      "row": 463,
+      "sourceEnglish": "Version",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.detail.author": {
+      "english": "Author",
+      "row": 776,
+      "sourceEnglish": "Author",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.detail.grindSize": {
+      "english": "Grind size",
+      "row": 1788,
+      "sourceEnglish": "Grind Size",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.beverageType.espresso": {
+      "english": "espresso",
+      "row": 123,
+      "sourceEnglish": "espresso",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.beverageType.pourover": {
+      "english": "Pour over",
+      "row": 468,
+      "sourceEnglish": "Pour over",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.beverageType.cleaning": {
+      "english": "cleaning",
+      "row": 420,
+      "sourceEnglish": "Cleaning",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "library.beverageType.calibrate": {
+      "english": "calibrate",
+      "row": 418,
+      "sourceEnglish": "Calibrate",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "library.beverageType.manual": {
+      "english": "manual",
+      "row": 1084,
+      "sourceEnglish": "manual",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.axis.pressure": {
+      "english": "Pressure",
+      "row": 241,
+      "sourceEnglish": "Pressure",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.axis.flow": {
+      "english": "Flow",
+      "row": 137,
+      "sourceEnglish": "Flow",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.common.max": {
+      "english": "Max",
+      "row": 924,
+      "sourceEnglish": "Max",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.sensor.coffee": {
+      "english": "Coffee",
+      "row": 1315,
+      "sourceEnglish": "Coffee",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.sensor.water": {
+      "english": "Water",
+      "row": 354,
+      "sourceEnglish": "Water",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.stage.maxTimeLabel": {
+      "english": "Max time",
+      "row": 1524,
+      "sourceEnglish": "MAX TIME",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "builder.stage.waterTemperatureLabel": {
+      "english": "Water temperature",
+      "row": 356,
+      "sourceEnglish": "Water temperature",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.stage.transitionLabel": {
+      "english": "Transition",
+      "row": 330,
+      "sourceEnglish": "transition",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.profile.categoryLabel": {
+      "english": "Category",
+      "row": 1670,
+      "sourceEnglish": "Category",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.profile.typeLabel": {
+      "english": "Type",
+      "row": 333,
+      "sourceEnglish": "Type",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.actions.cancel": {
+      "english": "Cancel",
+      "row": 68,
+      "sourceEnglish": "Cancel",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.actions.save": {
+      "english": "Save",
+      "row": 269,
+      "sourceEnglish": "Save",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.beverageType.espresso": {
+      "english": "Espresso",
+      "row": 123,
+      "sourceEnglish": "espresso",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.beverageType.pourover": {
+      "english": "Pour over",
+      "row": 468,
+      "sourceEnglish": "Pour over",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.beverageType.manual": {
+      "english": "Manual",
+      "row": 1084,
+      "sourceEnglish": "manual",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.beverageType.cleaning": {
+      "english": "Cleaning",
+      "row": 420,
+      "sourceEnglish": "Cleaning",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "builder.beverageType.calibrate": {
+      "english": "Calibrate",
+      "row": 418,
+      "sourceEnglish": "Calibrate",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.validation.profileLabel": {
+      "english": "Profile",
+      "row": 248,
+      "sourceEnglish": "PROFILE",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.details.authorLabel": {
+      "english": "Author",
+      "row": 776,
+      "sourceEnglish": "Author",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "builder.details.descriptionLabel": {
+      "english": "Description",
+      "row": 108,
+      "sourceEnglish": "Description",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.section.extensions.label": {
+      "english": "Extensions",
+      "row": 688,
+      "sourceEnglish": "Extensions",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.section.advanced.label": {
+      "english": "Advanced",
+      "row": 33,
+      "sourceEnglish": "Advanced",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.section.overview.title": {
+      "english": "Settings",
+      "row": 703,
+      "sourceEnglish": "Settings",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.section.extensions.title": {
+      "english": "Extensions",
+      "row": 688,
+      "sourceEnglish": "Extensions",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.section.advanced.title": {
+      "english": "Advanced",
+      "row": 33,
+      "sourceEnglish": "Advanced",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.unavailable.machine": {
+      "english": "machine",
+      "row": 1699,
+      "sourceEnglish": "Machine",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.unavailable.plugins": {
+      "english": "plugins",
+      "row": 1547,
+      "sourceEnglish": "Plugins",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.devices.typeMachine": {
+      "english": "machine",
+      "row": 1699,
+      "sourceEnglish": "Machine",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.devices.typeScale": {
+      "english": "scale",
+      "row": 274,
+      "sourceEnglish": "Scale",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.devices.stateConnected": {
+      "english": "connected",
+      "row": 89,
+      "sourceEnglish": "Connected",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.devices.stateDisconnected": {
+      "english": "disconnected",
+      "row": 500,
+      "sourceEnglish": "Disconnected",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.state.off": {
+      "english": "Off",
+      "row": 212,
+      "sourceEnglish": "off",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.state.on": {
+      "english": "On",
+      "row": 1086,
+      "sourceEnglish": "on",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.overview.system.connected": {
+      "english": "Connected",
+      "row": 89,
+      "sourceEnglish": "Connected",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.connection.connecting": {
+      "english": "connecting",
+      "row": 90,
+      "sourceEnglish": "Connecting",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.connection.disconnected": {
+      "english": "disconnected",
+      "row": 500,
+      "sourceEnglish": "Disconnected",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.overview.system.none": {
+      "english": "None",
+      "row": 499,
+      "sourceEnglish": "None",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.clean.maintenance.eyebrow": {
+      "english": "Maintenance",
+      "row": 185,
+      "sourceEnglish": "Maintenance",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.clean.cleaning": {
+      "english": "Cleaning",
+      "row": 420,
+      "sourceEnglish": "Cleaning",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "settings.clean.descaling.title": {
+      "english": "Descaling",
+      "row": 425,
+      "sourceEnglish": "Descaling",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "settings.action.start": {
+      "english": "Start",
+      "row": 619,
+      "sourceEnglish": "Start",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.clean.transport.title": {
+      "english": "Transport mode",
+      "row": 1568,
+      "sourceEnglish": "Transport Mode",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.enable": {
+      "english": "Enable",
+      "row": 115,
+      "sourceEnglish": "Enable",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.reset": {
+      "english": "Reset",
+      "row": 260,
+      "sourceEnglish": "Reset",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.devices.machine": {
+      "english": "Espresso machine",
+      "row": 1684,
+      "sourceEnglish": "Espresso Machine",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.disconnect": {
+      "english": "Disconnect",
+      "row": 1659,
+      "sourceEnglish": "Disconnect",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.connect": {
+      "english": "Connect",
+      "row": 87,
+      "sourceEnglish": "Connect",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.display.title": {
+      "english": "Screen brightness",
+      "row": 1544,
+      "sourceEnglish": "Screen Brightness",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.brightness": {
+      "english": "Brightness",
+      "row": 65,
+      "sourceEnglish": "Brightness",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.chargingMode": {
+      "english": "Charging mode",
+      "row": 1574,
+      "sourceEnglish": "Charging Mode",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.state.disabled": {
+      "english": "Disabled",
+      "row": 1657,
+      "sourceEnglish": "Disabled",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.sleepTime": {
+      "english": "Sleep time",
+      "row": 1632,
+      "sourceEnglish": "Sleep Time",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.morningTime": {
+      "english": "Morning time",
+      "row": 1633,
+      "sourceEnglish": "Morning Time",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.presenceDetection": {
+      "english": "Presence detection",
+      "row": 1549,
+      "sourceEnglish": "Presence Detection",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "settings.action.addSchedule": {
+      "english": "Add schedule",
+      "row": 1642,
+      "sourceEnglish": "Add Schedule",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.power.schedule.wakeTime": {
+      "english": "Wake time",
+      "row": 1618,
+      "sourceEnglish": "Wake Time",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.remove": {
+      "english": "Remove",
+      "row": 546,
+      "sourceEnglish": "Remove",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.extensions.version": {
+      "english": "Version",
+      "row": 463,
+      "sourceEnglish": "Version",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.extensions.update": {
+      "english": "Update",
+      "row": 335,
+      "sourceEnglish": "Update",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.state.available": {
+      "english": "Available",
+      "row": 609,
+      "sourceEnglish": "available",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.gatewayMode": {
+      "english": "Gateway mode",
+      "row": 1604,
+      "sourceEnglish": "Gateway Mode",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.logLevel": {
+      "english": "Log level",
+      "row": 1605,
+      "sourceEnglish": "Log Level",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.autoUpdateChecks": {
+      "english": "Automatic update checks",
+      "row": 1559,
+      "sourceEnglish": "Automatic Update Checks",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.machine.eyebrow": {
+      "english": "Machine",
+      "row": 1699,
+      "sourceEnglish": "Machine",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.fanThreshold": {
+      "english": "Fan threshold",
+      "row": 1608,
+      "sourceEnglish": "Fan Threshold",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.steamPurgeMode": {
+      "english": "Steam purge mode",
+      "row": 1571,
+      "sourceEnglish": "Steam Purge Mode",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.purge.normal": {
+      "english": "Normal",
+      "row": 1660,
+      "sourceEnglish": "Normal",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.advanced.heating.title": {
+      "english": "Heating",
+      "row": 163,
+      "sourceEnglish": "heating",
+      "languages": [
+        "fr",
+        "it"
+      ]
+    },
+    "settings.advanced.refillKit": {
+      "english": "Refill kit",
+      "row": 1627,
+      "sourceEnglish": "Refill Kit",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.refill.automatic": {
+      "english": "Automatic",
+      "row": 49,
+      "sourceEnglish": "Automatic",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.refill.forceOn": {
+      "english": "Force on",
+      "row": 1061,
+      "sourceEnglish": "force on",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.refill.forceOff": {
+      "english": "Force off",
+      "row": 1060,
+      "sourceEnglish": "force off",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.cancel": {
+      "english": "Cancel",
+      "row": 68,
+      "sourceEnglish": "Cancel",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    },
+    "settings.action.save": {
+      "english": "Save",
+      "row": 269,
+      "sourceEnglish": "Save",
+      "languages": [
+        "fr",
+        "it",
+        "zh-Hans",
+        "zh-Hant"
+      ]
+    }
+  }
+}
+
