@@ -44,7 +44,7 @@ const browserLanguages = (): readonly string[] => {
   return navigator.languages?.length ? navigator.languages : navigator.language ? [navigator.language] : []
 }
 
-/** `auto` follows the first device language Bestpresso supports; anything else falls back to English. */
+/** `auto` follows the first device language OpenCoffeeShop supports; anything else falls back to English. */
 export function resolveLanguage(preference: LanguagePreference = 'auto', languages: readonly string[] = browserLanguages()): Language {
   if (preference !== 'auto') return preference
   for (const tag of languages) {

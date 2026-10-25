@@ -30,6 +30,6 @@ export function getDecaidEndpoints() {
 
 export function getDecaidSettingsUrl() {
   const url = new URL(`${getDecaidEndpoints().apiBase}/plugins/settings.reaplugin/ui`)
-  url.searchParams.set('backName', 'Bestpresso')
+  url.searchParams.set('backName', 'OpenCoffeeShop')
   return url.toString()
 }

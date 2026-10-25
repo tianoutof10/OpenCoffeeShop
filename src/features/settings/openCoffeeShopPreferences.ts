@@ -9,7 +9,7 @@ export type LiveView = 'chart' | 'calm'
 /** Home: today's coffee and recipe, or the full machine dashboard. */
 export type HomeView = 'today' | 'machine'
 
-export interface BestpressoPreferences {
+export interface OpenCoffeeShopPreferences {
   theme: 'nordic' | 'dark' | 'light'
   completionSoundEnabled: boolean
   animationsEnabled: boolean
@@ -25,10 +25,10 @@ export interface BestpressoPreferences {
   homeView: HomeView
 }
 
-export const BESTPRESSO_PREFERENCES_KEY = 'bestpresso.preferences.v1'
+export const OPENCOFFEESHOP_PREFERENCES_KEY = 'bestpresso.preferences.v1'
 const preferenceEvent = 'bestpresso:preferences-changed'
 
-export const DEFAULT_BESTPRESSO_PREFERENCES: BestpressoPreferences = {
+export const DEFAULT_OPENCOFFEESHOP_PREFERENCES: OpenCoffeeShopPreferences = {
   theme: 'nordic',
   completionSoundEnabled: true,
   animationsEnabled: true,
@@ -49,10 +49,10 @@ const finiteRange = (value: unknown, fallback: number) => {
   return Number.isFinite(number) ? Math.round(Math.max(0, Math.min(2_000, number))) : fallback
 }
 
-export function normalizeBestpressoPreferences(value: unknown): BestpressoPreferences {
-  const candidate = value && typeof value === 'object' ? value as Partial<BestpressoPreferences> : {}
-  const critical = finiteRange(candidate.waterCriticalLevelMl, DEFAULT_BESTPRESSO_PREFERENCES.waterCriticalLevelMl)
-  const warning = Math.max(critical + 1, finiteRange(candidate.waterWarningLevelMl, DEFAULT_BESTPRESSO_PREFERENCES.waterWarningLevelMl))
+export function normalizeOpenCoffeeShopPreferences(value: unknown): OpenCoffeeShopPreferences {
+  const candidate = value && typeof value === 'object' ? value as Partial<OpenCoffeeShopPreferences> : {}
+  const critical = finiteRange(candidate.waterCriticalLevelMl, DEFAULT_OPENCOFFEESHOP_PREFERENCES.waterCriticalLevelMl)
+  const warning = Math.max(critical + 1, finiteRange(candidate.waterWarningLevelMl, DEFAULT_OPENCOFFEESHOP_PREFERENCES.waterWarningLevelMl))
   const chartLineWeight = candidate.chartLineWeight === 'standard' || candidate.chartLineWeight === 'bold'
     ? candidate.chartLineWeight
     : 'fine'
@@ -65,10 +65,10 @@ export function normalizeBestpressoPreferences(value: unknown): BestpressoPrefer
     animationsEnabled: candidate.animationsEnabled !== false,
     screensaverBrightness: typeof candidate.screensaverBrightness === 'number' && Number.isFinite(candidate.screensaverBrightness)
       ? Math.round(Math.max(0, Math.min(100, candidate.screensaverBrightness)))
-      : DEFAULT_BESTPRESSO_PREFERENCES.screensaverBrightness,
+      : DEFAULT_OPENCOFFEESHOP_PREFERENCES.screensaverBrightness,
     screensaverScreenOffDelaySeconds: typeof candidate.screensaverScreenOffDelaySeconds === 'number' && Number.isFinite(candidate.screensaverScreenOffDelaySeconds)
       ? Math.round(Math.max(0, Math.min(3_600, candidate.screensaverScreenOffDelaySeconds)))
-      : DEFAULT_BESTPRESSO_PREFERENCES.screensaverScreenOffDelaySeconds,
+      : DEFAULT_OPENCOFFEESHOP_PREFERENCES.screensaverScreenOffDelaySeconds,
     waterWarningLevelMl: Math.min(2_000, warning),
     waterCriticalLevelMl: Math.min(1_999, critical),
     chartLineWeight,
@@ -81,17 +81,17 @@ export function normalizeBestpressoPreferences(value: unknown): BestpressoPrefer
   }
 }
 
-export function readBestpressoPreferences() {
-  if (typeof window === 'undefined') return DEFAULT_BESTPRESSO_PREFERENCES
+export function readOpenCoffeeShopPreferences() {
+  if (typeof window === 'undefined') return DEFAULT_OPENCOFFEESHOP_PREFERENCES
   try {
-    const stored = window.localStorage.getItem(BESTPRESSO_PREFERENCES_KEY)
-    return normalizeBestpressoPreferences(stored ? JSON.parse(stored) : undefined)
+    const stored = window.localStorage.getItem(OPENCOFFEESHOP_PREFERENCES_KEY)
+    return normalizeOpenCoffeeShopPreferences(stored ? JSON.parse(stored) : undefined)
   } catch {
-    return DEFAULT_BESTPRESSO_PREFERENCES
+    return DEFAULT_OPENCOFFEESHOP_PREFERENCES
   }
 }
 
-export function applyBestpressoPreferences(preferences = readBestpressoPreferences()) {
+export function applyOpenCoffeeShopPreferences(preferences = readOpenCoffeeShopPreferences()) {
   setActiveLanguage(resolveLanguage(preferences.language))
   if (typeof document !== 'undefined') {
     document.documentElement.dataset.chartLineWeight = preferences.chartLineWeight
@@ -102,24 +102,24 @@ export function applyBestpressoPreferences(preferences = readBestpressoPreferenc
   return preferences
 }
 
-export function writeBestpressoPreferences(patch: Partial<BestpressoPreferences>) {
-  const next = normalizeBestpressoPreferences({ ...readBestpressoPreferences(), ...patch })
+export function writeOpenCoffeeShopPreferences(patch: Partial<OpenCoffeeShopPreferences>) {
+  const next = normalizeOpenCoffeeShopPreferences({ ...readOpenCoffeeShopPreferences(), ...patch })
   try {
-    window.localStorage.setItem(BESTPRESSO_PREFERENCES_KEY, JSON.stringify(next))
+    window.localStorage.setItem(OPENCOFFEESHOP_PREFERENCES_KEY, JSON.stringify(next))
   } catch {
     // The current session can still use the selection when storage is unavailable.
   }
-  applyBestpressoPreferences(next)
+  applyOpenCoffeeShopPreferences(next)
   window.dispatchEvent(new CustomEvent(preferenceEvent, { detail: next }))
   return next
 }
 
-export function useBestpressoPreferences() {
-  const [preferences, setPreferences] = useState(readBestpressoPreferences)
+export function useOpenCoffeeShopPreferences() {
+  const [preferences, setPreferences] = useState(readOpenCoffeeShopPreferences)
   useEffect(() => {
-    const onPreference = (event: Event) => setPreferences((event as CustomEvent<BestpressoPreferences>).detail ?? readBestpressoPreferences())
+    const onPreference = (event: Event) => setPreferences((event as CustomEvent<OpenCoffeeShopPreferences>).detail ?? readOpenCoffeeShopPreferences())
     const onStorage = (event: StorageEvent) => {
-      if (event.key === BESTPRESSO_PREFERENCES_KEY || event.key === null) setPreferences(applyBestpressoPreferences())
+      if (event.key === OPENCOFFEESHOP_PREFERENCES_KEY || event.key === null) setPreferences(applyOpenCoffeeShopPreferences())
     }
     window.addEventListener(preferenceEvent, onPreference)
     window.addEventListener('storage', onStorage)
@@ -130,7 +130,7 @@ export function useBestpressoPreferences() {
   }, [])
   return {
     preferences,
-    updatePreferences: writeBestpressoPreferences,
-    resetPreferences: () => writeBestpressoPreferences(DEFAULT_BESTPRESSO_PREFERENCES),
+    updatePreferences: writeOpenCoffeeShopPreferences,
+    resetPreferences: () => writeOpenCoffeeShopPreferences(DEFAULT_OPENCOFFEESHOP_PREFERENCES),
   }
 }

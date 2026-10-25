@@ -1,36 +1,36 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
-import { DEFAULT_BESTPRESSO_PREFERENCES, normalizeBestpressoPreferences } from '../src/features/settings/bestpressoPreferences.ts'
+import { DEFAULT_OPENCOFFEESHOP_PREFERENCES, normalizeOpenCoffeeShopPreferences } from '../src/features/settings/openCoffeeShopPreferences.ts'
 
-test('Bestpresso preferences preserve the released defaults', () => {
-  assert.deepEqual(normalizeBestpressoPreferences(undefined), DEFAULT_BESTPRESSO_PREFERENCES)
+test('OpenCoffeeShop preferences preserve the released defaults', () => {
+  assert.deepEqual(normalizeOpenCoffeeShopPreferences(undefined), DEFAULT_OPENCOFFEESHOP_PREFERENCES)
 })
 
 test('screensaver brightness defaults to 7 but preserves user choices across the full range', () => {
-  assert.equal(normalizeBestpressoPreferences({}).screensaverBrightness, 7)
+  assert.equal(normalizeOpenCoffeeShopPreferences({}).screensaverBrightness, 7)
   for (const value of [0, 3, 7, 45, 100]) {
-    assert.equal(normalizeBestpressoPreferences({ screensaverBrightness: value }).screensaverBrightness, value)
+    assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverBrightness: value }).screensaverBrightness, value)
   }
-  assert.equal(normalizeBestpressoPreferences({ screensaverBrightness: NaN }).screensaverBrightness, 7)
-  assert.equal(normalizeBestpressoPreferences({ screensaverBrightness: 120 }).screensaverBrightness, 100)
+  assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverBrightness: NaN }).screensaverBrightness, 7)
+  assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverBrightness: 120 }).screensaverBrightness, 100)
   const source = readFileSync(new URL('../src/features/brew/useBrewingData.ts', import.meta.url), 'utf8')
-  assert.match(source, /displayBrightness.dim\(readBestpressoPreferences\(\).screensaverBrightness\)/)
+  assert.match(source, /displayBrightness.dim\(readOpenCoffeeShopPreferences\(\).screensaverBrightness\)/)
 })
 
 test('screensaver screen-off delay defaults to disabled, clamps to the hour and rounds', () => {
-  assert.equal(normalizeBestpressoPreferences({}).screensaverScreenOffDelaySeconds, 0)
+  assert.equal(normalizeOpenCoffeeShopPreferences({}).screensaverScreenOffDelaySeconds, 0)
   for (const value of [15, 300, 3_600]) {
-    assert.equal(normalizeBestpressoPreferences({ screensaverScreenOffDelaySeconds: value }).screensaverScreenOffDelaySeconds, value)
+    assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverScreenOffDelaySeconds: value }).screensaverScreenOffDelaySeconds, value)
   }
-  assert.equal(normalizeBestpressoPreferences({ screensaverScreenOffDelaySeconds: NaN }).screensaverScreenOffDelaySeconds, 0)
-  assert.equal(normalizeBestpressoPreferences({ screensaverScreenOffDelaySeconds: 9_000 }).screensaverScreenOffDelaySeconds, 3_600)
-  assert.equal(normalizeBestpressoPreferences({ screensaverScreenOffDelaySeconds: -5 }).screensaverScreenOffDelaySeconds, 0)
-  assert.equal(normalizeBestpressoPreferences({ screensaverScreenOffDelaySeconds: 90.6 }).screensaverScreenOffDelaySeconds, 91)
+  assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverScreenOffDelaySeconds: NaN }).screensaverScreenOffDelaySeconds, 0)
+  assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverScreenOffDelaySeconds: 9_000 }).screensaverScreenOffDelaySeconds, 3_600)
+  assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverScreenOffDelaySeconds: -5 }).screensaverScreenOffDelaySeconds, 0)
+  assert.equal(normalizeOpenCoffeeShopPreferences({ screensaverScreenOffDelaySeconds: 90.6 }).screensaverScreenOffDelaySeconds, 91)
 })
 
 test('water warning preferences remain ordered and within the reservoir control range', () => {
-  assert.deepEqual(normalizeBestpressoPreferences({ waterCriticalLevelMl: 500, waterWarningLevelMl: 100 }), {
+  assert.deepEqual(normalizeOpenCoffeeShopPreferences({ waterCriticalLevelMl: 500, waterWarningLevelMl: 100 }), {
     theme: 'nordic',
     completionSoundEnabled: true,
     animationsEnabled: true,
@@ -45,12 +45,12 @@ test('water warning preferences remain ordered and within the reservoir control 
     liveView: 'calm',
     homeView: 'today',
   })
-  const maximum = normalizeBestpressoPreferences({ waterCriticalLevelMl: 9_000, waterWarningLevelMl: 9_000 })
+  const maximum = normalizeOpenCoffeeShopPreferences({ waterCriticalLevelMl: 9_000, waterWarningLevelMl: 9_000 })
   assert.equal(maximum.waterCriticalLevelMl, 1_999)
   assert.equal(maximum.waterWarningLevelMl, 2_000)
 })
 
-test('settings are routed inside Bestpresso and expose real preference controls', () => {
+test('settings are routed inside OpenCoffeeShop and expose real preference controls', () => {
   const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8')
   const screen = readFileSync(new URL('../src/features/settings/SettingsScreen.tsx', import.meta.url), 'utf8')
   const styles = readFileSync(new URL('../src/styles/index.css', import.meta.url), 'utf8')
@@ -110,7 +110,7 @@ test('immediate settings actions preserve unrelated unsaved drafts', () => {
 })
 
 test('the live view preference defaults to the morning view and accepts only known layouts', () => {
-  assert.equal(DEFAULT_BESTPRESSO_PREFERENCES.liveView, 'calm')
-  assert.equal(normalizeBestpressoPreferences({ liveView: 'chart' }).liveView, 'chart')
-  assert.equal(normalizeBestpressoPreferences({ liveView: 'ring' }).liveView, 'calm')
+  assert.equal(DEFAULT_OPENCOFFEESHOP_PREFERENCES.liveView, 'calm')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ liveView: 'chart' }).liveView, 'chart')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ liveView: 'ring' }).liveView, 'calm')
 })

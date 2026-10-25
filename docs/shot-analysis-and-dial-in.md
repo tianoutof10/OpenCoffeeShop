@@ -6,14 +6,12 @@ Profile** (starting recipe) or **Add to library** (presets). Nothing changes
 automatically. Thresholds are uncalibrated against real shots until the
 calibration step below has been run on a physical machine.
 
-This round follows the design brief captured in the project's Gemini
-conversations: a morning screen that is the default view, swipe up for
-diagnostics, live channel/stall markers, a taste prompt shown when the shot
-ends, research presets by bean style, an adaptive "Living Profile", and bean,
-gear and style context. The third cut replaces the three-question prompt with
-one tap on the brewing control chart, lets the shot's pace choose between grind
-and ratio, and gives each bag a memory: its dial-in path, a pinned recipe, rest
-guidance and drift.
+The design uses a morning screen as the default view, swipe-up diagnostics,
+live channel and stall markers, a post-shot taste prompt, research presets by
+bean style, an adaptive "Living Profile", and bean, gear and style context.
+The current flow uses one tap on the brewing control chart, lets the shot's
+pace choose between grind and ratio, and gives each bag a memory: its dial-in
+path, a pinned recipe, rest guidance and drift.
 
 ## Product point of view
 
@@ -32,8 +30,8 @@ with "possible" where cause is inferred.
 
 Resistance follows Decent's published convention, `R = pressure / flow²`
 (bar per (ml/s)²). Decent's Insight blog tracks the *change* in resistance as
-the signal for when puck integrity falls apart. Gemini's earlier prototype used
-`flow / pressure`, which doesn't match DSx or Visualizer values.
+the signal for when puck integrity falls apart. The ratio `flow / pressure`
+doesn't match DSx or Visualizer values.
 
 Resistance is only computed where it means something:
 
@@ -164,7 +162,7 @@ cup; on the right, today's recipe (dose → yield, ratio, temperature, grind), t
 active profile, the bag's pinned or carried-over recipe, any drift note, and the
 machine's state. Espresso is started at the group head, so Today says *Start the
 shot at the group head* rather than offering a button; in demo mode it offers a
-demo pull. **Machine** (top-bar switch) is the full Bestpresso dashboard; the
+demo pull. **Machine** (top-bar switch) is the full OpenCoffeeShop dashboard; the
 choice is remembered.
 
 
@@ -185,7 +183,7 @@ One universal three-stage profile instead of many:
 
 Its parameters (soak, flow, ceiling, decline, temperature, dose, target weight)
 are stored in the profile's metadata (`bestpressoChassis`), clamped to safe
-ranges, and compiled into valid v2.1 steps (verified by Bestpresso's own builder
+ranges, and compiled into valid v2.1 steps (verified by OpenCoffeeShop's own builder
 validator in tests). The barista controls grind and puck prep; the app proposes
 hydraulic changes, applied by one tap.
 

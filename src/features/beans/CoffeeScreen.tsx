@@ -5,7 +5,7 @@ import { CHASSIS_LIMITS, clampChassis, type ChassisParams } from '../../domain/c
 import type { BrewStyle, BurrClass, GearSetup } from '../../domain/gear'
 import { RESEARCH_PRESETS, type PresetId } from '../../domain/researchPresets'
 import { formatDecimal, t } from '../../i18n/index.ts'
-import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 import { activeBean, coffeeUpdates, useCoffeeLibrary, type CoffeeLibrary } from './coffeeLibrary'
 import { journeyFor, recipeForBean, targetFor } from './dialJourney'
 import { RestLine } from './RestLine'
@@ -274,7 +274,7 @@ function LivingProfileTab({ connected, doseGrams, activeChassis, onApplyStarting
 
 function GearTab() {
   const { library, update } = useCoffeeLibrary()
-  const { preferences, updatePreferences } = useBestpressoPreferences()
+  const { preferences, updatePreferences } = useOpenCoffeeShopPreferences()
   const gear = library.gear
   const set = (patch: Partial<GearSetup>) => update(current => coffeeUpdates.setGear(current, patch))
   const numberOrUndefined = (value: string) => value.trim() === '' ? undefined : Number(value)

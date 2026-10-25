@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { LiveBrewingScreen } from '../../src/features/brew/LiveBrewingScreen'
 import { PreviousShotScreen } from '../../src/features/history/PreviousShotScreen'
-import { writeBestpressoPreferences } from '../../src/features/settings/bestpressoPreferences'
+import { writeOpenCoffeeShopPreferences } from '../../src/features/settings/openCoffeeShopPreferences'
 import { CoffeeScreen } from '../../src/features/beans/CoffeeScreen'
 import { coffeeUpdates, readCoffeeLibrary } from '../../src/features/beans/coffeeLibrary'
 import { getDecaidEndpoints } from '../../src/api/decaid/config'
@@ -53,7 +53,7 @@ const soakPoints: LiveShotPoint[] = Array.from({ length: 61 }, (_, i) => {
 function Review() {
   const [view, setView] = useState<'calm' | 'soak' | 'finished' | 'history' | 'coffee'>('calm')
   const [light, setLight] = useState(false)
-  const show = (next: typeof view) => { if (next === 'calm' || next === 'soak') writeBestpressoPreferences({ liveView: 'calm' }); setView(next) }
+  const show = (next: typeof view) => { if (next === 'calm' || next === 'soak') writeOpenCoffeeShopPreferences({ liveView: 'calm' }); setView(next) }
   const progress = { ...base, elapsedMs: 21_000, points: points.slice(0, 106) }
   return <>
     <nav className="stage-review-nav" aria-label="Review controls">

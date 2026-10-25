@@ -40,11 +40,11 @@ import { createBackgroundScaleSearch } from './backgroundScaleSearch'
 import { observeTareShotState, requestGuardedScaleTare, scaleTareBlocked, type ScaleTareState } from './scaleTareSafety'
 import { sleepMachineWithConfiguredScalePolicy } from './sleepControl'
 import { createUtilityDismissal, utilityElapsedMs, utilityTimerStartedAt } from './utilityOperationTiming'
-import { readBestpressoPreferences, useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { readOpenCoffeeShopPreferences, useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 import { UNIFIED_SETTINGS_SAVED_EVENT, type UnifiedSettingsSnapshot } from '../settings/useUnifiedSettings'
 
 const currentWaterThresholds = () => {
-  const preferences = readBestpressoPreferences()
+  const preferences = readOpenCoffeeShopPreferences()
   return { warningLevelMl: preferences.waterWarningLevelMl, criticalLevelMl: preferences.waterCriticalLevelMl }
 }
 
@@ -172,7 +172,7 @@ const storeLastSelectedProfileIdLocally = (profileId: string) => {
 }
 
 export function useBrewingData() {
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const [model, setModel] = useState<BrewingScreenModel>(() => withUnknownSteamState({ ...brewingFixture, profiles: fixtureProfiles.slice(0, 5), previousShot: null }))
   const [allProfiles, setAllProfiles] = useState(fixtureProfiles)
   const [favoriteProfileSlots, setFavoriteProfileSlots] = useState<Array<string | null>>(fixtureProfiles.slice(0, 5).map((profile) => profile.id))
@@ -350,7 +350,7 @@ export function useBrewingData() {
   }, [])
 
   const dimDisplay = async () => {
-    try { await displayBrightness.dim(readBestpressoPreferences().screensaverBrightness) }
+    try { await displayBrightness.dim(readOpenCoffeeShopPreferences().screensaverBrightness) }
     catch { /* Sleeping the machine remains the priority. */ }
   }
 

@@ -2,7 +2,7 @@ import type { BrewProfile } from '../../domain/brewing.ts'
 import { VALUE_ADJUSTMENTS } from '../../domain/valueAdjustments.ts'
 import type { DecaidProfile, DecaidProfileRecord, DecaidWorkflowPatch } from './types.ts'
 
-export const BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY = 'bestpressoTargetYield'
+export const OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY = 'bestpressoTargetYield'
 
 export const profileUsesStopAtWeight = (profile?: DecaidProfile) => {
   const targetWeight = Number(profile?.target_weight)
@@ -25,8 +25,8 @@ const nonNegativeTargetYield = (value: unknown) => {
 }
 
 export const profileUserTargetYield = (metadata?: Record<string, unknown> | null) => (
-  Object.prototype.hasOwnProperty.call(metadata ?? {}, BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY)
-    ? nonNegativeTargetYield(metadata?.[BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY])
+  Object.prototype.hasOwnProperty.call(metadata ?? {}, OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY)
+    ? nonNegativeTargetYield(metadata?.[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY])
     : undefined
 )
 
@@ -86,13 +86,13 @@ export const workflowValuesForProfile = (record: DecaidProfileRecord, profile: B
     targetYield,
   }
   if (Number.isFinite(profileYield)) {
-    if (profileYield <= 0) metadata[BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY] = 0
-    else if (usesStopAtWeight) delete metadata[BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY]
-    else metadata[BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY] = targetYield
+    if (profileYield <= 0) metadata[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY] = 0
+    else if (usesStopAtWeight) delete metadata[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY]
+    else metadata[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY] = targetYield
   } else if (savedUserTarget !== undefined) {
-    metadata[BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY] = savedUserTarget
+    metadata[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY] = savedUserTarget
   } else if (usesStopAtWeight) {
-    delete metadata[BESTPRESSO_TARGET_YIELD_OVERRIDE_KEY]
+    delete metadata[OPENCOFFEESHOP_TARGET_YIELD_OVERRIDE_KEY]
   }
 
   return {

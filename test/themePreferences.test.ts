@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
-import { applyBestpressoPreferences, BESTPRESSO_PREFERENCES_KEY, normalizeBestpressoPreferences, readBestpressoPreferences, writeBestpressoPreferences } from '../src/features/settings/bestpressoPreferences.ts'
+import { applyOpenCoffeeShopPreferences, OPENCOFFEESHOP_PREFERENCES_KEY, normalizeOpenCoffeeShopPreferences, readOpenCoffeeShopPreferences, writeOpenCoffeeShopPreferences } from '../src/features/settings/openCoffeeShopPreferences.ts'
 
 test('new and invalid preferences use the warm Nordic theme; dark and light are explicit choices, and light is never automatic', () => {
   for (const value of [undefined, null, {}, { theme: 'system' }, { theme: 'LIGHT' }, { theme: false }, { clockFormat: '24h' }]) {
-    assert.equal(normalizeBestpressoPreferences(value).theme, 'nordic')
+    assert.equal(normalizeOpenCoffeeShopPreferences(value).theme, 'nordic')
   }
-  assert.equal(normalizeBestpressoPreferences({ theme: 'light' }).theme, 'light')
-  assert.equal(normalizeBestpressoPreferences({ theme: 'dark' }).theme, 'dark')
-  assert.equal(normalizeBestpressoPreferences({ theme: 'nordic' }).theme, 'nordic')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ theme: 'light' }).theme, 'light')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ theme: 'dark' }).theme, 'dark')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ theme: 'nordic' }).theme, 'nordic')
 })
 
 test('explicit light and dark choices persist and unrelated saves preserve the chosen theme', (t) => {
@@ -28,20 +28,20 @@ test('explicit light and dark choices persist and unrelated saves preserve the c
     if (previousDocument) Object.defineProperty(globalThis, 'document', previousDocument)
     else Reflect.deleteProperty(globalThis, 'document')
   })
-  applyBestpressoPreferences()
+  applyOpenCoffeeShopPreferences()
   assert.equal(dataset.theme, 'nordic')
-  writeBestpressoPreferences({ theme: 'light' })
+  writeOpenCoffeeShopPreferences({ theme: 'light' })
   assert.equal(dataset.theme, 'light')
-  assert.equal(readBestpressoPreferences().theme, 'light')
-  writeBestpressoPreferences({ clockFormat: '24h' })
-  assert.equal(JSON.parse(storage.get(BESTPRESSO_PREFERENCES_KEY)!).theme, 'light')
-  applyBestpressoPreferences(readBestpressoPreferences())
+  assert.equal(readOpenCoffeeShopPreferences().theme, 'light')
+  writeOpenCoffeeShopPreferences({ clockFormat: '24h' })
+  assert.equal(JSON.parse(storage.get(OPENCOFFEESHOP_PREFERENCES_KEY)!).theme, 'light')
+  applyOpenCoffeeShopPreferences(readOpenCoffeeShopPreferences())
   assert.equal(dataset.theme, 'light')
-  writeBestpressoPreferences({ theme: 'dark' })
-  assert.equal(readBestpressoPreferences().theme, 'dark')
+  writeOpenCoffeeShopPreferences({ theme: 'dark' })
+  assert.equal(readOpenCoffeeShopPreferences().theme, 'dark')
   assert.equal(dataset.theme, 'dark')
-  storage.set(BESTPRESSO_PREFERENCES_KEY, '{invalid json')
-  assert.equal(readBestpressoPreferences().theme, 'nordic')
+  storage.set(OPENCOFFEESHOP_PREFERENCES_KEY, '{invalid json')
+  assert.equal(readOpenCoffeeShopPreferences().theme, 'nordic')
 })
 
 test('appearance selector labels light as beta and does not depend on the Decaid theme', () => {

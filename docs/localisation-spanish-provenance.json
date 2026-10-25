@@ -284,8 +284,8 @@
       "adjustment": "none"
     },
     "common.language.hint": {
-      "english": "Bestpresso only; Decaid and profile names stay as they are",
-      "translation": "Solo Bestpresso; Decaid y los nombres de perfiles no cambian",
+      "english": "OpenCoffeeShop only; Decaid and profile names stay as they are",
+      "translation": "Solo OpenCoffeeShop; Decaid y los nombres de perfiles no cambian",
       "kind": "contextual"
     },
     "common.language.auto": {
@@ -314,8 +314,8 @@
       "kind": "contextual"
     },
     "shell.app.visualizerImportMissing": {
-      "english": "The profile was imported, but Decaid did not return it to Bestpresso.",
-      "translation": "El perfil se importó, pero Decaid no lo devolvió a Bestpresso.",
+      "english": "The profile was imported, but Decaid did not return it to OpenCoffeeShop.",
+      "translation": "El perfil se importó, pero Decaid no lo devolvió a OpenCoffeeShop.",
       "kind": "contextual"
     },
     "shell.appShell.expandUtilityPanels": {
@@ -909,8 +909,8 @@
       "kind": "contextual"
     },
     "shell.updates.connectionLost": {
-      "english": "Bestpresso lost its connection to Decaid. Try again in a moment.",
-      "translation": "Bestpresso perdió la conexión con Decaid. Vuelve a intentarlo en un momento.",
+      "english": "OpenCoffeeShop lost its connection to Decaid. Try again in a moment.",
+      "translation": "OpenCoffeeShop perdió la conexión con Decaid. Vuelve a intentarlo en un momento.",
       "kind": "contextual"
     },
     "shell.cleaning.title": {
@@ -3877,9 +3877,9 @@
       "sourceSpanish": "Avanzado",
       "adjustment": "none"
     },
-    "settings.group.bestpresso": {
-      "english": "Bestpresso",
-      "translation": "Bestpresso",
+    "settings.group.openCoffeeShop": {
+      "english": "OpenCoffeeShop",
+      "translation": "OpenCoffeeShop",
       "kind": "contextual"
     },
     "settings.group.makeMaintain": {
@@ -3967,8 +3967,8 @@
       "adjustment": "none"
     },
     "settings.section.overview.description": {
-      "english": "Your machine, preparation and Bestpresso preferences in one place.",
-      "translation": "Tu máquina, preparación y preferencias de Bestpresso en un solo lugar.",
+      "english": "Your machine, preparation and OpenCoffeeShop preferences in one place.",
+      "translation": "Tu máquina, preparación y preferencias de OpenCoffeeShop en un solo lugar.",
       "kind": "contextual"
     },
     "settings.section.prepare.title": {
@@ -3997,8 +3997,8 @@
       "kind": "contextual"
     },
     "settings.section.alerts.description": {
-      "english": "Choose when Bestpresso should draw attention and which brewing safeguards apply.",
-      "translation": "Elige cuándo debe avisarte Bestpresso y qué protecciones se aplican a la extracción.",
+      "english": "Choose when OpenCoffeeShop should draw attention and which brewing safeguards apply.",
+      "translation": "Elige cuándo debe avisarte OpenCoffeeShop y qué protecciones se aplican a la extracción.",
       "kind": "contextual"
     },
     "settings.section.devices.title": {
@@ -4007,8 +4007,8 @@
       "kind": "contextual"
     },
     "settings.section.devices.description": {
-      "english": "Find, connect and choose the machine and scale Bestpresso should prefer.",
-      "translation": "Busca, conecta y elige la máquina y la báscula preferidas de Bestpresso.",
+      "english": "Find, connect and choose the machine and scale OpenCoffeeShop should prefer.",
+      "translation": "Busca, conecta y elige la máquina y la báscula preferidas de OpenCoffeeShop.",
       "kind": "contextual"
     },
     "settings.section.power.title": {
@@ -4037,8 +4037,8 @@
       "kind": "contextual"
     },
     "settings.section.data.description": {
-      "english": "Back up or restore Decaid data without leaving Bestpresso.",
-      "translation": "Crea o restaura copias de los datos de Decaid sin salir de Bestpresso.",
+      "english": "Back up or restore Decaid data without leaving OpenCoffeeShop.",
+      "translation": "Crea o restaura copias de los datos de Decaid sin salir de OpenCoffeeShop.",
       "kind": "contextual"
     },
     "settings.section.extensions.title": {
@@ -4219,8 +4219,8 @@
       "kind": "contextual"
     },
     "settings.overview.hero.description": {
-      "english": "Everyday Bestpresso and Decaid controls now share this settings surface.",
-      "translation": "Los controles habituales de Bestpresso y Decaid se reúnen en estos ajustes.",
+      "english": "Everyday OpenCoffeeShop and Decaid controls now share this settings surface.",
+      "translation": "Los controles habituales de OpenCoffeeShop y Decaid se reúnen en estos ajustes.",
       "kind": "contextual"
     },
     "settings.overview.hero.machineConnected": {
@@ -4317,8 +4317,8 @@
       "kind": "contextual"
     },
     "settings.action.personalize": {
-      "english": "Personalize Bestpresso",
-      "translation": "Personalizar Bestpresso",
+      "english": "Personalize OpenCoffeeShop",
+      "translation": "Personalizar OpenCoffeeShop",
       "kind": "contextual"
     },
     "settings.eyebrow.decaid": {
@@ -4959,12 +4959,12 @@
       "translation": "Pantalla",
       "kind": "contextual"
     },
-    "settings.experience.bestpressoTheme": {
-      "english": "Bestpresso theme",
-      "translation": "Tema de Bestpresso",
+    "settings.experience.openCoffeeShopTheme": {
+      "english": "OpenCoffeeShop theme",
+      "translation": "Tema de OpenCoffeeShop",
       "kind": "contextual"
     },
-    "settings.experience.bestpressoThemeHint": {
+    "settings.experience.openCoffeeShopThemeHint": {
       "english": "Light mode is in beta. Dark is the default.",
       "translation": "El modo claro está en beta. El oscuro es el predeterminado.",
       "kind": "contextual"
@@ -4985,8 +4985,8 @@
       "kind": "contextual"
     },
     "settings.experience.decaidThemeHint": {
-      "english": "Appearance outside Bestpresso",
-      "translation": "Apariencia fuera de Bestpresso",
+      "english": "Appearance outside OpenCoffeeShop",
+      "translation": "Apariencia fuera de OpenCoffeeShop",
       "kind": "contextual"
     },
     "settings.option.followDevice": {
@@ -5005,8 +5005,8 @@
       "kind": "contextual"
     },
     "settings.experience.clockFormatHint": {
-      "english": "Screensaver and history times in Bestpresso",
-      "translation": "Horas del salvapantallas y del historial de Bestpresso",
+      "english": "Screensaver and history times in OpenCoffeeShop",
+      "translation": "Horas del salvapantallas y del historial de OpenCoffeeShop",
       "kind": "contextual"
     },
     "settings.clock.12h": {
@@ -5020,8 +5020,8 @@
       "kind": "contextual"
     },
     "settings.experience.temperatureUnitHint": {
-      "english": "Bestpresso display only; Decaid stays in Celsius",
-      "translation": "Solo la pantalla de Bestpresso; Decaid mantiene Celsius",
+      "english": "OpenCoffeeShop display only; Decaid stays in Celsius",
+      "translation": "Solo la pantalla de OpenCoffeeShop; Decaid mantiene Celsius",
       "kind": "contextual"
     },
     "settings.unit.celsius": {
@@ -5045,8 +5045,8 @@
       "kind": "contextual"
     },
     "settings.experience.lineWeight.description": {
-      "english": "Apply one telemetry line weight throughout Bestpresso.",
-      "translation": "Usa el mismo grosor de línea de telemetría en todo Bestpresso.",
+      "english": "Apply one telemetry line weight throughout OpenCoffeeShop.",
+      "translation": "Usa el mismo grosor de línea de telemetría en todo OpenCoffeeShop.",
       "kind": "contextual"
     },
     "settings.experience.reset.title": {
@@ -5060,8 +5060,8 @@
       "kind": "contextual"
     },
     "settings.action.resetPreferences": {
-      "english": "Reset Bestpresso preferences",
-      "translation": "Restablecer preferencias de Bestpresso",
+      "english": "Reset OpenCoffeeShop preferences",
+      "translation": "Restablecer preferencias de OpenCoffeeShop",
       "kind": "contextual"
     },
     "settings.data.backup.eyebrow": {
