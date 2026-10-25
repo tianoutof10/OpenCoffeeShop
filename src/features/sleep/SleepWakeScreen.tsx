@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type TouchEvent as ReactTouchEvent } from 'react'
-import logo from '../../assets/figma/decent-logo.png'
+import logo from '../../assets/opencoffeeshop-mark.svg'
 import { t } from '../../i18n/index.ts'
 import { formatDeviceTime } from './deviceTime'
 import { readBestpressoPreferences, useBestpressoPreferences } from '../settings/bestpressoPreferences'
