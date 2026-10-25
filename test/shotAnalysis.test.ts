@@ -98,7 +98,7 @@ test('a bloom pause is not choked flow and creates no resistance samples', () =>
   assert.equal(analysis.resistance.some(sample => sample.elapsedMs > 6_500 && sample.elapsedMs < 20_000), false)
 })
 
-test("the earlier Gemini prototype's simulated clean shot no longer raises false channel alarms", () => {
+test('a simulated clean shot does not raise false channel alarms', () => {
   const points: LiveShotPoint[] = []
   for (let elapsed = 0; elapsed < 25; elapsed += 0.1) {
     points.push({

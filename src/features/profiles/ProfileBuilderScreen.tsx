@@ -31,7 +31,7 @@ import { nextBuilderStepperValue } from './profileBuilderStepper'
 import type { BuilderStepperDirection } from './profileBuilderStepper'
 import { issueSummary, validateProfileDraft } from './profileBuilderValidation'
 import type { ProfileBuilderIssue } from './profileBuilderValidation'
-import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 import { formatDecimal, plural, t } from '../../i18n/index.ts'
 
 const CHART_WIDTH = 1090
@@ -545,7 +545,7 @@ interface StageDragSession {
 }
 
 export function ProfileBuilderScreen({ onClose, initialRecord, existingTitles = [], knownCategories = [], knownVersions = [], onSave, onSaved }: ProfileBuilderScreenProps) {
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const openAdjustment = useValueAdjustment()
   const overwriteSource = initialRecord?.isDefault === false
   const [initialDraft] = useState(() => initialRecord?.profile?.steps?.length

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, ty
 import logo from '../../assets/opencoffeeshop-mark.svg'
 import { t } from '../../i18n/index.ts'
 import { formatDeviceTime } from './deviceTime'
-import { readBestpressoPreferences, useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { readOpenCoffeeShopPreferences, useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 import { displayBrightness } from '../settings/displayBrightness'
 import { WAKE_HOLD_DURATION_MS, WakeHoldGesture, type WakeHoldUpdate } from './wakeHoldGesture'
 
@@ -20,7 +20,7 @@ interface PulsePoint {
 const SCREEN_OFF_BRIGHTNESS = 0
 
 export function SleepWakeScreen({ onWake }: SleepWakeScreenProps) {
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const gesture = useRef(new WakeHoldGesture())
   const holdTimer = useRef<number | null>(null)
   const [pulse, setPulse] = useState<PulsePoint | null>(null)
@@ -42,7 +42,7 @@ export function SleepWakeScreen({ onWake }: SleepWakeScreenProps) {
       setBlackedOut(false)
       setNow(new Date())
       // Stay in the same dim session: never overwrite the normal wake brightness.
-      displayBrightness.deepen(readBestpressoPreferences().screensaverBrightness).catch(() => {})
+      displayBrightness.deepen(readOpenCoffeeShopPreferences().screensaverBrightness).catch(() => {})
       setClockCycle((cycle) => cycle + 1)
       return
     }
@@ -69,7 +69,7 @@ export function SleepWakeScreen({ onWake }: SleepWakeScreenProps) {
     clockTimer.current = window.setInterval(() => setNow(new Date()), 30_000)
     // Read at activation, not reactively: a mid-sleep settings change applies
     // on the next clock reveal. Taps while the clock is visible do not extend it.
-    const delaySeconds = readBestpressoPreferences().screensaverScreenOffDelaySeconds
+    const delaySeconds = readOpenCoffeeShopPreferences().screensaverScreenOffDelaySeconds
     if (delaySeconds > 0) {
       screenOffTimer.current = window.setTimeout(() => {
         if (cancelled) return

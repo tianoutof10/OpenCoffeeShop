@@ -93,7 +93,7 @@ export default function App() {
   const editImportedProfile = ({ profile, metadata }: ParsedProfileImport) => {
     const existingTitles = data.allProfiles.map((item) => item.category ? `${item.category} / ${item.name}` : item.name)
     const title = deduplicateImportedProfileTitle(profile, existingTitles)
-    setImportedProfileRecord({ profile: { ...profile, title }, metadata: { ...metadata, bestpressoSource: 'imported' }, visibility: 'visible', isDefault: true })
+    setImportedProfileRecord({ profile: { ...profile, title }, metadata: { ...metadata, openCoffeeShopSource: 'imported' }, visibility: 'visible', isDefault: true })
     navigate('profile-builder')
   }
 

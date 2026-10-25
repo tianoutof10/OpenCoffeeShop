@@ -24,7 +24,7 @@ import type { ChassisParams } from '../domain/chassis'
 import type { ApplyAction } from '../features/insights/dialIn'
 import { TodayHome } from '../features/home/TodayHome'
 import type { CoffeeTab } from '../features/beans/CoffeeScreen'
-import { useBestpressoPreferences } from '../features/settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences } from '../features/settings/openCoffeeShopPreferences'
 
 interface AppShellProps {
   historyEntry?: ReactNode
@@ -76,7 +76,7 @@ interface AppShellProps {
   onOpenPreviousShot: () => void
 }
 
-const utilityLayoutStorageKey = 'bestpresso.utility-layout-collapsed.v1'
+const utilityLayoutStorageKey = 'opencoffeeshop.utility-layout-collapsed.v1'
 
 const initialUtilityLayout = () => {
   try {
@@ -90,7 +90,7 @@ export function AppShell({ historyEntry, coffeeEntry, activeChassis, onApplyAdvi
   const [utilitiesCollapsed, setUtilitiesCollapsed] = useState(initialUtilityLayout)
   const [utilityLayoutHasChanged, setUtilityLayoutHasChanged] = useState(false)
   const [cleaningPickerOpen, setCleaningPickerOpen] = useState(false)
-  const { preferences, updatePreferences } = useBestpressoPreferences()
+  const { preferences, updatePreferences } = useOpenCoffeeShopPreferences()
   const today = preferences.homeView === 'today' && Boolean(onOpenCoffee)
   const updateSetting = useStableEvent(onUpdateMachineSetting)
   const updateProfile = useStableEvent(onUpdateProfileSetting)

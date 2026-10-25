@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test, { before } from 'node:test'
 import { areas as englishAreas, en } from '../src/i18n/en/index.ts'
 import { loadLanguage, dateFormatter, decimalSeparator, formatDecimal, formatNumber, localeFor, plural, pseudoLocalize, resolveLanguage, setActiveLanguage, t } from '../src/i18n/index.ts'
-import { normalizeBestpressoPreferences } from '../src/features/settings/bestpressoPreferences.ts'
+import { normalizeOpenCoffeeShopPreferences } from '../src/features/settings/openCoffeeShopPreferences.ts'
 
 before(() => loadLanguage('de'))
 
@@ -63,11 +63,11 @@ test('auto follows the first supported device language and falls back to English
 })
 
 test('the language preference defaults to auto and rejects unknown values', () => {
-  assert.equal(normalizeBestpressoPreferences(undefined).language, 'auto')
-  assert.equal(normalizeBestpressoPreferences({ language: 'de' }).language, 'de')
-  assert.equal(normalizeBestpressoPreferences({ language: 'fr' }).language, 'fr')
-  assert.equal(normalizeBestpressoPreferences({ language: 'es' }).language, 'es')
-  assert.equal(normalizeBestpressoPreferences({ language: 'not-a-locale' }).language, 'auto')
+  assert.equal(normalizeOpenCoffeeShopPreferences(undefined).language, 'auto')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ language: 'de' }).language, 'de')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ language: 'fr' }).language, 'fr')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ language: 'es' }).language, 'es')
+  assert.equal(normalizeOpenCoffeeShopPreferences({ language: 'not-a-locale' }).language, 'auto')
 })
 
 test('German uses the decimal comma without changing toFixed rounding; English output is unchanged', () => {

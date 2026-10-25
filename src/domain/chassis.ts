@@ -1,4 +1,5 @@
 import type { DecaidProfile, DecaidProfileStep } from '../api/decaid/types.ts'
+import { migrateProfileMetadata } from '../compatibility/legacyDataMigration.ts'
 
 /**
  * The adaptive "Living Profile": one universal three-stage chassis whose few
@@ -39,7 +40,7 @@ export const CHASSIS_LIMITS: Record<keyof ChassisParams, [number, number]> = {
   temperatureC: [82, 100], targetWeight: [15, 80], doseGrams: [7, 25],
 }
 
-export const CHASSIS_METADATA_KEY = 'bestpressoChassis'
+export const CHASSIS_METADATA_KEY = 'openCoffeeShopChassis'
 export const CHASSIS_TITLE = 'Adaptive / Living profile'
 
 const round1 = (value: number) => Math.round(value * 10) / 10
@@ -53,7 +54,7 @@ export function clampChassis(params: Partial<ChassisParams>): ChassisParams {
 }
 
 export function chassisFromMetadata(metadata: Record<string, unknown> | null | undefined) {
-  const stored = metadata?.[CHASSIS_METADATA_KEY]
+  const stored = migrateProfileMetadata(metadata)[CHASSIS_METADATA_KEY]
   return stored && typeof stored === 'object' ? clampChassis(stored as Partial<ChassisParams>) : undefined
 }
 

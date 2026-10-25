@@ -20,7 +20,7 @@ import { activeBean, grindReferenceFor, useCoffeeLibrary } from '../beans/coffee
 import { daysOffRoast } from '../../domain/beans'
 import type { ApplyAction } from '../insights/dialIn'
 import { ShotDialInPanel } from '../insights/ShotDialInPanel'
-import { useBestpressoPreferences, type LiveView } from '../settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences, type LiveView } from '../settings/openCoffeeShopPreferences'
 import { CalmLiveView } from './CalmLiveView'
 
 interface LiveBrewingScreenProps {
@@ -59,7 +59,7 @@ export function LiveBrewingScreen({ model, liveBrew, stopPending, skipPending, a
   }), [liveBrew.points, liveBrew.profileSteps, liveBrew.active, liveBrew.stageEvidence, liveBrew.telemetryStartedAt, liveBrew.stopReason])
   const [dimmedSeries, setDimmedSeries] = useState<ChartSeries[]>([])
   const [stageSelection, setStageSelection] = useState<{ shotStartedAt: number | undefined; stage: BrewStageSelection } | null>(null)
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const { library, source } = useCoffeeLibrary()
   // Per-shot view choice (swipe or button); the saved preference is only the starting view.
   const [viewOverride, setViewOverride] = useState<{ startedAt: number | undefined; view: LiveView } | null>(null)

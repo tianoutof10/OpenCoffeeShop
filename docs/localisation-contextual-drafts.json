@@ -464,7 +464,7 @@
       ]
     },
     "common.language.hint": {
-      "english": "Bestpresso only; Decaid and profile names stay as they are",
+      "english": "OpenCoffeeShop only; Decaid and profile names stay as they are",
       "languages": [
         "fr",
         "it",
@@ -518,7 +518,7 @@
       ]
     },
     "shell.app.visualizerImportMissing": {
-      "english": "The profile was imported, but Decaid did not return it to Bestpresso.",
+      "english": "The profile was imported, but Decaid did not return it to OpenCoffeeShop.",
       "languages": [
         "fr",
         "it",
@@ -1355,7 +1355,7 @@
       ]
     },
     "shell.updates.connectionLost": {
-      "english": "Bestpresso lost its connection to Decaid. Try again in a moment.",
+      "english": "OpenCoffeeShop lost its connection to Decaid. Try again in a moment.",
       "languages": [
         "fr",
         "it",
@@ -5791,8 +5791,8 @@
         "zh-Hans"
       ]
     },
-    "settings.group.bestpresso": {
-      "english": "Bestpresso",
+    "settings.group.openCoffeeShop": {
+      "english": "OpenCoffeeShop",
       "languages": [
         "fr",
         "it",
@@ -5936,7 +5936,7 @@
       ]
     },
     "settings.section.overview.description": {
-      "english": "Your machine, preparation and Bestpresso preferences in one place.",
+      "english": "Your machine, preparation and OpenCoffeeShop preferences in one place.",
       "languages": [
         "fr",
         "it",
@@ -5990,7 +5990,7 @@
       ]
     },
     "settings.section.alerts.description": {
-      "english": "Choose when Bestpresso should draw attention and which brewing safeguards apply.",
+      "english": "Choose when OpenCoffeeShop should draw attention and which brewing safeguards apply.",
       "languages": [
         "fr",
         "it",
@@ -6008,7 +6008,7 @@
       ]
     },
     "settings.section.devices.description": {
-      "english": "Find, connect and choose the machine and scale Bestpresso should prefer.",
+      "english": "Find, connect and choose the machine and scale OpenCoffeeShop should prefer.",
       "languages": [
         "fr",
         "it",
@@ -6062,7 +6062,7 @@
       ]
     },
     "settings.section.data.description": {
-      "english": "Back up or restore Decaid data without leaving Bestpresso.",
+      "english": "Back up or restore Decaid data without leaving OpenCoffeeShop.",
       "languages": [
         "fr",
         "it",
@@ -6278,7 +6278,7 @@
       ]
     },
     "settings.overview.hero.description": {
-      "english": "Everyday Bestpresso and Decaid controls now share this settings surface.",
+      "english": "Everyday OpenCoffeeShop and Decaid controls now share this settings surface.",
       "languages": [
         "fr",
         "it",
@@ -6422,7 +6422,7 @@
       ]
     },
     "settings.action.personalize": {
-      "english": "Personalize Bestpresso",
+      "english": "Personalize OpenCoffeeShop",
       "languages": [
         "fr",
         "it",
@@ -7267,8 +7267,8 @@
         "zh-Hans"
       ]
     },
-    "settings.experience.bestpressoTheme": {
-      "english": "Bestpresso theme",
+    "settings.experience.openCoffeeShopTheme": {
+      "english": "OpenCoffeeShop theme",
       "languages": [
         "fr",
         "it",
@@ -7276,7 +7276,7 @@
         "zh-Hans"
       ]
     },
-    "settings.experience.bestpressoThemeHint": {
+    "settings.experience.openCoffeeShopThemeHint": {
       "english": "Light mode is in beta. Dark is the default.",
       "languages": [
         "fr",
@@ -7313,7 +7313,7 @@
       ]
     },
     "settings.experience.decaidThemeHint": {
-      "english": "Appearance outside Bestpresso",
+      "english": "Appearance outside OpenCoffeeShop",
       "languages": [
         "fr",
         "it",
@@ -7349,7 +7349,7 @@
       ]
     },
     "settings.experience.clockFormatHint": {
-      "english": "Screensaver and history times in Bestpresso",
+      "english": "Screensaver and history times in OpenCoffeeShop",
       "languages": [
         "fr",
         "it",
@@ -7376,7 +7376,7 @@
       ]
     },
     "settings.experience.temperatureUnitHint": {
-      "english": "Bestpresso display only; Decaid stays in Celsius",
+      "english": "OpenCoffeeShop display only; Decaid stays in Celsius",
       "languages": [
         "fr",
         "it",
@@ -7421,7 +7421,7 @@
       ]
     },
     "settings.experience.lineWeight.description": {
-      "english": "Apply one telemetry line weight throughout Bestpresso.",
+      "english": "Apply one telemetry line weight throughout OpenCoffeeShop.",
       "languages": [
         "fr",
         "it",
@@ -7448,7 +7448,7 @@
       ]
     },
     "settings.action.resetPreferences": {
-      "english": "Reset Bestpresso preferences",
+      "english": "Reset OpenCoffeeShop preferences",
       "languages": [
         "fr",
         "it",

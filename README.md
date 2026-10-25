@@ -31,7 +31,7 @@ For local development against an iPad or another Decaid host, open:
 http://127.0.0.1:5173/?gateway=YOUR_DECAID_IP
 ```
 
-The gateway query value is remembered as `localStorage.bestpressoGateway`. Decaid REST is read from port `8080`; machine, scale, and reservoir values update from the matching WebSocket feeds. If Decaid cannot be reached, the status pill displays `Demo` and the interface retains its fixture values.
+The gateway query value is remembered locally as the Decaid gateway override. Decaid REST is read from port `8080`; machine, scale, and reservoir values update from the matching WebSocket feeds. If Decaid cannot be reached, the status pill displays `Demo` and the interface retains its fixture values.
 
 For local stage-strip review, open `/?page=previous-pull` for the completed six-stage history fixture or `/?demoShot=live` for the active six-stage shot-monitoring fixture. The live demo query is development-only and is not enabled in production builds.
 

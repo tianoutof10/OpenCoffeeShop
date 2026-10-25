@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { readFileSync } from 'node:fs'
-import { normalizeBestpressoPreferences, applyBestpressoPreferences } from '../src/features/settings/bestpressoPreferences.ts'
+import { normalizeOpenCoffeeShopPreferences, applyOpenCoffeeShopPreferences } from '../src/features/settings/openCoffeeShopPreferences.ts'
 
 test('animations remain enabled for existing installations, and explicit opt-out survives normalization', () => {
   for (const value of [undefined, {}, { animationsEnabled: null }, { animationsEnabled: 'false' }]) {
-    assert.equal(normalizeBestpressoPreferences(value).animationsEnabled, true)
+    assert.equal(normalizeOpenCoffeeShopPreferences(value).animationsEnabled, true)
   }
-  const saved = JSON.parse(JSON.stringify(normalizeBestpressoPreferences({ animationsEnabled: false, theme: 'light' })))
-  assert.equal(normalizeBestpressoPreferences(saved).animationsEnabled, false)
-  assert.equal(normalizeBestpressoPreferences(saved).theme, 'light')
+  const saved = JSON.parse(JSON.stringify(normalizeOpenCoffeeShopPreferences({ animationsEnabled: false, theme: 'light' })))
+  assert.equal(normalizeOpenCoffeeShopPreferences(saved).animationsEnabled, false)
+  assert.equal(normalizeOpenCoffeeShopPreferences(saved).theme, 'light')
 })
 
 test('applying preferences enables the static rendering path before the app mounts', () => {
@@ -17,9 +17,9 @@ test('applying preferences enables the static rendering path before the app moun
   const dataset: Record<string, string> = {}
   Object.defineProperty(globalThis, 'document', { configurable: true, value: { documentElement: { dataset }, querySelector: () => null } })
   try {
-    applyBestpressoPreferences(normalizeBestpressoPreferences({ animationsEnabled: false }))
+    applyOpenCoffeeShopPreferences(normalizeOpenCoffeeShopPreferences({ animationsEnabled: false }))
     assert.equal(dataset.animations, 'off')
-    applyBestpressoPreferences(normalizeBestpressoPreferences({ animationsEnabled: true }))
+    applyOpenCoffeeShopPreferences(normalizeOpenCoffeeShopPreferences({ animationsEnabled: true }))
     assert.equal(dataset.animations, 'on')
   } finally {
     if (original) Object.defineProperty(globalThis, 'document', original)

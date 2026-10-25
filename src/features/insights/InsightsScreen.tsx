@@ -6,7 +6,7 @@ import { formatDecimal, formatNumber, plural, t } from '../../i18n/index.ts'
 import { coversWindow, dateLabel, historyProfileName, HISTORY_LIMIT, inWindow, matches, reportingWindow, rollingWeekdays, shiftDate, summarize, timeLabel, weekdayShort, type HistoryRecord, type InsightFilter } from './historyData'
 import { availableInsightPeriods, constrainInsightsRoute, type InsightsRoute } from './insightsRoute'
 import type { ShotInsights } from './useShotInsights'
-import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 import { insightHourRange, insightPeriods } from './insightClock'
 import { TimeCoxcomb } from './TimeCoxcomb'
 import { historyStatus } from './historyStatus'
@@ -19,7 +19,7 @@ const drinkName = (id: InsightsRoute['beverage']) => id === 'espresso' ? t('insi
   : id === 'pourover' ? t('insights.drink.pourover') : id === 'other' ? t('insights.drink.other') : t('insights.drink.all')
 
 export function InsightsScreen({ data, route, navigate, onClose }: { data: ShotInsights; route: InsightsRoute; navigate: (next: InsightsRoute, replace?: boolean) => void; onClose: () => void }) {
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const { cache, repository } = data
   const periods = availableInsightPeriods(cache, data.now)
   const effectiveRoute = constrainInsightsRoute(route, periods)

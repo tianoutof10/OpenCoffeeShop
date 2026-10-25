@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { plural, t } from '../../i18n/index.ts'
 import { timeWindowCounts, type HistoryRecord } from './historyData'
-import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 import { insightHour, insightHourRange, toggleHour } from './insightClock'
 import { COXCOMB, clockPoint, coxcombRadius, coxcombSector } from './coxcomb'
 
@@ -14,7 +14,7 @@ interface TimeCoxcombProps {
 }
 
 export function TimeCoxcomb({ current, previous, onOpen, comparison, periodLabels }: TimeCoxcombProps) {
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const range = (index: number) => insightHourRange(index, preferences.clockFormat)
   const counts = [timeWindowCounts(current), timeWindowCounts(previous)]
   const maximum = Math.max(1, ...counts.flat())

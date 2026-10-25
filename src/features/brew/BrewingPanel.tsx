@@ -10,7 +10,7 @@ import { doseToYieldRatio } from './brewRatio'
 import { DEMO_PROFILE_LONG_PRESS_MS } from './demoBrew'
 import { ProfileTargetChart } from './ProfileTargetChart'
 import { createFramePublisher, profileCardMotion, profileCardPosition, projectedProfileSteps, wrappedProfileOffset } from './profileCarouselMotion'
-import { useBestpressoPreferences } from '../settings/bestpressoPreferences'
+import { useOpenCoffeeShopPreferences } from '../settings/openCoffeeShopPreferences'
 
 interface CarouselDrag {
   pointerId: number
@@ -24,7 +24,7 @@ interface CarouselDrag {
 
 function BrewingPanelComponent({ profiles, activeProfileId, settingsDisabled, demoMode = false, onUpdateProfile, onSelectProfile, onStartDemoBrew, onManageProfiles, footerExtra }: { footerExtra?: ReactNode; profiles: BrewProfile[]; activeProfileId?: string; settingsDisabled?: boolean; demoMode?: boolean; onUpdateProfile: (profileId: string, setting: EditableProfileSetting, value: number) => void; onSelectProfile: (profileId: string) => Promise<boolean>; onStartDemoBrew?: (profileId: string) => void; onManageProfiles: () => void }) {
   useLanguage()
-  const { preferences } = useBestpressoPreferences()
+  const { preferences } = useOpenCoffeeShopPreferences()
   const temperatureUnit = preferences.temperatureUnit
   const selectedIndex = profiles.findIndex((profile) => profile.id === activeProfileId)
   const fallbackIndex = profiles.findIndex((profile) => profile.id === 'adaptive-v2')

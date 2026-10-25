@@ -852,7 +852,7 @@ body { min-width:0; min-height:0; background:#171717; }
 @media(max-width:700px){.settings-screen{grid-template-columns:172px minmax(0,1fr)}.settings-brand img{width:100px}.settings-account{padding:8px}.settings-account__avatar{display:none}.settings-content__header{align-items:flex-start;flex-direction:column;gap:10px}.settings-header-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}.settings-content__header .settings-header-actions>label{width:min(220px,100%)}.settings-grid,.settings-overview{grid-template-columns:1fr}.settings-card--wide,.settings-overview .settings-card--hero{grid-column:auto}.settings-columns{grid-template-columns:1fr}.settings-schedule{flex-wrap:wrap}}
 
 /* Settings uses the same physical scale, glass surface and label/value rhythm
-   as the rest of Bestpresso. Decaid connectivity is unchanged by this layer. */
+   as the rest of OpenCoffeeShop. Decaid connectivity is unchanged by this layer. */
 .settings-screen{grid-template-columns:230px minmax(0,1fr);background:radial-gradient(circle at 16% 16%,#060707 0,#141414 22%,transparent 50%),linear-gradient(124deg,#181818 36%,#4d4038 100%)}
 .settings-sidebar{padding:25px 16px 20px;border-right-color:rgba(255,255,255,.08);background:rgba(12,12,12,.55);backdrop-filter:blur(24px)}
 .settings-brand{height:66px;padding:0 6px}.settings-brand img{width:137px;height:35px}.settings-brand button{width:42px;height:42px;aspect-ratio:1;display:grid;place-items:center;flex:0 0 42px;padding:0;border-radius:50%;color:#d0d0d0;background:rgba(89,84,80,.58);font-size:26px;font-weight:300;line-height:1}
