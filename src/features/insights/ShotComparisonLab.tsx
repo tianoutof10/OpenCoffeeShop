@@ -50,13 +50,13 @@ export function ShotComparisonLab({ cache }: { cache: HistoryCache | null }) {
     {pair ? <>
       <div className="ins-lab-selectors">
         <label><span><i className="ins-lab-dot ins-lab-dot--a"/>{t('insights.lab.shotA')}</span><select value={a.record.id} onChange={e => setA(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
-        <label><span><i className="ins-lab-dot ins-lab-dot--b"/>{t('insights.lab.shotB')}</span><select value={b.record.id} onChange={e => setB(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
+        <label><span><i className="ins-lab-dot ins-lab-dot--b"/>{t('insights.lab.shotB')}</span><select value={pair[1].record.id} onChange={e => setB(e.target.value)}>{shots.map(s => <option key={s.record.id} value={s.record.id}>{label(s)}</option>)}</select></label>
       </div>
       <div className="ins-lab-plots"><Plot metric="pressure" shots={pair}/><Plot metric="flow" shots={pair}/></div>
       <div className="ins-lab-summary">
-        <div><span>{t('insights.common.duration')}</span><strong>{number(a.record.duration)}{t('insights.lab.secondsUnit')} <small>/</small> {number(b.record.duration)}{t('insights.lab.secondsUnit')}</strong></div>
-        <div><span>{t('insights.common.yield')}</span><strong>{number(a.record.yield)}{t('insights.lab.gramsUnit')} <small>/</small> {number(b.record.yield)}{t('insights.lab.gramsUnit')}</strong></div>
-        <div><span>{t('insights.lab.dose')}</span><strong>{number(a.record.dose)}{t('insights.lab.gramsUnit')} <small>/</small> {number(b.record.dose)}{t('insights.lab.gramsUnit')}</strong></div>
+        <div><span>{t('insights.common.duration')}</span><strong>{number(a.record.duration)}{t('insights.lab.secondsUnit')} <small>/</small> {number(pair[1].record.duration)}{t('insights.lab.secondsUnit')}</strong></div>
+        <div><span>{t('insights.common.yield')}</span><strong>{number(a.record.yield)}{t('insights.lab.gramsUnit')} <small>/</small> {number(pair[1].record.yield)}{t('insights.lab.gramsUnit')}</strong></div>
+        <div><span>{t('insights.lab.dose')}</span><strong>{number(a.record.dose)}{t('insights.lab.gramsUnit')} <small>/</small> {number(pair[1].record.dose)}{t('insights.lab.gramsUnit')}</strong></div>
       </div>
       <p className="ins-lab-note">{t('insights.lab.note')}</p>
     </> : <div className="ins-lab-empty"><span aria-hidden="true">⌁</span><strong>{t('insights.lab.emptyTitle')}</strong><p>{t('insights.lab.emptyBody')}</p></div>}
