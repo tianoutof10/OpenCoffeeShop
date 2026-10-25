@@ -7376,6 +7376,86 @@
       "english": "The scale isn’t connected, so yield and pace won’t be recorded and the advice falls back to taste alone.",
       "translation": "La báscula no está conectada: no se registrarán peso ni ritmo, y los consejos se basarán solo en el sabor.",
       "kind": "contextual"
+    },
+    "insights.lab.eyebrow": {
+      "english": "SHOT LAB",
+      "translation": "LABORATORIO DE SHOTS",
+      "kind": "contextual"
+    },
+    "insights.lab.title": {
+      "english": "Compare two pulls",
+      "translation": "Compara dos extracciones",
+      "kind": "contextual"
+    },
+    "insights.lab.subtitle": {
+      "english": "Overlay recorded pressure and flow on each shot’s own timeline.",
+      "translation": "Superpone la presión y el caudal registrados según la duración de cada extracción.",
+      "kind": "contextual"
+    },
+    "insights.lab.measuredOnly": {
+      "english": "Recorded telemetry",
+      "translation": "Telemetría registrada",
+      "kind": "contextual"
+    },
+    "insights.lab.pressure": {
+      "english": "Pressure",
+      "translation": "Presión",
+      "kind": "contextual"
+    },
+    "insights.lab.flow": {
+      "english": "Flow",
+      "translation": "Caudal",
+      "kind": "contextual"
+    },
+    "insights.lab.plotAria": {
+      "english": "{metric} comparison chart",
+      "translation": "Gráfico comparativo de {metric}",
+      "kind": "contextual"
+    },
+    "insights.lab.shotA": {
+      "english": "Shot A",
+      "translation": "Shot A",
+      "kind": "contextual"
+    },
+    "insights.lab.shotB": {
+      "english": "Shot B",
+      "translation": "Shot B",
+      "kind": "contextual"
+    },
+    "insights.lab.normalizedTime": {
+      "english": "Elapsed time (%)",
+      "translation": "Tiempo transcurrido (%)",
+      "kind": "contextual"
+    },
+    "insights.lab.dose": {
+      "english": "Dose",
+      "translation": "Dosis",
+      "kind": "contextual"
+    },
+    "insights.lab.secondsUnit": {
+      "english": "s",
+      "translation": "s",
+      "kind": "contextual"
+    },
+    "insights.lab.gramsUnit": {
+      "english": "g",
+      "translation": "g",
+      "kind": "contextual"
+    },
+    "insights.lab.note": {
+      "english": "Curves are aligned by elapsed-time percentage, not by matching events. Similar shapes do not prove similar extraction or taste.",
+      "translation": "Las curvas se alinean por porcentaje del tiempo, no por eventos coincidentes. Una forma similar no demuestra una extracción ni un sabor iguales.",
+      "kind": "contextual"
+    },
+    "insights.lab.emptyTitle": {
+      "english": "Two recorded shots needed",
+      "translation": "Se necesitan dos shots registrados",
+      "kind": "contextual"
+    },
+    "insights.lab.emptyBody": {
+      "english": "Once two saved espresso shots include pressure or flow telemetry, you can compare their curves here.",
+      "translation": "Cuando dos espressos guardados incluyan telemetría de presión o caudal, podrás comparar aquí sus curvas.",
+      "kind": "contextual"
     }
   }
 }
