@@ -1,0 +1,48 @@
+import type { DisplayMetric } from '../../domain/brewing'
+import type { FixedValueSuggestion, ValueAdjustmentKey } from '../../domain/valueAdjustments'
+import { localizeDecimalText, t } from '../../i18n/index.ts'
+import { useValueAdjustment } from '../ValueAdjustment/ValueAdjustmentContext'
+import type { ValueAdjustmentMode } from '../ValueAdjustment/ValueAdjustmentContext'
+
+export interface MetricEdit {
+  min: number
+  max: number
+  step: number
+  mode: ValueAdjustmentMode
+  initialValue?: number
+  title?: string
+  suggestionKey: ValueAdjustmentKey
+  presets?: readonly number[]
+  fixedSuggestions?: readonly FixedValueSuggestion[]
+  valueHint?: (value: number) => string | undefined
+  disabled?: boolean
+  onSave: (value: number) => void
+}
+
+export type MetricSize = 'large' | 'medium' | 'small'
+
+export function Metric({ metric, compact = false, size, edit, reserveSubtext = false }: { metric: DisplayMetric; compact?: boolean; size?: MetricSize; edit?: MetricEdit; reserveSubtext?: boolean }) {
+  const openAdjustment = useValueAdjustment()
+  const currentValue = Number(metric.value)
+  const adjustmentValue = Number.isFinite(currentValue) ? currentValue : edit?.initialValue
+  const editDisabled = Boolean(edit?.disabled) || adjustmentValue === undefined || !Number.isFinite(adjustmentValue)
+  const resolvedSize = size ?? (compact ? 'small' : 'large')
+  const className = `metric metric--${resolvedSize}${compact ? ' metric--compact' : ''}`
+  const readingClassName = `metric__reading${metric.highlight ? ' metric__reading--highlight' : ''}`
+  const subtextClassName = `metric__subtext${metric.subtextVariant === 'pill' ? ' metric__subtext--pill' : ''}`
+  const unitClassName = `metric__unit${metric.unit === '°' ? ' metric__unit--degree' : ''}`
+
+  if (edit) return <button className={`${className} metric__edit-button`} type="button" disabled={editDisabled} onClick={() => { if (adjustmentValue !== undefined) openAdjustment({ label: edit.title ?? metric.label, value: adjustmentValue, unit: metric.unit, min: edit.min, max: edit.max, step: edit.step, mode: edit.mode, suggestionKey: edit.suggestionKey, presets: edit.presets, fixedSuggestions: edit.fixedSuggestions, valueHint: edit.valueHint, onSave: edit.onSave }) }} aria-label={t('shell.adjust.editMetricAria', { label: metric.label, value: adjustmentValue ?? metric.value, unit: metric.unit ?? '' })}>
+    <span className="metric__label">{metric.label}{!editDisabled && <span className="metric__edit-indicator" aria-hidden="true">›</span>}</span>
+    <span className={readingClassName}>{localizeDecimalText(metric.value)}{metric.unit && <small className={unitClassName}>{metric.unit}</small>}</span>
+    {metric.subtext && <span className={subtextClassName}>{metric.subtext}</span>}
+    {!metric.subtext && reserveSubtext && <span className="metric__subtext-spacer" aria-hidden="true" />}
+  </button>
+
+  return <div className={className}>
+    <span className="metric__label">{metric.label}</span>
+    <span className={readingClassName}>{localizeDecimalText(metric.value)}{metric.unit && <small className={unitClassName}>{metric.unit}</small>}</span>
+    {metric.subtext && <span className={subtextClassName}>{metric.subtext}</span>}
+    {!metric.subtext && reserveSubtext && <span className="metric__subtext-spacer" aria-hidden="true" />}
+  </div>
+}
